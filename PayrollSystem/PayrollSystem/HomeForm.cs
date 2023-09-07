@@ -19,9 +19,11 @@ namespace PayrollSystem
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            form1.Show();
-            this.Close();
+            if(MessageBox.Show("Do you want to exit the application?","ALERT",MessageBoxButtons.YesNo,MessageBoxIcon.Warning) == DialogResult.Yes){
+                Form1 form1 = new Form1();
+                form1.Show();
+                this.Close();
+            }
         }
     }
 }

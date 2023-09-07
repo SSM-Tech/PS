@@ -11,7 +11,7 @@ namespace PayrollSystem
 {
     public partial class Form1 : Form
     {
-        
+
 
         public Form1()
         {
@@ -60,23 +60,23 @@ namespace PayrollSystem
                     if (isEnabled == "1")
                     {
                         ClearButton_Click(sender, e);
-                        MessageBox.Show("Succesfuly Logged In");
+                        MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Hide();
                         homeForm.Show();
                     }
                     else
                     {
-                        MessageBox.Show("Your Account is currently locked, please contact HR for assistance");
+                        MessageBox.Show("Your Account is currently locked, please contact HR for assistance", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect Username or Password");
+                    MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Username and Password should not be empty");
+                MessageBox.Show("Username and Password should not be empty", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -123,6 +123,16 @@ namespace PayrollSystem
             {
                 LoginButton_Click(sender, e);
             }
+        }
+
+        private void UsernamePlaceHolderLabel_Click(object sender, EventArgs e)
+        {
+            UsernameTextBox.Focus();
+        }
+
+        private void PasswordPlaceHolderLabel_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.Focus();
         }
     }
 }

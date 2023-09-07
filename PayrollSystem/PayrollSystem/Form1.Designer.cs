@@ -46,12 +46,13 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(163, 9);
+            label1.Font = new Font("Impact", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(107, 19);
             label1.Margin = new Padding(6, 0, 6, 0);
             label1.Name = "label1";
-            label1.Size = new Size(105, 29);
+            label1.Size = new Size(225, 39);
             label1.TabIndex = 0;
-            label1.Text = "WELCOME";
+            label1.Text = "PAYROLL SYSTEM";
             // 
             // LoginButton
             // 
@@ -136,6 +137,7 @@
             UsernamePlaceHolderLabel.Size = new Size(114, 29);
             UsernamePlaceHolderLabel.TabIndex = 10;
             UsernamePlaceHolderLabel.Text = "Username";
+            UsernamePlaceHolderLabel.Click += UsernamePlaceHolderLabel_Click;
             // 
             // PasswordPlaceHolderLabel
             // 
@@ -148,6 +150,7 @@
             PasswordPlaceHolderLabel.Size = new Size(107, 29);
             PasswordPlaceHolderLabel.TabIndex = 11;
             PasswordPlaceHolderLabel.Text = "Password";
+            PasswordPlaceHolderLabel.Click += PasswordPlaceHolderLabel_Click;
             // 
             // Form1
             // 

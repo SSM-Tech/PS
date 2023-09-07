@@ -29,11 +29,16 @@
         private void InitializeComponent()
         {
             logoutButton = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
+            button5 = new Button();
             SuspendLayout();
             // 
             // logoutButton
             // 
-            logoutButton.Location = new Point(274, 240);
+            logoutButton.Location = new Point(228, 250);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(210, 67);
             logoutButton.TabIndex = 0;
@@ -41,12 +46,62 @@
             logoutButton.UseVisualStyleBackColor = true;
             logoutButton.Click += logoutButton_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(12, 104);
+            button1.Name = "button1";
+            button1.Size = new Size(210, 67);
+            button1.TabIndex = 1;
+            button1.Text = "ACCOUNT DETAILS";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(12, 177);
+            button2.Name = "button2";
+            button2.Size = new Size(210, 67);
+            button2.TabIndex = 2;
+            button2.Text = "DTR";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(228, 104);
+            button3.Name = "button3";
+            button3.Size = new Size(210, 67);
+            button3.TabIndex = 3;
+            button3.Text = "MANAGE ACCOUNT";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(12, 250);
+            button4.Name = "button4";
+            button4.Size = new Size(210, 67);
+            button4.TabIndex = 4;
+            button4.Text = "PAY SLIP";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(228, 177);
+            button5.Name = "button5";
+            button5.Size = new Size(210, 67);
+            button5.TabIndex = 5;
+            button5.Text = "TICKETS";
+            button5.UseVisualStyleBackColor = true;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(695, 429);
+            ClientSize = new Size(452, 429);
+            Controls.Add(button5);
+            Controls.Add(button4);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(logoutButton);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
@@ -60,5 +115,10 @@
         #endregion
 
         private Button logoutButton;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
+        private Button button5;
     }
 }
