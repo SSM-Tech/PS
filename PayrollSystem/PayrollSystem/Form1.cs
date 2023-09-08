@@ -6,20 +6,23 @@ using System.Windows.Forms;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
 using MySqlX.XDevAPI.Relational;
+using Org.BouncyCastle.Crypto.Tls;
+using System.Text;
 
 namespace PayrollSystem
 {
     public partial class Form1 : Form
     {
+        private DataTable? accDetail;
 
+        public DataTable? AccDetail { get => accDetail; set => accDetail = value; }
 
         public Form1()
         {
             InitializeComponent();
+            AccDetail = new DataTable();
 
         }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -39,8 +42,6 @@ namespace PayrollSystem
 
             MySqlCommand command = new("SELECT * FROM `account` WHERE `username` = @usn AND `password` = @pass", db.getConnection());
 
-            HomeForm homeForm = new();
-
             command.Parameters.Add("@usn", MySqlDbType.VarChar).Value = username;
             command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = password;
 
@@ -59,10 +60,11 @@ namespace PayrollSystem
 
                     if (isEnabled == "1")
                     {
+                        adapter.Fill(AccDetail);
                         ClearButton_Click(sender, e);
                         MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Hide();
-                        homeForm.Show();
+                        new HomeForm(AccDetail).Show();
                     }
                     else
                     {

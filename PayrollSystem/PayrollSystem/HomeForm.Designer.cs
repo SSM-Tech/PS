@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             logoutButton = new Button();
-            button1 = new Button();
+            AccountDetailsButton = new Button();
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
@@ -46,14 +46,15 @@
             logoutButton.UseVisualStyleBackColor = true;
             logoutButton.Click += logoutButton_Click;
             // 
-            // button1
+            // AccountDetailsButton
             // 
-            button1.Location = new Point(12, 104);
-            button1.Name = "button1";
-            button1.Size = new Size(210, 67);
-            button1.TabIndex = 1;
-            button1.Text = "ACCOUNT DETAILS";
-            button1.UseVisualStyleBackColor = true;
+            AccountDetailsButton.Location = new Point(12, 104);
+            AccountDetailsButton.Name = "AccountDetailsButton";
+            AccountDetailsButton.Size = new Size(210, 67);
+            AccountDetailsButton.TabIndex = 1;
+            AccountDetailsButton.Text = "ACCOUNT DETAILS";
+            AccountDetailsButton.UseVisualStyleBackColor = true;
+            AccountDetailsButton.Click += AccountDetailsButton_Click;
             // 
             // button2
             // 
@@ -96,12 +97,12 @@
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(452, 429);
+            ClientSize = new Size(450, 429);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(AccountDetailsButton);
             Controls.Add(logoutButton);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
@@ -115,7 +116,7 @@
         #endregion
 
         private Button logoutButton;
-        private Button button1;
+        private Button AccountDetailsButton;
         private Button button2;
         private Button button3;
         private Button button4;
