@@ -34,6 +34,7 @@
             button3 = new Button();
             button4 = new Button();
             button5 = new Button();
+            UsernameLabel = new Label();
             SuspendLayout();
             // 
             // logoutButton
@@ -92,12 +93,22 @@
             button5.Text = "TICKETS";
             button5.UseVisualStyleBackColor = true;
             // 
+            // UsernameLabel
+            // 
+            UsernameLabel.AutoSize = true;
+            UsernameLabel.Location = new Point(12, 9);
+            UsernameLabel.Name = "UsernameLabel";
+            UsernameLabel.Size = new Size(221, 29);
+            UsernameLabel.TabIndex = 6;
+            UsernameLabel.Text = "Welcome, Username!";
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(450, 429);
+            Controls.Add(UsernameLabel);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -111,6 +122,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "HomeForm";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -121,5 +133,6 @@
         private Button button3;
         private Button button4;
         private Button button5;
+        private Label UsernameLabel;
     }
 }

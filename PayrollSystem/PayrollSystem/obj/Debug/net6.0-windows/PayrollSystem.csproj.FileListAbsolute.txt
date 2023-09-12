@@ -74,3 +74,4 @@ C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Payroll System\PayrollSyste
 C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Payroll System\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\PayrollSystem.pdb
 C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Payroll System\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\PayrollSystem.genruntimeconfig.cache
 C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Payroll System\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\ref\PayrollSystem.dll
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Payroll System\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\PayrollSystem.AccountDetailsForm.resources

@@ -13,20 +13,24 @@ namespace PayrollSystem
     public partial class HomeForm : Form
     {
         private DataTable? accDetail;
-        public HomeForm()
-        {
-            InitializeComponent();
-        }
         public HomeForm(DataTable? accDetail)
         {
             InitializeComponent();
-
             this.accDetail = accDetail;
+            if (accDetail != null && accDetail.Rows.Count > 0)
+            {
+                string username = accDetail.Rows[0]["username"].ToString();
+                UsernameLabel.Text = "Welcome, " + username.ToUpper() +"!";
+            }
+            else
+            {
+                UsernameLabel.Text = "Welcome, Guest!";
+            }
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Do you want to exit the application?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to Logout?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 Form1 form1 = new Form1();
                 form1.Show();
@@ -36,25 +40,11 @@ namespace PayrollSystem
 
         private void AccountDetailsButton_Click(object sender, EventArgs e)
         {
-            if (accDetail != null)
+            if (MessageBox.Show("Are you sure you you want to open Account Details?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                StringBuilder message = new StringBuilder();
-                message.AppendLine("Account Details:");
-
-                foreach (DataRow row in accDetail.Rows)
-                {
-                    foreach (DataColumn col in accDetail.Columns)
-                    {
-                        message.AppendLine($"{col.ColumnName}: {row[col]}");
-                    }
-                    message.AppendLine(); // Add a blank line between rows
-                }
-
-                MessageBox.Show(message.ToString(), "Account Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Account details are not available.", "Account Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                AccountDetailsForm ADForm = new AccountDetailsForm(accDetail);
+                ADForm.Show();
+                this.Close();
             }
         }
     }

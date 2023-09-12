@@ -56,7 +56,6 @@ namespace PayrollSystem
                 if (table.Rows.Count > rowCheck)
                 {
                     var isEnabled = table.Rows[rowCheck][columnName: "isEnabled"].ToString();
-                    //var accountLevel = table.Rows[rowCheck][columnName: "accountLevel"].ToString();
 
                     if (isEnabled == "1")
                     {
