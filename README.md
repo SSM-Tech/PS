@@ -10,3 +10,8 @@ Todo Lists:
     DTR Form -
     Payroll Form -
     Tickets Form -
+
+Tutorial
+    Install WAMP server first - https://www.wampserver.com/en/download-wampserver-64bits/
+    in the phpmyadmin, create a payroll table
+    import the payroll.sql
