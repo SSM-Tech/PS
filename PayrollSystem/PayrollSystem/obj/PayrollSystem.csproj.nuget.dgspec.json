@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\repo\\PS\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj": {}
+    "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\repo\\PS\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj": {
+    "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\repo\\PS\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
+        "projectUniqueName": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
         "projectName": "PayrollSystem",
-        "projectPath": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\repo\\PS\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
+        "projectPath": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
         "packagesPath": "C:\\Users\\silve\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\repo\\PS\\PayrollSystem\\PayrollSystem\\obj\\",
+        "outputPath": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

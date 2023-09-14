@@ -28,170 +28,275 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.OldPassTextBox = new System.Windows.Forms.TextBox();
-            this.NewPassTextBox = new System.Windows.Forms.TextBox();
-            this.ConfNewPassTextBox = new System.Windows.Forms.TextBox();
-            this.ConfirmButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
-            this.OldPasswordPlaceHolder = new System.Windows.Forms.Label();
-            this.NewPasswordPlaceHolder = new System.Windows.Forms.Label();
-            this.ConfirmNewPasswordPlaceHolder = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditPasswordForm));
+            label1 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label4 = new Label();
+            OldPassTextBox = new TextBox();
+            NewPassTextBox = new TextBox();
+            ConfNewPassTextBox = new TextBox();
+            ConfirmButton = new Button();
+            CancelButton = new Button();
+            OldPasswordPlaceHolder = new Label();
+            NewPasswordPlaceHolder = new Label();
+            ConfirmNewPasswordPlaceHolder = new Label();
+            HideOldPasswordIcon = new PictureBox();
+            ShowOldPasswordIcon = new PictureBox();
+            HideNewPasswordIcon = new PictureBox();
+            ShowNewPasswordIcon = new PictureBox();
+            HideConNewPasswordIcon = new PictureBox();
+            ShowConNewPasswordIcon = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)HideOldPasswordIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ShowOldPasswordIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)HideNewPasswordIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ShowNewPasswordIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)HideConNewPasswordIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ShowConNewPasswordIcon).BeginInit();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(186, 29);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Change Password";
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(186, 29);
+            label1.TabIndex = 0;
+            label1.Text = "Change Password";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(147, 29);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Old Password:";
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 67);
+            label3.Name = "label3";
+            label3.Size = new Size(147, 29);
+            label3.TabIndex = 2;
+            label3.Text = "Old Password:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 110);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(156, 29);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "New Password:";
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 110);
+            label2.Name = "label2";
+            label2.Size = new Size(156, 29);
+            label2.TabIndex = 3;
+            label2.Text = "New Password:";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 153);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(239, 29);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Confirm New Password:";
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 153);
+            label4.Name = "label4";
+            label4.Size = new Size(239, 29);
+            label4.TabIndex = 4;
+            label4.Text = "Confirm New Password:";
             // 
             // OldPassTextBox
             // 
-            this.OldPassTextBox.Location = new System.Drawing.Point(257, 64);
-            this.OldPassTextBox.Name = "OldPassTextBox";
-            this.OldPassTextBox.Size = new System.Drawing.Size(264, 37);
-            this.OldPassTextBox.TabIndex = 5;
-            this.OldPassTextBox.UseSystemPasswordChar = true;
-            this.OldPassTextBox.Enter += new System.EventHandler(this.OldPassTextBoxt_Enter);
-            this.OldPassTextBox.Leave += new System.EventHandler(this.OldPassTextBoxt_Leave);
+            OldPassTextBox.Location = new Point(257, 64);
+            OldPassTextBox.MaxLength = 16;
+            OldPassTextBox.Name = "OldPassTextBox";
+            OldPassTextBox.Size = new Size(304, 37);
+            OldPassTextBox.TabIndex = 5;
+            OldPassTextBox.UseSystemPasswordChar = true;
+            OldPassTextBox.Enter += OldPassTextBoxt_Enter;
+            OldPassTextBox.Leave += OldPassTextBoxt_Leave;
             // 
             // NewPassTextBox
             // 
-            this.NewPassTextBox.Location = new System.Drawing.Point(257, 107);
-            this.NewPassTextBox.Name = "NewPassTextBox";
-            this.NewPassTextBox.Size = new System.Drawing.Size(264, 37);
-            this.NewPassTextBox.TabIndex = 6;
-            this.NewPassTextBox.UseSystemPasswordChar = true;
-            this.NewPassTextBox.Enter += new System.EventHandler(this.NewPassTextBox_Enter);
-            this.NewPassTextBox.Leave += new System.EventHandler(this.NewPassTextBox_Leave);
+            NewPassTextBox.Location = new Point(257, 107);
+            NewPassTextBox.MaxLength = 16;
+            NewPassTextBox.Name = "NewPassTextBox";
+            NewPassTextBox.Size = new Size(304, 37);
+            NewPassTextBox.TabIndex = 6;
+            NewPassTextBox.UseSystemPasswordChar = true;
+            NewPassTextBox.Enter += NewPassTextBox_Enter;
+            NewPassTextBox.Leave += NewPassTextBox_Leave;
             // 
             // ConfNewPassTextBox
             // 
-            this.ConfNewPassTextBox.Location = new System.Drawing.Point(257, 150);
-            this.ConfNewPassTextBox.Name = "ConfNewPassTextBox";
-            this.ConfNewPassTextBox.Size = new System.Drawing.Size(264, 37);
-            this.ConfNewPassTextBox.TabIndex = 7;
-            this.ConfNewPassTextBox.UseSystemPasswordChar = true;
-            this.ConfNewPassTextBox.Enter += new System.EventHandler(this.ConfNewPassTextBox_Enter);
-            this.ConfNewPassTextBox.Leave += new System.EventHandler(this.ConfNewPassTextBox_Leave);
+            ConfNewPassTextBox.Location = new Point(257, 150);
+            ConfNewPassTextBox.MaxLength = 16;
+            ConfNewPassTextBox.Name = "ConfNewPassTextBox";
+            ConfNewPassTextBox.Size = new Size(304, 37);
+            ConfNewPassTextBox.TabIndex = 7;
+            ConfNewPassTextBox.UseSystemPasswordChar = true;
+            ConfNewPassTextBox.Enter += ConfNewPassTextBox_Enter;
+            ConfNewPassTextBox.Leave += ConfNewPassTextBox_Leave;
             // 
             // ConfirmButton
             // 
-            this.ConfirmButton.Location = new System.Drawing.Point(12, 200);
-            this.ConfirmButton.Name = "ConfirmButton";
-            this.ConfirmButton.Size = new System.Drawing.Size(239, 37);
-            this.ConfirmButton.TabIndex = 8;
-            this.ConfirmButton.Text = "Confirm";
-            this.ConfirmButton.UseVisualStyleBackColor = true;
-            this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
-            this.ConfirmButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ConfirmButton_KeyDown);
+            ConfirmButton.Location = new Point(12, 200);
+            ConfirmButton.Name = "ConfirmButton";
+            ConfirmButton.Size = new Size(239, 37);
+            ConfirmButton.TabIndex = 8;
+            ConfirmButton.Text = "Confirm";
+            ConfirmButton.UseVisualStyleBackColor = true;
+            ConfirmButton.Click += ConfirmButton_Click;
+            ConfirmButton.KeyDown += ConfirmButton_KeyDown;
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(257, 200);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(264, 37);
-            this.CancelButton.TabIndex = 9;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            CancelButton.Location = new Point(257, 200);
+            CancelButton.Name = "CancelButton";
+            CancelButton.Size = new Size(264, 37);
+            CancelButton.TabIndex = 9;
+            CancelButton.Text = "Cancel";
+            CancelButton.UseVisualStyleBackColor = true;
+            CancelButton.Click += CancelButton_Click;
             // 
             // OldPasswordPlaceHolder
             // 
-            this.OldPasswordPlaceHolder.AutoSize = true;
-            this.OldPasswordPlaceHolder.BackColor = System.Drawing.Color.White;
-            this.OldPasswordPlaceHolder.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.OldPasswordPlaceHolder.ForeColor = System.Drawing.SystemColors.ActiveBorder;
-            this.OldPasswordPlaceHolder.Location = new System.Drawing.Point(267, 67);
-            this.OldPasswordPlaceHolder.Name = "OldPasswordPlaceHolder";
-            this.OldPasswordPlaceHolder.Size = new System.Drawing.Size(142, 29);
-            this.OldPasswordPlaceHolder.TabIndex = 12;
-            this.OldPasswordPlaceHolder.Text = "Old Password";
+            OldPasswordPlaceHolder.AutoSize = true;
+            OldPasswordPlaceHolder.BackColor = Color.White;
+            OldPasswordPlaceHolder.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            OldPasswordPlaceHolder.ForeColor = SystemColors.ActiveBorder;
+            OldPasswordPlaceHolder.Location = new Point(267, 67);
+            OldPasswordPlaceHolder.Name = "OldPasswordPlaceHolder";
+            OldPasswordPlaceHolder.Size = new Size(142, 29);
+            OldPasswordPlaceHolder.TabIndex = 12;
+            OldPasswordPlaceHolder.Text = "Old Password";
+            OldPasswordPlaceHolder.Click += OldPasswordPlaceHolder_Click;
             // 
             // NewPasswordPlaceHolder
             // 
-            this.NewPasswordPlaceHolder.AutoSize = true;
-            this.NewPasswordPlaceHolder.BackColor = System.Drawing.Color.White;
-            this.NewPasswordPlaceHolder.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.NewPasswordPlaceHolder.ForeColor = System.Drawing.SystemColors.ActiveBorder;
-            this.NewPasswordPlaceHolder.Location = new System.Drawing.Point(267, 110);
-            this.NewPasswordPlaceHolder.Name = "NewPasswordPlaceHolder";
-            this.NewPasswordPlaceHolder.Size = new System.Drawing.Size(151, 29);
-            this.NewPasswordPlaceHolder.TabIndex = 13;
-            this.NewPasswordPlaceHolder.Text = "New Password";
+            NewPasswordPlaceHolder.AutoSize = true;
+            NewPasswordPlaceHolder.BackColor = Color.White;
+            NewPasswordPlaceHolder.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            NewPasswordPlaceHolder.ForeColor = SystemColors.ActiveBorder;
+            NewPasswordPlaceHolder.Location = new Point(267, 110);
+            NewPasswordPlaceHolder.Name = "NewPasswordPlaceHolder";
+            NewPasswordPlaceHolder.Size = new Size(151, 29);
+            NewPasswordPlaceHolder.TabIndex = 13;
+            NewPasswordPlaceHolder.Text = "New Password";
+            NewPasswordPlaceHolder.Click += NewPasswordPlaceHolder_Click;
             // 
             // ConfirmNewPasswordPlaceHolder
             // 
-            this.ConfirmNewPasswordPlaceHolder.AutoSize = true;
-            this.ConfirmNewPasswordPlaceHolder.BackColor = System.Drawing.Color.White;
-            this.ConfirmNewPasswordPlaceHolder.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ConfirmNewPasswordPlaceHolder.ForeColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ConfirmNewPasswordPlaceHolder.Location = new System.Drawing.Point(267, 153);
-            this.ConfirmNewPasswordPlaceHolder.Name = "ConfirmNewPasswordPlaceHolder";
-            this.ConfirmNewPasswordPlaceHolder.Size = new System.Drawing.Size(234, 29);
-            this.ConfirmNewPasswordPlaceHolder.TabIndex = 14;
-            this.ConfirmNewPasswordPlaceHolder.Text = "Confirm New Password";
+            ConfirmNewPasswordPlaceHolder.AutoSize = true;
+            ConfirmNewPasswordPlaceHolder.BackColor = Color.White;
+            ConfirmNewPasswordPlaceHolder.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            ConfirmNewPasswordPlaceHolder.ForeColor = SystemColors.ActiveBorder;
+            ConfirmNewPasswordPlaceHolder.Location = new Point(267, 153);
+            ConfirmNewPasswordPlaceHolder.Name = "ConfirmNewPasswordPlaceHolder";
+            ConfirmNewPasswordPlaceHolder.Size = new Size(234, 29);
+            ConfirmNewPasswordPlaceHolder.TabIndex = 14;
+            ConfirmNewPasswordPlaceHolder.Text = "Confirm New Password";
+            ConfirmNewPasswordPlaceHolder.Click += ConfirmNewPasswordPlaceHolder_Click;
+            // 
+            // HideOldPasswordIcon
+            // 
+            HideOldPasswordIcon.BackColor = SystemColors.Window;
+            HideOldPasswordIcon.Image = (Image)resources.GetObject("HideOldPasswordIcon.Image");
+            HideOldPasswordIcon.Location = new Point(526, 67);
+            HideOldPasswordIcon.Name = "HideOldPasswordIcon";
+            HideOldPasswordIcon.Size = new Size(25, 25);
+            HideOldPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            HideOldPasswordIcon.TabIndex = 17;
+            HideOldPasswordIcon.TabStop = false;
+            HideOldPasswordIcon.Click += HideOldPasswordIcon_Click;
+            // 
+            // ShowOldPasswordIcon
+            // 
+            ShowOldPasswordIcon.BackColor = SystemColors.Window;
+            ShowOldPasswordIcon.Image = Properties.Resources.showPasswordIcon;
+            ShowOldPasswordIcon.Location = new Point(526, 67);
+            ShowOldPasswordIcon.Name = "ShowOldPasswordIcon";
+            ShowOldPasswordIcon.Size = new Size(25, 25);
+            ShowOldPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            ShowOldPasswordIcon.TabIndex = 16;
+            ShowOldPasswordIcon.TabStop = false;
+            ShowOldPasswordIcon.Visible = false;
+            ShowOldPasswordIcon.Click += ShowOldPasswordIcon_Click;
+            // 
+            // HideNewPasswordIcon
+            // 
+            HideNewPasswordIcon.BackColor = SystemColors.Window;
+            HideNewPasswordIcon.Image = (Image)resources.GetObject("HideNewPasswordIcon.Image");
+            HideNewPasswordIcon.Location = new Point(526, 110);
+            HideNewPasswordIcon.Name = "HideNewPasswordIcon";
+            HideNewPasswordIcon.Size = new Size(25, 25);
+            HideNewPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            HideNewPasswordIcon.TabIndex = 19;
+            HideNewPasswordIcon.TabStop = false;
+            HideNewPasswordIcon.Click += HideNewPasswordIcon_Click;
+            // 
+            // ShowNewPasswordIcon
+            // 
+            ShowNewPasswordIcon.BackColor = SystemColors.Window;
+            ShowNewPasswordIcon.Image = Properties.Resources.showPasswordIcon;
+            ShowNewPasswordIcon.Location = new Point(526, 110);
+            ShowNewPasswordIcon.Name = "ShowNewPasswordIcon";
+            ShowNewPasswordIcon.Size = new Size(25, 25);
+            ShowNewPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            ShowNewPasswordIcon.TabIndex = 18;
+            ShowNewPasswordIcon.TabStop = false;
+            ShowNewPasswordIcon.Visible = false;
+            ShowNewPasswordIcon.Click += ShowNewPasswordIcon_Click;
+            // 
+            // HideConNewPasswordIcon
+            // 
+            HideConNewPasswordIcon.BackColor = SystemColors.Window;
+            HideConNewPasswordIcon.Image = (Image)resources.GetObject("HideConNewPasswordIcon.Image");
+            HideConNewPasswordIcon.Location = new Point(526, 157);
+            HideConNewPasswordIcon.Name = "HideConNewPasswordIcon";
+            HideConNewPasswordIcon.Size = new Size(25, 25);
+            HideConNewPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            HideConNewPasswordIcon.TabIndex = 21;
+            HideConNewPasswordIcon.TabStop = false;
+            HideConNewPasswordIcon.Click += HideConNewPasswordIcon_Click;
+            // 
+            // ShowConNewPasswordIcon
+            // 
+            ShowConNewPasswordIcon.BackColor = SystemColors.Window;
+            ShowConNewPasswordIcon.Image = Properties.Resources.showPasswordIcon;
+            ShowConNewPasswordIcon.Location = new Point(526, 157);
+            ShowConNewPasswordIcon.Name = "ShowConNewPasswordIcon";
+            ShowConNewPasswordIcon.Size = new Size(25, 25);
+            ShowConNewPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            ShowConNewPasswordIcon.TabIndex = 20;
+            ShowConNewPasswordIcon.TabStop = false;
+            ShowConNewPasswordIcon.Visible = false;
+            ShowConNewPasswordIcon.Click += ShowConNewPasswordIcon_Click;
             // 
             // EditPasswordForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 29F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(533, 249);
-            this.Controls.Add(this.ConfirmNewPasswordPlaceHolder);
-            this.Controls.Add(this.NewPasswordPlaceHolder);
-            this.Controls.Add(this.OldPasswordPlaceHolder);
-            this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.ConfirmButton);
-            this.Controls.Add(this.ConfNewPassTextBox);
-            this.Controls.Add(this.NewPassTextBox);
-            this.Controls.Add(this.OldPassTextBox);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.Name = "EditPasswordForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EditAccountForm";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(12F, 29F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(573, 249);
+            Controls.Add(HideConNewPasswordIcon);
+            Controls.Add(ShowConNewPasswordIcon);
+            Controls.Add(HideNewPasswordIcon);
+            Controls.Add(ShowNewPasswordIcon);
+            Controls.Add(HideOldPasswordIcon);
+            Controls.Add(ShowOldPasswordIcon);
+            Controls.Add(ConfirmNewPasswordPlaceHolder);
+            Controls.Add(NewPasswordPlaceHolder);
+            Controls.Add(OldPasswordPlaceHolder);
+            Controls.Add(CancelButton);
+            Controls.Add(ConfirmButton);
+            Controls.Add(ConfNewPassTextBox);
+            Controls.Add(NewPassTextBox);
+            Controls.Add(OldPassTextBox);
+            Controls.Add(label4);
+            Controls.Add(label2);
+            Controls.Add(label3);
+            Controls.Add(label1);
+            Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(5, 6, 5, 6);
+            Name = "EditPasswordForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "EditAccountForm";
+            ((System.ComponentModel.ISupportInitialize)HideOldPasswordIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ShowOldPasswordIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)HideNewPasswordIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ShowNewPasswordIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)HideConNewPasswordIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ShowConNewPasswordIcon).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -208,5 +313,11 @@
         private Label OldPasswordPlaceHolder;
         private Label NewPasswordPlaceHolder;
         private Label ConfirmNewPasswordPlaceHolder;
+        private PictureBox HideOldPasswordIcon;
+        private PictureBox ShowOldPasswordIcon;
+        private PictureBox HideNewPasswordIcon;
+        private PictureBox ShowNewPasswordIcon;
+        private PictureBox HideConNewPasswordIcon;
+        private PictureBox ShowConNewPasswordIcon;
     }
 }

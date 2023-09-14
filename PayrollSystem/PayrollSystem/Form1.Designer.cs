@@ -39,8 +39,13 @@
             passwordIconBox = new PictureBox();
             UsernamePlaceHolderLabel = new Label();
             PasswordPlaceHolderLabel = new Label();
+            ShowPasswordIcon = new PictureBox();
+            HidePasswordIcon = new PictureBox();
+            linkLabel1 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)userIconBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)passwordIconBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ShowPasswordIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)HidePasswordIcon).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -86,6 +91,7 @@
             // PasswordTextBox
             // 
             PasswordTextBox.Location = new Point(57, 138);
+            PasswordTextBox.MaxLength = 16;
             PasswordTextBox.Name = "PasswordTextBox";
             PasswordTextBox.Size = new Size(369, 37);
             PasswordTextBox.TabIndex = 1;
@@ -136,6 +142,7 @@
             UsernamePlaceHolderLabel.Size = new Size(114, 29);
             UsernamePlaceHolderLabel.TabIndex = 10;
             UsernamePlaceHolderLabel.Text = "Username";
+            UsernamePlaceHolderLabel.Click += UsernamePlaceHolderLabel_Click;
             // 
             // PasswordPlaceHolderLabel
             // 
@@ -148,6 +155,47 @@
             PasswordPlaceHolderLabel.Size = new Size(107, 29);
             PasswordPlaceHolderLabel.TabIndex = 11;
             PasswordPlaceHolderLabel.Text = "Password";
+            PasswordPlaceHolderLabel.Click += PasswordPlaceHolderLabel_Click;
+            // 
+            // ShowPasswordIcon
+            // 
+            ShowPasswordIcon.BackColor = SystemColors.Window;
+            ShowPasswordIcon.Image = Properties.Resources.showPasswordIcon;
+            ShowPasswordIcon.Location = new Point(391, 145);
+            ShowPasswordIcon.Name = "ShowPasswordIcon";
+            ShowPasswordIcon.Size = new Size(25, 25);
+            ShowPasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            ShowPasswordIcon.TabIndex = 12;
+            ShowPasswordIcon.TabStop = false;
+            ShowPasswordIcon.Visible = false;
+            ShowPasswordIcon.Click += ShowPasswordIcon_Click;
+            // 
+            // HidePasswordIcon
+            // 
+            HidePasswordIcon.BackColor = SystemColors.Window;
+            HidePasswordIcon.Image = (Image)resources.GetObject("HidePasswordIcon.Image");
+            HidePasswordIcon.Location = new Point(391, 145);
+            HidePasswordIcon.Name = "HidePasswordIcon";
+            HidePasswordIcon.Size = new Size(25, 25);
+            HidePasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            HidePasswordIcon.TabIndex = 13;
+            HidePasswordIcon.TabStop = false;
+            HidePasswordIcon.Click += HidePasswordIcon_Click;
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.ActiveLinkColor = SystemColors.InactiveCaption;
+            linkLabel1.AutoSize = true;
+            linkLabel1.Font = new Font("Impact", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            linkLabel1.LinkColor = Color.Black;
+            linkLabel1.Location = new Point(57, 178);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(109, 18);
+            linkLabel1.TabIndex = 15;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Forgot Password?";
+            linkLabel1.VisitedLinkColor = SystemColors.ActiveCaption;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // Form1
             // 
@@ -155,6 +203,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(438, 340);
+            Controls.Add(linkLabel1);
+            Controls.Add(HidePasswordIcon);
+            Controls.Add(ShowPasswordIcon);
             Controls.Add(PasswordPlaceHolderLabel);
             Controls.Add(UsernamePlaceHolderLabel);
             Controls.Add(passwordIconBox);
@@ -174,6 +225,8 @@
             Text = "LOGIN";
             ((System.ComponentModel.ISupportInitialize)userIconBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)passwordIconBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ShowPasswordIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)HidePasswordIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,5 +243,8 @@
         private PictureBox passwordIconBox;
         private Label UsernamePlaceHolderLabel;
         private Label PasswordPlaceHolderLabel;
+        private PictureBox ShowPasswordIcon;
+        private PictureBox HidePasswordIcon;
+        private LinkLabel linkLabel1;
     }
 }

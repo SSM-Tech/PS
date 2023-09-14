@@ -130,5 +130,27 @@ namespace PayrollSystem
         {
             UsernameTextBox.Focus();
         }
+        private void PasswordPlaceHolderLabel_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.Focus();
+        }
+        private void HidePasswordIcon_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.UseSystemPasswordChar = false;
+            HidePasswordIcon.Hide();
+            ShowPasswordIcon.Show();
+        }
+
+        private void ShowPasswordIcon_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.UseSystemPasswordChar = true;
+            ShowPasswordIcon.Hide();
+            HidePasswordIcon.Show();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("If you forgot your password, Please contact HR for further assistance", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

@@ -115,3 +115,4 @@ C:\Users\ITLAB2-PC33\Desktop\IM101\PayrollSystem\PayrollSystem\obj\Debug\net6.0-
 C:\Users\ITLAB2-PC33\Desktop\IM101\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\PayrollSystem.genruntimeconfig.cache
 C:\Users\ITLAB2-PC33\Desktop\IM101\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\ref\PayrollSystem.dll
 C:\Users\ITLAB2-PC33\Desktop\IM101\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\PayrollSystem.EditPasswordForm.resources
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Payroll System\PayrollSystem\PayrollSystem\obj\Debug\net6.0-windows\PayrollSystem.EditPasswordForm.resources

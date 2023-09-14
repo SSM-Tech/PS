@@ -59,14 +59,14 @@ namespace PayrollSystem
         }
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-            //if (allAccDetail != null)
-            //{
-                ChangePass(allAccDetail);
-           // }
-           // else
-           // {
-            //    MessageBox.Show("Old Password should not be Empty?", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            if (allAccDetail != null)
+            {
+            ChangePass(allAccDetail);
+            }
+                else
+            {
+                MessageBox.Show("Old Password should not be Empty?", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void OldPassTextBoxt_Enter(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace PayrollSystem
 
         private void OldPassTextBoxt_Leave(object sender, EventArgs e)
         {
-            if(OldPassTextBox.Text == "")
+            if (OldPassTextBox.Text == "")
             {
                 OldPasswordPlaceHolder.Show();
             }
@@ -115,6 +115,58 @@ namespace PayrollSystem
             {
                 ConfirmButton_Click(sender, e);
             }
+        }
+
+        private void OldPasswordPlaceHolder_Click(object sender, EventArgs e)
+        {
+            OldPassTextBox.Focus();
+        }
+
+        private void NewPasswordPlaceHolder_Click(object sender, EventArgs e)
+        {
+            NewPassTextBox.Focus();
+        }
+
+        private void ConfirmNewPasswordPlaceHolder_Click(object sender, EventArgs e)
+        {
+            ConfNewPassTextBox.Focus();
+        }
+
+        private void HideOldPasswordIcon_Click(object sender, EventArgs e)
+        {
+            OldPassTextBox.UseSystemPasswordChar = false;
+            HideOldPasswordIcon.Hide();
+            ShowOldPasswordIcon.Show();
+        }
+        private void ShowOldPasswordIcon_Click(object sender, EventArgs e)
+        {
+            OldPassTextBox.UseSystemPasswordChar = true;
+            HideOldPasswordIcon.Show();
+            ShowOldPasswordIcon.Hide();
+        }
+        private void HideNewPasswordIcon_Click(object sender, EventArgs e)
+        {
+            NewPassTextBox.UseSystemPasswordChar = false;
+            HideNewPasswordIcon.Hide();
+            ShowNewPasswordIcon.Show();
+        }
+        private void ShowNewPasswordIcon_Click(object sender, EventArgs e)
+        {
+            NewPassTextBox.UseSystemPasswordChar = true;
+            HideNewPasswordIcon.Show();
+            ShowNewPasswordIcon.Hide();
+        }
+        private void HideConNewPasswordIcon_Click(object sender, EventArgs e)
+        {
+            ConfNewPassTextBox.UseSystemPasswordChar = false;
+            HideConNewPasswordIcon.Hide();
+            ShowConNewPasswordIcon.Show();
+        }
+        private void ShowConNewPasswordIcon_Click(object sender, EventArgs e)
+        {
+            ConfNewPassTextBox.UseSystemPasswordChar = true;
+            HideConNewPasswordIcon.Show();
+            ShowConNewPasswordIcon.Hide();
         }
     }
 }
