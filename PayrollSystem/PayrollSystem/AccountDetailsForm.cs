@@ -20,38 +20,44 @@ namespace PayrollSystem
         {
             InitializeComponent();
             this.accDetail = accDetail;
-            string employeeID = accDetail.Rows[0]["employeeID"].ToString();
-
-            DB db = new();
-
-            DataTable allAccDetail = new();
-
-            MySqlDataAdapter adapter = new();
-
-            MySqlCommand command = new MySqlCommand("SELECT a.*, e.managerID, e.firstName, e.lastName FROM account a JOIN employee e ON a.employeeID = e.employeeID WHERE a.employeeID = @employeeID;", db.getConnection());
-
-            command.Parameters.Add("@employeeID", MySqlDbType.VarChar).Value = employeeID;
-
-            adapter.SelectCommand = command;
-
-            adapter.Fill(allAccDetail);
-
-            if (allAccDetail != null)
+            if (accDetail != null && accDetail.Rows.Count > 0)
             {
-                string firstname = allAccDetail.Rows[0]["firstName"].ToString();
-                string lastname = allAccDetail.Rows[0]["lastName"].ToString();
-                string userID = allAccDetail.Rows[0]["userID"].ToString();
-                string description = allAccDetail.Rows[0]["accountDescription"].ToString();
-                string accountlevel = allAccDetail.Rows[0]["accountLevel"].ToString();
-                string username = allAccDetail.Rows[0]["username"].ToString();
+                string employeeID = accDetail.Rows[0]["employeeID"].ToString();
+                DB db = new();
 
-                UserIDLabel.Text = userID;
-                EmployeeIDLabel.Text = employeeID;
-                FullnameLabel.Text = firstname + " " + lastname;
-                UsernameLabel.Text = username;
-                AccountDescriptionLabel.Text = description;
-                AccountLevelLabel.Text = accountlevel;
+                DataTable allAccDetail = new();
+
+                MySqlDataAdapter adapter = new();
+
+                MySqlCommand command = new MySqlCommand("SELECT a.*, e.managerID, e.firstName, e.lastName FROM account a JOIN employee e ON a.employeeID = e.employeeID WHERE a.employeeID = @employeeID;", db.getConnection());
+
+                command.Parameters.Add("@employeeID", MySqlDbType.VarChar).Value = employeeID;
+
+                adapter.SelectCommand = command;
+
+                adapter.Fill(allAccDetail);
+
+                if (allAccDetail != null)
+                {
+                    string firstname = allAccDetail.Rows[0]["firstName"].ToString();
+                    string lastname = allAccDetail.Rows[0]["lastName"].ToString();
+                    string userID = allAccDetail.Rows[0]["userID"].ToString();
+                    string description = allAccDetail.Rows[0]["accountDescription"].ToString();
+                    string accountlevel = allAccDetail.Rows[0]["accountLevel"].ToString();
+                    string username = allAccDetail.Rows[0]["username"].ToString();
+
+                    UserIDLabel.Text = userID;
+                    EmployeeIDLabel.Text = employeeID;
+                    FullnameLabel.Text = firstname + " " + lastname;
+                    UsernameLabel.Text = username;
+                    AccountDescriptionLabel.Text = description;
+                    AccountLevelLabel.Text = accountlevel;
+                }
             }
+            else
+            {
+            }
+            
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -69,8 +75,7 @@ namespace PayrollSystem
             if (MessageBox.Show("Are you sure you want to Edit Password?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 EditPasswordForm eaform = new EditPasswordForm(allAccDetail);
-                eaform.Show();
-                this.Close();
+                eaform.ShowDialog();
             }
         }
     }

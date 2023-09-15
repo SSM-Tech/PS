@@ -42,7 +42,7 @@
             this.logoutButton.Location = new System.Drawing.Point(228, 250);
             this.logoutButton.Name = "logoutButton";
             this.logoutButton.Size = new System.Drawing.Size(210, 67);
-            this.logoutButton.TabIndex = 0;
+            this.logoutButton.TabIndex = 5;
             this.logoutButton.Text = "LOGOUT";
             this.logoutButton.UseVisualStyleBackColor = true;
             this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
@@ -52,7 +52,7 @@
             this.AccountDetailsButton.Location = new System.Drawing.Point(12, 104);
             this.AccountDetailsButton.Name = "AccountDetailsButton";
             this.AccountDetailsButton.Size = new System.Drawing.Size(210, 67);
-            this.AccountDetailsButton.TabIndex = 1;
+            this.AccountDetailsButton.TabIndex = 0;
             this.AccountDetailsButton.Text = "ACCOUNT DETAILS";
             this.AccountDetailsButton.UseVisualStyleBackColor = true;
             this.AccountDetailsButton.Click += new System.EventHandler(this.AccountDetailsButton_Click);
@@ -71,7 +71,7 @@
             this.button3.Location = new System.Drawing.Point(228, 104);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(210, 67);
-            this.button3.TabIndex = 3;
+            this.button3.TabIndex = 1;
             this.button3.Text = "MANAGE ACCOUNT";
             this.button3.UseVisualStyleBackColor = true;
             // 
@@ -89,7 +89,7 @@
             this.button5.Location = new System.Drawing.Point(228, 177);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(210, 67);
-            this.button5.TabIndex = 5;
+            this.button5.TabIndex = 3;
             this.button5.Text = "TICKETS";
             this.button5.UseVisualStyleBackColor = true;
             // 

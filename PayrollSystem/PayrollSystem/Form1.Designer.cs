@@ -63,6 +63,7 @@
             this.LoginButton.Text = "LOGIN";
             this.LoginButton.UseVisualStyleBackColor = true;
             this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
+            this.LoginButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_KeyDown);
             // 
             // ClearButton
             // 
@@ -91,6 +92,7 @@
             this.PasswordTextBox.TabIndex = 1;
             this.PasswordTextBox.UseSystemPasswordChar = true;
             this.PasswordTextBox.Enter += new System.EventHandler(this.PasswordTextBox_Enter);
+            this.PasswordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_KeyDown);
             this.PasswordTextBox.Leave += new System.EventHandler(this.PasswordTextBox_Leave);
             // 
             // ExitButton
