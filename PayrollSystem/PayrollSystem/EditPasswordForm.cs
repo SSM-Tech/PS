@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -34,18 +35,38 @@ namespace PayrollSystem
 
         private void ChangePass(DataTable? allAccDetail)
         {
-
-        }
-        private void ConfirmButton_Click(object sender, EventArgs e)
-        {
             if (allAccDetail != null)
             {
-                ChangePass(allAccDetail);
+                StringBuilder message = new StringBuilder();
+
+                // Iterate through rows and columns to build the message
+                foreach (DataRow row in allAccDetail.Rows)
+                {
+                    foreach (DataColumn col in allAccDetail.Columns)
+                    {
+                        message.Append($"{col.ColumnName}: {row[col].ToString()}, ");
+                    }
+                    message.AppendLine(); // Add a new line for each row
+                }
+
+                // Display the message in a MessageBox
+                MessageBox.Show(message.ToString(), "DataTable Contents", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Are you sure you want to cancel Change Password?", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("DataTable is null.", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void ConfirmButton_Click(object sender, EventArgs e)
+        {
+            //if (allAccDetail != null)
+            //{
+                ChangePass(allAccDetail);
+           // }
+           // else
+           // {
+            //    MessageBox.Show("Old Password should not be Empty?", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void OldPassTextBoxt_Enter(object sender, EventArgs e)

@@ -25,7 +25,7 @@ namespace PayrollSystem
                 string employeeID = accDetail.Rows[0]["employeeID"].ToString();
                 DB db = new();
 
-                DataTable allAccDetail = new();
+                DataTable table = new();
 
                 MySqlDataAdapter adapter = new();
 
@@ -35,16 +35,18 @@ namespace PayrollSystem
 
                 adapter.SelectCommand = command;
 
-                adapter.Fill(allAccDetail);
+                adapter.Fill(table);
 
-                if (allAccDetail != null)
+                allAccDetail = table;
+
+                if (table != null)
                 {
-                    string firstname = allAccDetail.Rows[0]["firstName"].ToString();
-                    string lastname = allAccDetail.Rows[0]["lastName"].ToString();
-                    string userID = allAccDetail.Rows[0]["userID"].ToString();
-                    string description = allAccDetail.Rows[0]["accountDescription"].ToString();
-                    string accountlevel = allAccDetail.Rows[0]["accountLevel"].ToString();
-                    string username = allAccDetail.Rows[0]["username"].ToString();
+                    string firstname = table.Rows[0]["firstName"].ToString();
+                    string lastname = table.Rows[0]["lastName"].ToString();
+                    string userID = table.Rows[0]["userID"].ToString();
+                    string description = table.Rows[0]["accountDescription"].ToString();
+                    string accountlevel = table.Rows[0]["accountLevel"].ToString();
+                    string username = table.Rows[0]["username"].ToString();
 
                     UserIDLabel.Text = userID;
                     EmployeeIDLabel.Text = employeeID;
