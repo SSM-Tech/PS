@@ -130,10 +130,5 @@ namespace PayrollSystem
         {
             UsernameTextBox.Focus();
         }
-
-        private void PasswordPlaceHolderLabel_Click(object sender, EventArgs e)
-        {
-            PasswordTextBox.Focus();
-        }
     }
 }

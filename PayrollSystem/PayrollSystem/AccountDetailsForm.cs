@@ -15,6 +15,7 @@ namespace PayrollSystem
     public partial class AccountDetailsForm : Form
     {
         private DataTable? accDetail;
+        private DataTable? allAccDetail;
         public AccountDetailsForm(DataTable? accDetail)
         {
             InitializeComponent();
@@ -23,7 +24,7 @@ namespace PayrollSystem
 
             DB db = new();
 
-            DataTable table = new();
+            DataTable allAccDetail = new();
 
             MySqlDataAdapter adapter = new();
 
@@ -33,16 +34,16 @@ namespace PayrollSystem
 
             adapter.SelectCommand = command;
 
-            adapter.Fill(table);
+            adapter.Fill(allAccDetail);
 
-            if (table != null)
+            if (allAccDetail != null)
             {
-                string firstname = table.Rows[0]["firstName"].ToString();
-                string lastname = table.Rows[0]["lastName"].ToString();
-                string userID = table.Rows[0]["userID"].ToString();
-                string description = table.Rows[0]["accountDescription"].ToString();
-                string accountlevel = table.Rows[0]["accountLevel"].ToString();
-                string username = table.Rows[0]["username"].ToString();
+                string firstname = allAccDetail.Rows[0]["firstName"].ToString();
+                string lastname = allAccDetail.Rows[0]["lastName"].ToString();
+                string userID = allAccDetail.Rows[0]["userID"].ToString();
+                string description = allAccDetail.Rows[0]["accountDescription"].ToString();
+                string accountlevel = allAccDetail.Rows[0]["accountLevel"].ToString();
+                string username = allAccDetail.Rows[0]["username"].ToString();
 
                 UserIDLabel.Text = userID;
                 EmployeeIDLabel.Text = employeeID;
@@ -59,6 +60,16 @@ namespace PayrollSystem
             {
                 HomeForm homeform = new HomeForm(accDetail);
                 homeform.Show();
+                this.Close();
+            }
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to Edit Password?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                EditPasswordForm eaform = new EditPasswordForm(allAccDetail);
+                eaform.Show();
                 this.Close();
             }
         }

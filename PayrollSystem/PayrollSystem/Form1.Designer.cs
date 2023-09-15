@@ -29,157 +29,153 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            label1 = new Label();
-            LoginButton = new Button();
-            ClearButton = new Button();
-            UsernameTextBox = new TextBox();
-            PasswordTextBox = new TextBox();
-            ExitButton = new Button();
-            userIconBox = new PictureBox();
-            passwordIconBox = new PictureBox();
-            UsernamePlaceHolderLabel = new Label();
-            PasswordPlaceHolderLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)userIconBox).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)passwordIconBox).BeginInit();
-            SuspendLayout();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LoginButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
+            this.UsernameTextBox = new System.Windows.Forms.TextBox();
+            this.PasswordTextBox = new System.Windows.Forms.TextBox();
+            this.ExitButton = new System.Windows.Forms.Button();
+            this.userIconBox = new System.Windows.Forms.PictureBox();
+            this.passwordIconBox = new System.Windows.Forms.PictureBox();
+            this.UsernamePlaceHolderLabel = new System.Windows.Forms.Label();
+            this.PasswordPlaceHolderLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.userIconBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.passwordIconBox)).BeginInit();
+            this.SuspendLayout();
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Impact", 24F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(107, 19);
-            label1.Margin = new Padding(6, 0, 6, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(225, 39);
-            label1.TabIndex = 0;
-            label1.Text = "PAYROLL SYSTEM";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Impact", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(107, 19);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(225, 39);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "PAYROLL SYSTEM";
             // 
             // LoginButton
             // 
-            LoginButton.Location = new Point(13, 204);
-            LoginButton.Name = "LoginButton";
-            LoginButton.Size = new Size(413, 52);
-            LoginButton.TabIndex = 2;
-            LoginButton.Text = "LOGIN";
-            LoginButton.UseVisualStyleBackColor = true;
-            LoginButton.Click += LoginButton_Click;
+            this.LoginButton.Location = new System.Drawing.Point(13, 204);
+            this.LoginButton.Name = "LoginButton";
+            this.LoginButton.Size = new System.Drawing.Size(413, 52);
+            this.LoginButton.TabIndex = 2;
+            this.LoginButton.Text = "LOGIN";
+            this.LoginButton.UseVisualStyleBackColor = true;
+            this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
             // ClearButton
             // 
-            ClearButton.Location = new Point(13, 276);
-            ClearButton.Name = "ClearButton";
-            ClearButton.Size = new Size(202, 52);
-            ClearButton.TabIndex = 3;
-            ClearButton.Text = "CLEAR";
-            ClearButton.UseVisualStyleBackColor = true;
-            ClearButton.Click += ClearButton_Click;
+            this.ClearButton.Location = new System.Drawing.Point(13, 276);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(202, 52);
+            this.ClearButton.TabIndex = 3;
+            this.ClearButton.Text = "CLEAR";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // UsernameTextBox
             // 
-            UsernameTextBox.Location = new Point(57, 74);
-            UsernameTextBox.Name = "UsernameTextBox";
-            UsernameTextBox.Size = new Size(369, 37);
-            UsernameTextBox.TabIndex = 0;
-            UsernameTextBox.Enter += UsernameTextBox_Enter;
-            UsernameTextBox.KeyDown += Login_KeyDown;
-            UsernameTextBox.Leave += UsernameTextBox_Leave;
+            this.UsernameTextBox.Location = new System.Drawing.Point(57, 74);
+            this.UsernameTextBox.Name = "UsernameTextBox";
+            this.UsernameTextBox.Size = new System.Drawing.Size(369, 37);
+            this.UsernameTextBox.TabIndex = 0;
+            this.UsernameTextBox.Enter += new System.EventHandler(this.UsernameTextBox_Enter);
+            this.UsernameTextBox.Leave += new System.EventHandler(this.UsernameTextBox_Leave);
             // 
             // PasswordTextBox
             // 
-            PasswordTextBox.Location = new Point(57, 138);
-            PasswordTextBox.Name = "PasswordTextBox";
-            PasswordTextBox.Size = new Size(369, 37);
-            PasswordTextBox.TabIndex = 1;
-            PasswordTextBox.UseSystemPasswordChar = true;
-            PasswordTextBox.Enter += PasswordTextBox_Enter;
-            PasswordTextBox.KeyDown += Login_KeyDown;
-            PasswordTextBox.Leave += PasswordTextBox_Leave;
+            this.PasswordTextBox.Location = new System.Drawing.Point(57, 138);
+            this.PasswordTextBox.Name = "PasswordTextBox";
+            this.PasswordTextBox.Size = new System.Drawing.Size(369, 37);
+            this.PasswordTextBox.TabIndex = 1;
+            this.PasswordTextBox.UseSystemPasswordChar = true;
+            this.PasswordTextBox.Enter += new System.EventHandler(this.PasswordTextBox_Enter);
+            this.PasswordTextBox.Leave += new System.EventHandler(this.PasswordTextBox_Leave);
             // 
             // ExitButton
             // 
-            ExitButton.Location = new Point(224, 276);
-            ExitButton.Name = "ExitButton";
-            ExitButton.Size = new Size(202, 52);
-            ExitButton.TabIndex = 4;
-            ExitButton.Text = "EXIT";
-            ExitButton.UseVisualStyleBackColor = true;
-            ExitButton.Click += ExitButton_Click;
+            this.ExitButton.Location = new System.Drawing.Point(224, 276);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(202, 52);
+            this.ExitButton.TabIndex = 4;
+            this.ExitButton.Text = "EXIT";
+            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // userIconBox
             // 
-            userIconBox.Image = (Image)resources.GetObject("userIconBox.Image");
-            userIconBox.Location = new Point(13, 74);
-            userIconBox.Name = "userIconBox";
-            userIconBox.Size = new Size(36, 36);
-            userIconBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            userIconBox.TabIndex = 8;
-            userIconBox.TabStop = false;
+            this.userIconBox.Image = ((System.Drawing.Image)(resources.GetObject("userIconBox.Image")));
+            this.userIconBox.Location = new System.Drawing.Point(13, 74);
+            this.userIconBox.Name = "userIconBox";
+            this.userIconBox.Size = new System.Drawing.Size(36, 36);
+            this.userIconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.userIconBox.TabIndex = 8;
+            this.userIconBox.TabStop = false;
             // 
             // passwordIconBox
             // 
-            passwordIconBox.Image = (Image)resources.GetObject("passwordIconBox.Image");
-            passwordIconBox.Location = new Point(13, 139);
-            passwordIconBox.Name = "passwordIconBox";
-            passwordIconBox.Size = new Size(36, 36);
-            passwordIconBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            passwordIconBox.TabIndex = 9;
-            passwordIconBox.TabStop = false;
+            this.passwordIconBox.Image = ((System.Drawing.Image)(resources.GetObject("passwordIconBox.Image")));
+            this.passwordIconBox.Location = new System.Drawing.Point(13, 139);
+            this.passwordIconBox.Name = "passwordIconBox";
+            this.passwordIconBox.Size = new System.Drawing.Size(36, 36);
+            this.passwordIconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.passwordIconBox.TabIndex = 9;
+            this.passwordIconBox.TabStop = false;
             // 
             // UsernamePlaceHolderLabel
             // 
-            UsernamePlaceHolderLabel.AutoSize = true;
-            UsernamePlaceHolderLabel.BackColor = SystemColors.Window;
-            UsernamePlaceHolderLabel.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            UsernamePlaceHolderLabel.ForeColor = SystemColors.ActiveBorder;
-            UsernamePlaceHolderLabel.Location = new Point(57, 77);
-            UsernamePlaceHolderLabel.Margin = new Padding(0);
-            UsernamePlaceHolderLabel.Name = "UsernamePlaceHolderLabel";
-            UsernamePlaceHolderLabel.Size = new Size(114, 29);
-            UsernamePlaceHolderLabel.TabIndex = 10;
-            UsernamePlaceHolderLabel.Text = "Username";
-            UsernamePlaceHolderLabel.Click += UsernamePlaceHolderLabel_Click;
+            this.UsernamePlaceHolderLabel.AutoSize = true;
+            this.UsernamePlaceHolderLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.UsernamePlaceHolderLabel.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.UsernamePlaceHolderLabel.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.UsernamePlaceHolderLabel.Location = new System.Drawing.Point(64, 77);
+            this.UsernamePlaceHolderLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.UsernamePlaceHolderLabel.Name = "UsernamePlaceHolderLabel";
+            this.UsernamePlaceHolderLabel.Size = new System.Drawing.Size(114, 29);
+            this.UsernamePlaceHolderLabel.TabIndex = 10;
+            this.UsernamePlaceHolderLabel.Text = "Username";
             // 
             // PasswordPlaceHolderLabel
             // 
-            PasswordPlaceHolderLabel.AutoSize = true;
-            PasswordPlaceHolderLabel.BackColor = Color.White;
-            PasswordPlaceHolderLabel.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            PasswordPlaceHolderLabel.ForeColor = SystemColors.ActiveBorder;
-            PasswordPlaceHolderLabel.Location = new Point(57, 141);
-            PasswordPlaceHolderLabel.Name = "PasswordPlaceHolderLabel";
-            PasswordPlaceHolderLabel.Size = new Size(107, 29);
-            PasswordPlaceHolderLabel.TabIndex = 11;
-            PasswordPlaceHolderLabel.Text = "Password";
-            PasswordPlaceHolderLabel.Click += PasswordPlaceHolderLabel_Click;
+            this.PasswordPlaceHolderLabel.AutoSize = true;
+            this.PasswordPlaceHolderLabel.BackColor = System.Drawing.Color.White;
+            this.PasswordPlaceHolderLabel.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.PasswordPlaceHolderLabel.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.PasswordPlaceHolderLabel.Location = new System.Drawing.Point(64, 141);
+            this.PasswordPlaceHolderLabel.Name = "PasswordPlaceHolderLabel";
+            this.PasswordPlaceHolderLabel.Size = new System.Drawing.Size(107, 29);
+            this.PasswordPlaceHolderLabel.TabIndex = 11;
+            this.PasswordPlaceHolderLabel.Text = "Password";
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(12F, 29F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(438, 340);
-            Controls.Add(PasswordPlaceHolderLabel);
-            Controls.Add(UsernamePlaceHolderLabel);
-            Controls.Add(passwordIconBox);
-            Controls.Add(userIconBox);
-            Controls.Add(ExitButton);
-            Controls.Add(PasswordTextBox);
-            Controls.Add(UsernameTextBox);
-            Controls.Add(ClearButton);
-            Controls.Add(LoginButton);
-            Controls.Add(label1);
-            Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            ForeColor = SystemColors.ControlText;
-            FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(6, 5, 6, 5);
-            Name = "Form1";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "LOGIN";
-            Load += Form1_Load;
-            ((System.ComponentModel.ISupportInitialize)userIconBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)passwordIconBox).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 29F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ClientSize = new System.Drawing.Size(438, 340);
+            this.Controls.Add(this.PasswordPlaceHolderLabel);
+            this.Controls.Add(this.UsernamePlaceHolderLabel);
+            this.Controls.Add(this.passwordIconBox);
+            this.Controls.Add(this.userIconBox);
+            this.Controls.Add(this.ExitButton);
+            this.Controls.Add(this.PasswordTextBox);
+            this.Controls.Add(this.UsernameTextBox);
+            this.Controls.Add(this.ClearButton);
+            this.Controls.Add(this.LoginButton);
+            this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "LOGIN";
+            ((System.ComponentModel.ISupportInitialize)(this.userIconBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.passwordIconBox)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

@@ -28,101 +28,102 @@
         /// </summary>
         private void InitializeComponent()
         {
-            logoutButton = new Button();
-            AccountDetailsButton = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
-            UsernameLabel = new Label();
-            SuspendLayout();
+            this.logoutButton = new System.Windows.Forms.Button();
+            this.AccountDetailsButton = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.SuspendLayout();
             // 
             // logoutButton
             // 
-            logoutButton.Location = new Point(228, 250);
-            logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(210, 67);
-            logoutButton.TabIndex = 0;
-            logoutButton.Text = "LOGOUT";
-            logoutButton.UseVisualStyleBackColor = true;
-            logoutButton.Click += logoutButton_Click;
+            this.logoutButton.Location = new System.Drawing.Point(228, 250);
+            this.logoutButton.Name = "logoutButton";
+            this.logoutButton.Size = new System.Drawing.Size(210, 67);
+            this.logoutButton.TabIndex = 0;
+            this.logoutButton.Text = "LOGOUT";
+            this.logoutButton.UseVisualStyleBackColor = true;
+            this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
             // 
             // AccountDetailsButton
             // 
-            AccountDetailsButton.Location = new Point(12, 104);
-            AccountDetailsButton.Name = "AccountDetailsButton";
-            AccountDetailsButton.Size = new Size(210, 67);
-            AccountDetailsButton.TabIndex = 1;
-            AccountDetailsButton.Text = "ACCOUNT DETAILS";
-            AccountDetailsButton.UseVisualStyleBackColor = true;
-            AccountDetailsButton.Click += AccountDetailsButton_Click;
+            this.AccountDetailsButton.Location = new System.Drawing.Point(12, 104);
+            this.AccountDetailsButton.Name = "AccountDetailsButton";
+            this.AccountDetailsButton.Size = new System.Drawing.Size(210, 67);
+            this.AccountDetailsButton.TabIndex = 1;
+            this.AccountDetailsButton.Text = "ACCOUNT DETAILS";
+            this.AccountDetailsButton.UseVisualStyleBackColor = true;
+            this.AccountDetailsButton.Click += new System.EventHandler(this.AccountDetailsButton_Click);
             // 
             // button2
             // 
-            button2.Location = new Point(12, 177);
-            button2.Name = "button2";
-            button2.Size = new Size(210, 67);
-            button2.TabIndex = 2;
-            button2.Text = "DTR";
-            button2.UseVisualStyleBackColor = true;
+            this.button2.Location = new System.Drawing.Point(12, 177);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(210, 67);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "DTR";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            button3.Location = new Point(228, 104);
-            button3.Name = "button3";
-            button3.Size = new Size(210, 67);
-            button3.TabIndex = 3;
-            button3.Text = "MANAGE ACCOUNT";
-            button3.UseVisualStyleBackColor = true;
+            this.button3.Location = new System.Drawing.Point(228, 104);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(210, 67);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "MANAGE ACCOUNT";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            button4.Location = new Point(12, 250);
-            button4.Name = "button4";
-            button4.Size = new Size(210, 67);
-            button4.TabIndex = 4;
-            button4.Text = "PAY SLIP";
-            button4.UseVisualStyleBackColor = true;
+            this.button4.Location = new System.Drawing.Point(12, 250);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(210, 67);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "PAY SLIP";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
-            button5.Location = new Point(228, 177);
-            button5.Name = "button5";
-            button5.Size = new Size(210, 67);
-            button5.TabIndex = 5;
-            button5.Text = "TICKETS";
-            button5.UseVisualStyleBackColor = true;
+            this.button5.Location = new System.Drawing.Point(228, 177);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(210, 67);
+            this.button5.TabIndex = 5;
+            this.button5.Text = "TICKETS";
+            this.button5.UseVisualStyleBackColor = true;
             // 
             // UsernameLabel
             // 
-            UsernameLabel.AutoSize = true;
-            UsernameLabel.Location = new Point(12, 9);
-            UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(221, 29);
-            UsernameLabel.TabIndex = 6;
-            UsernameLabel.Text = "Welcome, Username!";
+            this.UsernameLabel.AutoSize = true;
+            this.UsernameLabel.Location = new System.Drawing.Point(12, 9);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(221, 29);
+            this.UsernameLabel.TabIndex = 6;
+            this.UsernameLabel.Text = "Welcome, Username!";
             // 
             // HomeForm
             // 
-            AutoScaleDimensions = new SizeF(12F, 29F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(450, 429);
-            Controls.Add(UsernameLabel);
-            Controls.Add(button5);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(AccountDetailsButton);
-            Controls.Add(logoutButton);
-            Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(5, 6, 5, 6);
-            Name = "HomeForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "HomeForm";
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 29F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ClientSize = new System.Drawing.Size(450, 429);
+            this.Controls.Add(this.UsernameLabel);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.AccountDetailsButton);
+            this.Controls.Add(this.logoutButton);
+            this.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.Name = "HomeForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "HomeForm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
