@@ -44,7 +44,7 @@ namespace PayrollSystem
             }
             else
             {
-
+                MessageBox.Show("Are you sure you want to cancel Change Password?", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
