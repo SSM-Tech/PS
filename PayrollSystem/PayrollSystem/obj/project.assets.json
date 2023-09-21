@@ -1810,23 +1810,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ITLAB1-PC4\\.nuget\\packages\\": {},
+    "C:\\Users\\silve\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Desktop\\repo\\PS\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
+      "projectUniqueName": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
       "projectName": "PayrollSystem",
-      "projectPath": "D:\\Desktop\\repo\\PS\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
-      "packagesPath": "C:\\Users\\ITLAB1-PC4\\.nuget\\packages\\",
-      "outputPath": "D:\\Desktop\\repo\\PS\\PayrollSystem\\PayrollSystem\\obj\\",
+      "projectPath": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\PayrollSystem.csproj",
+      "packagesPath": "C:\\Users\\silve\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\silve\\OneDrive\\Desktop\\SchoolProjects\\IM101\\Payroll System\\PayrollSystem\\PayrollSystem\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ITLAB1-PC4\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\silve\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1882,7 +1882,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
