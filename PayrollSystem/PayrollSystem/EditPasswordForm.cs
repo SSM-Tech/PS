@@ -35,26 +35,31 @@ namespace PayrollSystem
 
         private void ChangePass(DataTable? allAccDetail)
         {
-            if (allAccDetail != null)
+            string oldPass = OldPassTextBox.Text;
+            string oldPassConf = allAccDetail.Rows[0]["password"].ToString();
+            string newPass = NewPassTextBox.Text;
+            string newPassConf = ConfNewPassTextBox.Text;
+            if (oldPass != "" && newPass != "" && newPassConf != "")
             {
-                StringBuilder message = new StringBuilder();
-
-                // Iterate through rows and columns to build the message
-                foreach (DataRow row in allAccDetail.Rows)
-                {
-                    foreach (DataColumn col in allAccDetail.Columns)
-                    {
-                        message.Append($"{col.ColumnName}: {row[col].ToString()}, ");
-                    }
-                    message.AppendLine(); // Add a new line for each row
-                }
-
-                // Display the message in a MessageBox
-                MessageBox.Show(message.ToString(), "DataTable Contents", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("New Password Does Not Match");
             }
             else
             {
-                MessageBox.Show("DataTable is null.", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (oldPassConf == oldPass)
+                {
+                    if (newPass == newPassConf)
+                    {
+                        MessageBox.Show("Confirm");
+                    }
+                    else
+                    {
+                        MessageBox.Show("New Password Does Not Match");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Wrong Old Password");
+                }
             }
         }
         private void ConfirmButton_Click(object sender, EventArgs e)
@@ -63,7 +68,7 @@ namespace PayrollSystem
             {
             ChangePass(allAccDetail);
             }
-                else
+            else
             {
                 MessageBox.Show("Old Password should not be Empty?", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
