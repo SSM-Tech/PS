@@ -1,0 +1,20 @@
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.exe
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.deps.json
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.runtimeconfig.json
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.dll
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.pdb
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\MySql.Data.DLL
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.csproj.AssemblyReference.cache
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.LoginForm.resources
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.csproj.GenerateResource.cache
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.AssemblyInfoInputs.cache
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.AssemblyInfo.cs
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.csproj.CoreCompileInputs.cache
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.csproj.CopyComplete
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.dll
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\refint\Payroll System.dll
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.pdb
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.genruntimeconfig.cache
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\ref\Payroll System.dll
+C:\Users\silve\OneDrive\Desktop\SchoolProjects\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.HomeForm.resources

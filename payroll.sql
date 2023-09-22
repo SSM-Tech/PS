@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 13, 2023 at 03:00 PM
+-- Generation Time: Sep 22, 2023 at 04:16 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -30,14 +30,11 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
   `userID` double NOT NULL AUTO_INCREMENT,
-  `employeeID` double NOT NULL,
+  `staffID` double NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `isEnabled` double NOT NULL DEFAULT '1',
-  `accountDescription` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Employee',
   `accountLevel` double NOT NULL DEFAULT '1',
-  `salary` double NOT NULL DEFAULT '0',
-  `allowance` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`userID`),
   UNIQUE KEY `userID_Unique` (`userID`) USING BTREE,
   KEY `userID_Index` (`userID`),
@@ -49,11 +46,11 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`userID`, `employeeID`, `username`, `password`, `isEnabled`, `accountDescription`, `accountLevel`, `salary`, `allowance`) VALUES
-(1, 1, 'johnrey', 'johnrey', 1, 'Employee', 3, 0, 0),
-(2, 2, 'laurence', 'laurence', 1, 'employee', 2, 0, 0),
-(3, 3, 'username', 'password', 0, 'Test', 1, 0, 0),
-(5, 5, 'test', 'test', 1, 'Manager', 2, 3, 3);
+INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`, `accountLevel`) VALUES
+(1, 1, 'johnrey', 'johnrey', 1, 3),
+(2, 2, 'laurence', 'laurence', 1, 2),
+(3, 3, 'username', 'password', 0, 1),
+(5, 5, 'test', 'test', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -94,35 +91,6 @@ CREATE TABLE IF NOT EXISTS `dtrtickets` (
   UNIQUE KEY `dtrTicketID_Unique` (`dtrTicketID`) USING BTREE,
   KEY `dtrTicketID_Index` (`dtrTicketID`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employee`
---
-
-DROP TABLE IF EXISTS `employee`;
-CREATE TABLE IF NOT EXISTS `employee` (
-  `employeeID` double NOT NULL AUTO_INCREMENT,
-  `managerID` double NOT NULL,
-  `firstName` varchar(50) NOT NULL,
-  `lastName` varchar(50) NOT NULL,
-  PRIMARY KEY (`employeeID`),
-  UNIQUE KEY `employeeID_Unique` (`employeeID`) USING BTREE,
-  KEY `employeeID_Index` (`employeeID`) USING BTREE,
-  KEY `firstName_Index` (`firstName`) USING BTREE,
-  KEY `lastName_Index` (`lastName`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `employee`
---
-
-INSERT INTO `employee` (`employeeID`, `managerID`, `firstName`, `lastName`) VALUES
-(1, 0, 'johnrey', 'silverio'),
-(2, 1, 'laurence', 'silverio'),
-(3, 1, 'username', 'password'),
-(5, 1, 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -186,6 +154,62 @@ CREATE TABLE IF NOT EXISTS `paysliptickets` (
   UNIQUE KEY `payslipTicketID_Unique` (`payslipTicketID`) USING BTREE,
   KEY `payslipTicketID_Index` (`payslipTicketID`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+DROP TABLE IF EXISTS `staff`;
+CREATE TABLE IF NOT EXISTS `staff` (
+  `staffID` double NOT NULL AUTO_INCREMENT,
+  `managerID` double DEFAULT NULL,
+  `firstName` varchar(50) NOT NULL,
+  `lastName` varchar(50) NOT NULL,
+  `sex` varchar(50) DEFAULT NULL,
+  `DOB` datetime DEFAULT NULL,
+  `position` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Employee',
+  `salary` decimal(18,2) DEFAULT '500.00',
+  `allowance` decimal(18,2) DEFAULT NULL,
+  `stationNo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`staffID`),
+  UNIQUE KEY `employeeID_Unique` (`staffID`) USING BTREE,
+  KEY `employeeID_Index` (`staffID`) USING BTREE,
+  KEY `firstName_Index` (`firstName`) USING BTREE,
+  KEY `lastName_Index` (`lastName`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`staffID`, `managerID`, `firstName`, `lastName`, `sex`, `DOB`, `position`, `salary`, `allowance`, `stationNo`) VALUES
+(1, 1, 'johnrey', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
+(2, 1, 'laurence', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
+(3, 1, 'username', 'password', 'm', NULL, 'Employee', '500.00', '0.00', 'S002'),
+(5, 1, 'test', 'test', 'm', NULL, 'Manager', '1000.00', '500.00', 'S002');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `station`
+--
+
+DROP TABLE IF EXISTS `station`;
+CREATE TABLE IF NOT EXISTS `station` (
+  `stationNo` varchar(50) NOT NULL,
+  `stationName` varchar(50) DEFAULT NULL,
+  `stationFloor` int DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `station`
+--
+
+INSERT INTO `station` (`stationNo`, `stationName`, `stationFloor`) VALUES
+('S001', 'Lobby', 1),
+('S002', 'Grocery', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
