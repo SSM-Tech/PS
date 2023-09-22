@@ -19,7 +19,6 @@ namespace Payroll_System
         {
             InitializeComponent();
         }
-
         private void Login()
         {
             string username = UsernameTextBox.Text.ToString();
@@ -34,7 +33,7 @@ namespace Payroll_System
             DataTable? userDataTable = new();
 
             MySqlDataAdapter adapter = new();
-            
+
             MySqlCommand command = new(dbQuery.LoginQuery(), db.getConnection());
 
             command.Parameters.Add("@usn", MySqlDbType.VarChar).Value = username;
@@ -52,12 +51,20 @@ namespace Payroll_System
 
                 if (isEnabled == "1")
                 {
-                    //MySqlCommand userdet = new(dbQuery.UserDetailsQuery(), db.getConnection());
-                    //userdet.Parameters.Add("@usn", MySqlDbType.VarChar).Value = username;
-                    //userdet.Parameters.Add("@pass", MySqlDbType.VarChar).Value = password;
-                    //adapter.SelectCommand = userdet;
-                    //adapter.Fill(userDataTable);
+                    string staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
+
+                    MySqlDataAdapter mscAdapter = new();
+
+                    MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), db.getConnection());
+
+                    mscUserDetail.Parameters.Add("@staffID", MySqlDbType.VarChar).Value = staffID;
+
+                    mscAdapter.SelectCommand = mscUserDetail;
+
+                    mscAdapter.Fill(userDataTable);
+
                     UserDetails.UserDetail = userDataTable;
+
                     MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
                     new HomeForm().Show();
@@ -124,6 +131,27 @@ namespace Payroll_System
             {
                 PasswordPlaceHolderLabel.Show();
             }
+        }
+        private void UsernamePlaceHolderLabel_Click(object sender, EventArgs e)
+        {
+            UsernameTextBox.Focus();
+        }
+        private void PasswordPlaceHolderLabel_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.Focus();
+        }
+        private void HidePasswordIcon_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.UseSystemPasswordChar = false;
+            HidePasswordIcon.Hide();
+            ShowPasswordIcon.Show();
+        }
+
+        private void ShowPasswordIcon_Click(object sender, EventArgs e)
+        {
+            PasswordTextBox.UseSystemPasswordChar = true;
+            ShowPasswordIcon.Hide();
+            HidePasswordIcon.Show();
         }
 
         private void LoginButton_KeyDown(object sender, KeyEventArgs e)

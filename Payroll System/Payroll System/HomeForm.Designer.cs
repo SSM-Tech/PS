@@ -34,7 +34,7 @@
             button3 = new Button();
             button2 = new Button();
             AccountDetailsButton = new Button();
-            logoutButton = new Button();
+            LogoutButton = new Button();
             SuspendLayout();
             // 
             // UsernameLabel
@@ -92,15 +92,15 @@
             AccountDetailsButton.UseVisualStyleBackColor = true;
             AccountDetailsButton.Click += AccountDetailsButton_Click;
             // 
-            // logoutButton
+            // LogoutButton
             // 
-            logoutButton.Location = new Point(228, 250);
-            logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(210, 67);
-            logoutButton.TabIndex = 12;
-            logoutButton.Text = "LOGOUT";
-            logoutButton.UseVisualStyleBackColor = true;
-            logoutButton.Click += logoutButton_Click;
+            LogoutButton.Location = new Point(228, 250);
+            LogoutButton.Name = "LogoutButton";
+            LogoutButton.Size = new Size(210, 67);
+            LogoutButton.TabIndex = 12;
+            LogoutButton.Text = "LOGOUT";
+            LogoutButton.UseVisualStyleBackColor = true;
+            LogoutButton.Click += LogoutButton_Click;
             // 
             // HomeForm
             // 
@@ -114,13 +114,14 @@
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(AccountDetailsButton);
-            Controls.Add(logoutButton);
+            Controls.Add(LogoutButton);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(5, 6, 5, 6);
             Name = "HomeForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "HomeForm";
+            Click += LogoutButton_Click;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -133,6 +134,6 @@
         private Button button3;
         private Button button2;
         private Button AccountDetailsButton;
-        private Button logoutButton;
+        private Button LogoutButton;
     }
 }

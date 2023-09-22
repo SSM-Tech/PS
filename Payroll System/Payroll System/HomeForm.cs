@@ -14,17 +14,16 @@ namespace Payroll_System
 {
     public partial class HomeForm : Form
     {
-        private DataTable? userDetail;
         public HomeForm()
         {
             InitializeComponent();
         }
 
-        private void logoutButton_Click(object sender, EventArgs e)
+        private void LogoutButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to Logout?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                LoginForm loginForm = new LoginForm();
+                LoginForm loginForm = new();
                 loginForm.Show();
                 this.Close();
             }
@@ -35,7 +34,7 @@ namespace Payroll_System
             DataTable? retrievedTable = UserDetails.UserDetail;
             if (retrievedTable != null && retrievedTable.Rows.Count > 0)
             {
-                StringBuilder userDetailStringBuilder = new StringBuilder();
+                StringBuilder userDetailStringBuilder = new();
 
                 foreach (DataRow row in retrievedTable.Rows)
                 {

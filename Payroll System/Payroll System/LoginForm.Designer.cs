@@ -66,16 +66,18 @@
             // 
             HidePasswordIcon.BackColor = SystemColors.Window;
             HidePasswordIcon.Image = (Image)resources.GetObject("HidePasswordIcon.Image");
-            HidePasswordIcon.Location = new Point(390, 137);
+            HidePasswordIcon.Location = new Point(359, 137);
             HidePasswordIcon.Name = "HidePasswordIcon";
             HidePasswordIcon.Size = new Size(25, 25);
             HidePasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
             HidePasswordIcon.TabIndex = 27;
             HidePasswordIcon.TabStop = false;
+            HidePasswordIcon.Click += HidePasswordIcon_Click;
             // 
             // ShowPasswordIcon
             // 
             ShowPasswordIcon.BackColor = SystemColors.Window;
+            ShowPasswordIcon.Image = (Image)resources.GetObject("ShowPasswordIcon.Image");
             ShowPasswordIcon.Location = new Point(390, 137);
             ShowPasswordIcon.Name = "ShowPasswordIcon";
             ShowPasswordIcon.Size = new Size(25, 25);
@@ -83,6 +85,7 @@
             ShowPasswordIcon.TabIndex = 26;
             ShowPasswordIcon.TabStop = false;
             ShowPasswordIcon.Visible = false;
+            ShowPasswordIcon.Click += ShowPasswordIcon_Click;
             // 
             // PasswordPlaceHolderLabel
             // 
@@ -95,6 +98,7 @@
             PasswordPlaceHolderLabel.Size = new Size(107, 29);
             PasswordPlaceHolderLabel.TabIndex = 25;
             PasswordPlaceHolderLabel.Text = "Password";
+            PasswordPlaceHolderLabel.Click += PasswordPlaceHolderLabel_Click;
             // 
             // UsernamePlaceHolderLabel
             // 
@@ -108,6 +112,7 @@
             UsernamePlaceHolderLabel.Size = new Size(114, 29);
             UsernamePlaceHolderLabel.TabIndex = 24;
             UsernamePlaceHolderLabel.Text = "Username";
+            UsernamePlaceHolderLabel.Click += UsernamePlaceHolderLabel_Click;
             // 
             // passwordIconBox
             // 
