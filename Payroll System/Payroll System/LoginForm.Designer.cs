@@ -136,6 +136,8 @@
             // 
             // ExitButton
             // 
+            ExitButton.Image = Properties.Resources.Exit;
+            ExitButton.ImageAlign = ContentAlignment.MiddleLeft;
             ExitButton.Location = new Point(223, 268);
             ExitButton.Name = "ExitButton";
             ExitButton.Size = new Size(202, 52);
@@ -166,6 +168,8 @@
             // 
             // ClearButton
             // 
+            ClearButton.Image = Properties.Resources.clear;
+            ClearButton.ImageAlign = ContentAlignment.MiddleLeft;
             ClearButton.Location = new Point(12, 268);
             ClearButton.Name = "ClearButton";
             ClearButton.Size = new Size(202, 52);
@@ -176,6 +180,9 @@
             // 
             // LoginButton
             // 
+            LoginButton.BackgroundImageLayout = ImageLayout.None;
+            LoginButton.Image = (Image)resources.GetObject("LoginButton.Image");
+            LoginButton.ImageAlign = ContentAlignment.MiddleLeft;
             LoginButton.Location = new Point(12, 196);
             LoginButton.Name = "LoginButton";
             LoginButton.Size = new Size(413, 52);

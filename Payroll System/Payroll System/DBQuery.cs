@@ -9,23 +9,9 @@ namespace Payroll_System
 {
     internal class DBQuery
     {
-        private string loginQuery = @"SELECT * FROM `account` WHERE `username` = @usn AND `password` = @pass";
-        private string userDetailsQuery = @"
-                    SELECT 
-                        a.*,
-                        stf.managerID,
-                        stf.firstName,
-                        stf.lastName,
-                        stf.sex,
-                        stf.DOB,
-                        stf.position,
-                        stf.salary,
-                        stf.allowance
-                    FROM account a
-                    JOIN staff stf ON a.staffID = stf.staffID
-                    JOIN station stn ON stf.stationNO = stn.stationNO
-                    JOIN manager m ON stf.managerID = m.managerID
-                    Where a.staffID = @staffID";
+        private string loginQuery = @"CALL `getLogin`(@p0, @p1)";
+        private string userDetailsQuery = @"CALL `getAccDetails`(@p0)";
+        private string checkUsername = @"CALL `checkUsername`(@p0)";
 
         public string LoginQuery()
         {
@@ -35,6 +21,11 @@ namespace Payroll_System
         public string UserDetailsQuery()
         {
             return userDetailsQuery;
+        }
+
+        public string CheckUsername()
+        {
+            return checkUsername;
         }
     }
 }

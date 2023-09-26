@@ -36,8 +36,8 @@ namespace Payroll_System
 
             MySqlCommand command = new(dbQuery.LoginQuery(), db.getConnection());
 
-            command.Parameters.Add("@usn", MySqlDbType.VarChar).Value = username;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = password;
+            command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username;
+            command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = password;
 
             adapter.SelectCommand = command;
 
@@ -57,7 +57,7 @@ namespace Payroll_System
 
                     MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), db.getConnection());
 
-                    mscUserDetail.Parameters.Add("@staffID", MySqlDbType.VarChar).Value = staffID;
+                    mscUserDetail.Parameters.Add("@p0", MySqlDbType.VarChar).Value = staffID;
 
                     mscAdapter.SelectCommand = mscUserDetail;
 
@@ -67,7 +67,7 @@ namespace Payroll_System
 
                     MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
-                    new HomeForm().Show();
+                    new MenuForm().Show();
                 }
                 else
                 {
