@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Tls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,108 +15,113 @@ namespace Payroll_System
 {
     public partial class EditAccountForm : Form
     {
+        bool updateWasSuccessful;
+        public event EventHandler UpdateSuccessfulEvent;
         DataTable? retrievedTable = UserDetails.UserDetail;
-        string staffID;
         string firstname;
         string lastname;
-        string username;
-        string sex;
+        private string selectedGender = "Prefer not to say";
         DateTime dOB;
-        string password;
-        bool usernameChecked;
+        string? password;
         public EditAccountForm()
         {
             InitializeComponent();
-            staffID = retrievedTable.Rows[0][columnName: "staffID"].ToString();
+
             firstname = retrievedTable.Rows[0][columnName: "firstName"].ToString();
             lastname = retrievedTable.Rows[0][columnName: "lastName"].ToString();
-            username = retrievedTable.Rows[0][columnName: "username"].ToString();
-            sex = retrievedTable.Rows[0][columnName: "sex"].ToString();
-            dOB = ((DateTime)retrievedTable.Rows[0]["DOB"]).Date;
+            string sex = retrievedTable.Rows[0][columnName: "sex"].ToString();
+            dOB = (DateTime)retrievedTable.Rows[0][columnName: "DOB"];
 
             TxtFirstName.Text = firstname;
             TxtLastName.Text = lastname;
-            TxtUsername.Text = username;
-            TxtSex.Text = sex;
-            TxtDOB.Text = dOB.ToString();
+            switch (sex)
+            {
+                case "Male":
+                    selectedGender = "Male";
+                    break;
+                case "Female":
+                    selectedGender = "Female";
+                    break;
+                case "Other":
+                    selectedGender = "Other";
+                    break;
+            }
 
+            switch (selectedGender)
+            {
+                case "Male":
+                    RBTNMale.Checked = true;
+                    break;
+                case "Female":
+                    RBTNFemale.Checked = true;
+                    break;
+                case "Other":
+                    RBTNOther.Checked = true;
+                    break;
+                case "Prefer not to say":
+                    RBTNPreferNotToSay.Checked = true;
+                    break;
+            }
+
+            DOBCalendar.Value = dOB;
+
+            DOBCalendar.Format = DateTimePickerFormat.Custom;
+            DOBCalendar.CustomFormat = "MM/dd/yyyy";
         }
         private void ChangeAccountConfirm()
         {
-            DBConn db = new();
+            DBConn dbConn = new();
 
             DBQuery dbQuery = new DBQuery();
 
-            MySqlDataAdapter adapter = new();
-
             password = retrievedTable.Rows[0][columnName: "password"].ToString();
 
-            
-                if (TxtPass.Text == password)
+
+            if (TxtPass.Text == password)
+            {
+                if (MessageBox.Show("Are you sure you want to Confirm Editing?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    usernameChecked = false;
-                    if (TxtUsername.Text != username)
+                    string staffID = retrievedTable.Rows[0][columnName: "staffID"].ToString();
+                    using (MySqlConnection dbConnection = dbConn.getConnection())
                     {
-                        DataTable? userNameTable = new();
+                        dbConnection.Open();
 
-                        MySqlCommand command = new(dbQuery.CheckUsername(), db.getConnection());
-
-                        command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = TxtUsername.Text;
-
-                        adapter.SelectCommand = command;
-
-                        adapter.Fill(userNameTable);
-
-                        int rowCheck = 0;
-
-                        if (userNameTable.Rows.Count > rowCheck)
+                        using (MySqlCommand acommand = new MySqlCommand(dbQuery.UpdateAccountAndStaff(), dbConnection))
                         {
-                            MessageBox.Show("Username is already Taken", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            acommand.Parameters.Add("@p0", MySqlDbType.VarChar).Value = staffID;
+                            acommand.Parameters.Add("@p1", MySqlDbType.VarChar).Value = TxtFirstName.Text;
+                            acommand.Parameters.Add("@p2", MySqlDbType.VarChar).Value = TxtLastName.Text;
+                            acommand.Parameters.Add("@p3", MySqlDbType.VarChar).Value = selectedGender;
+                            acommand.Parameters.Add("@p4", MySqlDbType.Date).Value = DOBCalendar.Value;
+
+                            int rowsAffected = acommand.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                updateWasSuccessful = true;
+                                retrievedTable.Rows[0][columnName: "firstName"] = TxtFirstName.Text;
+                                retrievedTable.Rows[0][columnName: "lastName"] = TxtLastName.Text;
+                                retrievedTable.Rows[0][columnName: "sex"] = selectedGender;
+                                retrievedTable.Rows[0][columnName: "DOB"] = DOBCalendar.Value;
+                                this.Hide();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Failed to update the database.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
-                        else
-                        {
-                            usernameChecked = true;
-
-                        }
-                    }
-                    else
-                    {
-                        usernameChecked = true;
-                    }
-                    if (usernameChecked == true)
-                    {
-                        if (MessageBox.Show("Are you sure you want to Cancel Editing?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                        {
-                        MySqlCommand command = new(dbQuery.UpdateAccountAndStaff(), db.getConnection());
-                        command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = TxtUsername.Text;
-                        command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = staffID;
-                        command.Parameters.Add("@p2", MySqlDbType.VarChar).Value = TxtFirstName.Text;
-                        command.Parameters.Add("@p3", MySqlDbType.VarChar).Value = TxtLastName.Text;
-                        command.Parameters.Add("@p4", MySqlDbType.VarChar).Value = TxtSex.Text;
-                        command.Parameters.Add("@p5", MySqlDbType.VarChar).Value = TxtDOB.Text;
-
-                        
-                        retrievedTable.Rows[0][columnName: "firstName"] = TxtFirstName.Text;
-                        retrievedTable.Rows[0][columnName: "lastName"] = TxtLastName.Text;
-                        retrievedTable.Rows[0][columnName: "username"] = TxtUsername.Text;
-                        retrievedTable.Rows[0][columnName: "sex"] = TxtSex.Text;
-                        //retrievedTable.Rows[0]["DOB"] = new DateTime(yyyy, mm, dd);
-                    }
-                    }
-                    else
-                    {
-                        
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Wrong Password", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                }
-            
+            }
+            else
+            {
+                MessageBox.Show("Wrong Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
-            if (TxtFirstName.Text != "" && TxtLastName.Text != "" && TxtUsername.Text != "" && TxtSex.Text != "")
+            updateWasSuccessful = false;
+            if (TxtFirstName.Text != "" && TxtLastName.Text != "")
             {
                 ChangeAccountConfirm();
             }
@@ -123,13 +129,44 @@ namespace Payroll_System
             {
                 MessageBox.Show("No Empty Fields Allowed", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+
+            if (updateWasSuccessful == true)
+            {
+                UpdateSuccessfulEvent?.Invoke(this, EventArgs.Empty);
+                this.Close();
+            }
         }
-    private void CancelButton_Click(object sender, EventArgs e)
+        private void CancelButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to Cancel Editing?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 this.Close();
             }
+        }
+
+        private void RBTNMale_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RBTNMale.Checked)
+                selectedGender = "Male";
+        }
+
+        private void RBTNFemale_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RBTNFemale.Checked)
+                selectedGender = "Female";
+        }
+
+        private void RBTNOther_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RBTNOther.Checked)
+                selectedGender = "Other";
+        }
+
+        private void RBTNPreferNotToSay_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RBTNPreferNotToSay.Checked)
+                selectedGender = "Prefer not to say";
         }
     }
 }

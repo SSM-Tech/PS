@@ -23,7 +23,7 @@ namespace Payroll_System
             string username = UsernameTextBox.Text.ToString();
             string password = PasswordTextBox.Text.ToString();
 
-            DBConn db = new();
+            DBConn dbConn = new();
 
             DBQuery dbQuery = new DBQuery();
 
@@ -33,7 +33,7 @@ namespace Payroll_System
 
             MySqlDataAdapter adapter = new();
 
-            MySqlCommand command = new(dbQuery.LoginQuery(), db.getConnection());
+            MySqlCommand command = new(dbQuery.LoginQuery(), dbConn.getConnection());
 
             command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username;
             command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = password;
@@ -54,13 +54,13 @@ namespace Payroll_System
 
                     MySqlDataAdapter mscAdapter = new();
 
-                    MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), db.getConnection());
+                    MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
 
                     mscUserDetail.Parameters.Add("@p0", MySqlDbType.VarChar).Value = staffID;
 
                     mscAdapter.SelectCommand = mscUserDetail;
 
-                    mscAdapter.Fill(userDataTable);//Note Error Date
+                    mscAdapter.Fill(userDataTable);
 
                     UserDetails.UserDetail = userDataTable;
 

@@ -186,7 +186,7 @@
             TxtFullName.Name = "TxtFullName";
             TxtFullName.ReadOnly = true;
             TxtFullName.Size = new Size(459, 56);
-            TxtFullName.TabIndex = 11;
+            TxtFullName.TabIndex = 0;
             // 
             // TxtUserID
             // 
@@ -197,7 +197,7 @@
             TxtUserID.Name = "TxtUserID";
             TxtUserID.ReadOnly = true;
             TxtUserID.Size = new Size(459, 56);
-            TxtUserID.TabIndex = 12;
+            TxtUserID.TabIndex = 5;
             TxtUserID.UseSystemPasswordChar = true;
             // 
             // TxtSex
@@ -209,7 +209,7 @@
             TxtSex.Name = "TxtSex";
             TxtSex.ReadOnly = true;
             TxtSex.Size = new Size(459, 56);
-            TxtSex.TabIndex = 13;
+            TxtSex.TabIndex = 2;
             // 
             // TxtUsername
             // 
@@ -220,7 +220,7 @@
             TxtUsername.Name = "TxtUsername";
             TxtUsername.ReadOnly = true;
             TxtUsername.Size = new Size(459, 56);
-            TxtUsername.TabIndex = 14;
+            TxtUsername.TabIndex = 1;
             // 
             // TxtDOB
             // 
@@ -231,7 +231,7 @@
             TxtDOB.Name = "TxtDOB";
             TxtDOB.ReadOnly = true;
             TxtDOB.Size = new Size(459, 56);
-            TxtDOB.TabIndex = 15;
+            TxtDOB.TabIndex = 3;
             // 
             // TxtAccLvl
             // 
@@ -242,7 +242,7 @@
             TxtAccLvl.Name = "TxtAccLvl";
             TxtAccLvl.ReadOnly = true;
             TxtAccLvl.Size = new Size(459, 56);
-            TxtAccLvl.TabIndex = 17;
+            TxtAccLvl.TabIndex = 6;
             TxtAccLvl.UseSystemPasswordChar = true;
             // 
             // TxtStaffID
@@ -254,7 +254,7 @@
             TxtStaffID.Name = "TxtStaffID";
             TxtStaffID.ReadOnly = true;
             TxtStaffID.Size = new Size(459, 56);
-            TxtStaffID.TabIndex = 18;
+            TxtStaffID.TabIndex = 4;
             TxtStaffID.UseSystemPasswordChar = true;
             // 
             // TxtStationNum
@@ -266,7 +266,7 @@
             TxtStationNum.Name = "TxtStationNum";
             TxtStationNum.ReadOnly = true;
             TxtStationNum.Size = new Size(459, 56);
-            TxtStationNum.TabIndex = 19;
+            TxtStationNum.TabIndex = 7;
             TxtStationNum.UseSystemPasswordChar = true;
             // 
             // TxtSalary
@@ -278,7 +278,7 @@
             TxtSalary.Name = "TxtSalary";
             TxtSalary.ReadOnly = true;
             TxtSalary.Size = new Size(459, 56);
-            TxtSalary.TabIndex = 20;
+            TxtSalary.TabIndex = 8;
             TxtSalary.UseSystemPasswordChar = true;
             // 
             // TxtAllowance
@@ -290,7 +290,7 @@
             TxtAllowance.Name = "TxtAllowance";
             TxtAllowance.ReadOnly = true;
             TxtAllowance.Size = new Size(459, 56);
-            TxtAllowance.TabIndex = 21;
+            TxtAllowance.TabIndex = 9;
             TxtAllowance.UseSystemPasswordChar = true;
             // 
             // EditAccountButton
@@ -299,7 +299,7 @@
             EditAccountButton.Location = new Point(302, 592);
             EditAccountButton.Name = "EditAccountButton";
             EditAccountButton.Size = new Size(209, 56);
-            EditAccountButton.TabIndex = 22;
+            EditAccountButton.TabIndex = 10;
             EditAccountButton.Text = "EDIT ACCOUNT";
             EditAccountButton.UseVisualStyleBackColor = true;
             EditAccountButton.Click += button1_Click;
@@ -310,9 +310,10 @@
             button2.Location = new Point(678, 592);
             button2.Name = "button2";
             button2.Size = new Size(209, 56);
-            button2.TabIndex = 23;
+            button2.TabIndex = 11;
             button2.Text = "CHANGE PASSWORD";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // StaffIDShowIcon
             // 

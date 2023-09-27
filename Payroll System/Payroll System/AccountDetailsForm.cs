@@ -12,19 +12,27 @@ namespace Payroll_System
 {
     public partial class AccountDetailsForm : Form
     {
+        public event EventHandler UpdateSuccessfulEvent;
         DataTable? retrievedTable = UserDetails.UserDetail;
         MenuForm menuForm = new MenuForm();
 
         public AccountDetailsForm()
         {
             InitializeComponent();
+            ShowAccDetails();
+
+        }
+
+        public void ShowAccDetails()
+        {
             string username = retrievedTable.Rows[0][columnName: "username"].ToString();
             string accLevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
             string firstName = retrievedTable.Rows[0][columnName: "firstName"].ToString();
             string lastName = retrievedTable.Rows[0][columnName: "lastName"].ToString();
             string sex = retrievedTable.Rows[0][columnName: "sex"].ToString();
             string staffID = retrievedTable.Rows[0][columnName: "staffID"].ToString();
-            string dOB = retrievedTable.Rows[0][columnName: "DOB"].ToString();
+            DateTime dOB = (DateTime)retrievedTable.Rows[0][columnName: "DOB"];
+            string formattedDate = dOB.ToString("MM/dd/yyyy");
             string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
             string stationNum = retrievedTable.Rows[0][columnName: "stationNo"].ToString();
             string salary = retrievedTable.Rows[0][columnName: "salary"].ToString();
@@ -33,7 +41,7 @@ namespace Payroll_System
             TxtUsername.Text = username;
             TxtAccLvl.Text = accLevel;
             TxtSex.Text = sex;
-            TxtDOB.Text = dOB;
+            TxtDOB.Text = formattedDate;
             TxtStaffID.Text = staffID;
             TxtUserID.Text = userID;
             TxtStationNum.Text = stationNum;
@@ -118,7 +126,18 @@ namespace Payroll_System
         private void button1_Click(object sender, EventArgs e)
         {
             EditAccountForm editAccountForm = new EditAccountForm();
+            editAccountForm.UpdateSuccessfulEvent += EditAccountForm_UpdateSuccessfulEvent;
             editAccountForm.ShowDialog();
+        }
+        private void EditAccountForm_UpdateSuccessfulEvent(object sender, EventArgs e)
+        {
+            // Refresh data in AccountDetailsForm
+            ShowAccDetails();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

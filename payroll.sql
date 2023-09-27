@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 27, 2023 at 02:51 PM
+-- Generation Time: Sep 27, 2023 at 07:29 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -50,18 +50,12 @@ DROP PROCEDURE IF EXISTS `getLogin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin` (IN `usn` VARCHAR(50), IN `pass` VARCHAR(50))   SELECT * FROM account WHERE username = usn AND password = pass$$
 
 DROP PROCEDURE IF EXISTS `updateAccountAndStaff`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAccountAndStaff` (IN `p_uname` VARCHAR(50), IN `p_staffID` DOUBLE, IN `p_fname` VARCHAR(50), IN `p_lname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATE)   BEGIN
-    UPDATE account
-    SET username = p_uname
-    WHERE staffID = p_staffID;
-
-    UPDATE staff
-    SET firstName = p_fname,
-        lastName = p_lname,
-        sex = p_sex,
-        DOB = p_dOB
-    WHERE staff.staffID = p_staffID;
-END$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAccountAndStaff` (IN `p_staffID` DOUBLE, IN `p_fname` VARCHAR(50), IN `p_lname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATETIME)   UPDATE staff
+SET firstName = p_fname,
+	lastName = p_lname,
+	sex = p_sex,
+	DOB = p_dOB
+WHERE staff.staffID = p_staffID$$
 
 DELIMITER ;
 
@@ -94,7 +88,7 @@ INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`,
 (1, 1, 'johnrey', 'johnrey', 1, 3),
 (2, 2, 'laurence', 'laurence', 1, 2),
 (3, 3, 'username', 'password', 0, 1),
-(5, 5, 'test', 'test', 1, 2),
+(5, 5, 'awit', 'test', 1, 2),
 (7, 7, 'cho', 'cho', 1, 1);
 
 -- --------------------------------------------------------
@@ -213,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `sex` varchar(50) DEFAULT NULL,
-  `DOB` date DEFAULT NULL,
+  `DOB` datetime NOT NULL,
   `position` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Employee',
   `salary` decimal(18,2) DEFAULT '500.00',
   `allowance` decimal(18,2) DEFAULT NULL,
@@ -230,11 +224,11 @@ CREATE TABLE IF NOT EXISTS `staff` (
 --
 
 INSERT INTO `staff` (`staffID`, `managerID`, `firstName`, `lastName`, `sex`, `DOB`, `position`, `salary`, `allowance`, `stationNo`) VALUES
-(1, 1, 'John Rey', 'Silverio', 'Male', '0000-00-00', 'Employee', '500.00', '0.00', 'S001'),
-(2, 1, 'laurence', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
-(3, 1, 'username', 'password', 'm', NULL, 'Employee', '500.00', '0.00', 'S002'),
-(5, 1, 'test', 'test', 'm', NULL, 'Manager', '1000.00', '500.00', 'S002'),
-(7, 1, 'john matheo', 'morillo', 'm', NULL, 'Employee', '500.00', NULL, 'S001');
+(1, 1, 'John Rey', 'Silverio', 'Male', '2001-04-18 00:00:00', 'Employee', '500.00', '0.00', 'S001'),
+(2, 1, 'laurence', 'silverio', 'Male', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S001'),
+(3, 1, 'username', 'password', 'm', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S002'),
+(5, 1, 'test', 'test', 'Female', '2023-09-28 00:00:00', 'Manager', '1000.00', '500.00', 'S002'),
+(7, 1, 'john matheo', 'morillo', 'Prefer not to say', '2023-09-28 00:00:00', 'Employee', '500.00', NULL, 'S001');
 
 -- --------------------------------------------------------
 
