@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 27, 2023 at 03:41 AM
+-- Generation Time: Sep 27, 2023 at 02:51 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -48,6 +48,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE
 
 DROP PROCEDURE IF EXISTS `getLogin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin` (IN `usn` VARCHAR(50), IN `pass` VARCHAR(50))   SELECT * FROM account WHERE username = usn AND password = pass$$
+
+DROP PROCEDURE IF EXISTS `updateAccountAndStaff`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAccountAndStaff` (IN `p_uname` VARCHAR(50), IN `p_staffID` DOUBLE, IN `p_fname` VARCHAR(50), IN `p_lname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATE)   BEGIN
+    UPDATE account
+    SET username = p_uname
+    WHERE staffID = p_staffID;
+
+    UPDATE staff
+    SET firstName = p_fname,
+        lastName = p_lname,
+        sex = p_sex,
+        DOB = p_dOB
+    WHERE staff.staffID = p_staffID;
+END$$
 
 DELIMITER ;
 
@@ -199,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `sex` varchar(50) DEFAULT NULL,
-  `DOB` datetime DEFAULT NULL,
+  `DOB` date DEFAULT NULL,
   `position` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Employee',
   `salary` decimal(18,2) DEFAULT '500.00',
   `allowance` decimal(18,2) DEFAULT NULL,
@@ -216,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
 --
 
 INSERT INTO `staff` (`staffID`, `managerID`, `firstName`, `lastName`, `sex`, `DOB`, `position`, `salary`, `allowance`, `stationNo`) VALUES
-(1, 1, 'johnrey', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
+(1, 1, 'John Rey', 'Silverio', 'Male', '0000-00-00', 'Employee', '500.00', '0.00', 'S001'),
 (2, 1, 'laurence', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
 (3, 1, 'username', 'password', 'm', NULL, 'Employee', '500.00', '0.00', 'S002'),
 (5, 1, 'test', 'test', 'm', NULL, 'Manager', '1000.00', '500.00', 'S002'),
