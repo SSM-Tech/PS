@@ -12,6 +12,7 @@ namespace Payroll_System
         private string loginQuery = @"CALL `getLogin`(@p0, @p1)";
         private string userDetailsQuery = @"CALL `getAccDetails`(@p0)";
         private string checkUsername = @"CALL `checkUsername`(@p0)";
+        private string updateAccountAndStaff = @"CALL `updateAccountAndStaff`(@p0, @p1, @p2, @p3, @p4, @p5)";
 
         public string LoginQuery()
         {
@@ -26,6 +27,10 @@ namespace Payroll_System
         public string CheckUsername()
         {
             return checkUsername;
+        }
+        public string UpdateAccountAndStaff()
+        {
+            return updateAccountAndStaff;
         }
     }
 }

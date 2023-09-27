@@ -14,7 +14,6 @@ namespace Payroll_System
 {
     public partial class LoginForm : Form
     {
-        private DataTable? userDetail;
         public LoginForm()
         {
             InitializeComponent();
@@ -61,7 +60,7 @@ namespace Payroll_System
 
                     mscAdapter.SelectCommand = mscUserDetail;
 
-                    mscAdapter.Fill(userDataTable);
+                    mscAdapter.Fill(userDataTable);//Note Error Date
 
                     UserDetails.UserDetail = userDataTable;
 
@@ -160,6 +159,11 @@ namespace Payroll_System
             {
                 LoginButton_Click(sender, e);
             }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("If you forgot your password, please contact the HR or your Manager", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
