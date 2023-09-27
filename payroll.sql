@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 22, 2023 at 04:16 AM
+-- Generation Time: Sep 27, 2023 at 03:41 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -20,6 +20,36 @@ SET time_zone = "+00:00";
 --
 -- Database: `payroll`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+DROP PROCEDURE IF EXISTS `checkUsername`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkUsername` (IN `usn` VARCHAR(50))   SELECT username FROM account WHERE username = usn$$
+
+DROP PROCEDURE IF EXISTS `getAccDetails`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE)   SELECT 
+                        a.*,
+                        stf.managerID,
+                        stf.firstName,
+                        stf.lastName,
+                        stf.sex,
+                        stf.DOB,
+                        stf.position,
+                        stf.stationNo,
+                        stf.salary,
+                        stf.allowance
+                    FROM account a
+                    JOIN staff stf ON a.staffID = stf.staffID
+                    JOIN station stn ON stf.stationNO = stn.stationNO
+                    JOIN manager m ON stf.managerID = m.managerID
+                    Where a.staffID = staffID$$
+
+DROP PROCEDURE IF EXISTS `getLogin`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin` (IN `usn` VARCHAR(50), IN `pass` VARCHAR(50))   SELECT * FROM account WHERE username = usn AND password = pass$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -40,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   KEY `userID_Index` (`userID`),
   KEY `username_Index` (`username`) USING BTREE,
   KEY `accountLevel_Index` (`accountLevel`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `account`
@@ -50,7 +80,8 @@ INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`,
 (1, 1, 'johnrey', 'johnrey', 1, 3),
 (2, 2, 'laurence', 'laurence', 1, 2),
 (3, 3, 'username', 'password', 0, 1),
-(5, 5, 'test', 'test', 1, 2);
+(5, 5, 'test', 'test', 1, 2),
+(7, 7, 'cho', 'cho', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   KEY `employeeID_Index` (`staffID`) USING BTREE,
   KEY `firstName_Index` (`firstName`) USING BTREE,
   KEY `lastName_Index` (`lastName`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff`
@@ -188,7 +219,8 @@ INSERT INTO `staff` (`staffID`, `managerID`, `firstName`, `lastName`, `sex`, `DO
 (1, 1, 'johnrey', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
 (2, 1, 'laurence', 'silverio', 'm', NULL, 'Employee', '500.00', '0.00', 'S001'),
 (3, 1, 'username', 'password', 'm', NULL, 'Employee', '500.00', '0.00', 'S002'),
-(5, 1, 'test', 'test', 'm', NULL, 'Manager', '1000.00', '500.00', 'S002');
+(5, 1, 'test', 'test', 'm', NULL, 'Manager', '1000.00', '500.00', 'S002'),
+(7, 1, 'john matheo', 'morillo', 'm', NULL, 'Employee', '500.00', NULL, 'S001');
 
 -- --------------------------------------------------------
 
