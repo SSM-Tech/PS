@@ -28,515 +28,516 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            label1 = new Label();
-            label10 = new Label();
-            TxtFullName = new TextBox();
-            TxtUserID = new TextBox();
-            TxtSex = new TextBox();
-            TxtUsername = new TextBox();
-            TxtDOB = new TextBox();
-            TxtAccLvl = new TextBox();
-            TxtStaffID = new TextBox();
-            TxtStationNum = new TextBox();
-            TxtSalary = new TextBox();
-            TxtAllowance = new TextBox();
-            EditAccountButton = new Button();
-            button2 = new Button();
-            StaffIDShowIcon = new PictureBox();
-            StaffIDHideIcon = new PictureBox();
-            AccLvlHideIcon = new PictureBox();
-            SalaryHideIcon = new PictureBox();
-            AccLvlShowIcon = new PictureBox();
-            SalaryShowIcon = new PictureBox();
-            UserIDShowIcon = new PictureBox();
-            UserIDHideIcon = new PictureBox();
-            StaNumShowIcon = new PictureBox();
-            AllowanceShowIcon = new PictureBox();
-            StaNumHideIcon = new PictureBox();
-            AllowanceHideIcon = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)StaffIDShowIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)StaffIDHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)SalaryHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlShowIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)SalaryShowIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)UserIDShowIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)UserIDHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)StaNumShowIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AllowanceShowIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)StaNumHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AllowanceHideIcon).BeginInit();
-            SuspendLayout();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.TxtFullName = new System.Windows.Forms.TextBox();
+            this.TxtUserID = new System.Windows.Forms.TextBox();
+            this.TxtSex = new System.Windows.Forms.TextBox();
+            this.TxtUsername = new System.Windows.Forms.TextBox();
+            this.TxtDOB = new System.Windows.Forms.TextBox();
+            this.TxtAccLvl = new System.Windows.Forms.TextBox();
+            this.TxtStaffID = new System.Windows.Forms.TextBox();
+            this.TxtStationNum = new System.Windows.Forms.TextBox();
+            this.TxtSalary = new System.Windows.Forms.TextBox();
+            this.TxtAllowance = new System.Windows.Forms.TextBox();
+            this.EditAccountButton = new System.Windows.Forms.Button();
+            this.ChangePasswordButton = new System.Windows.Forms.Button();
+            this.StaffIDShowIcon = new System.Windows.Forms.PictureBox();
+            this.StaffIDHideIcon = new System.Windows.Forms.PictureBox();
+            this.AccLvlHideIcon = new System.Windows.Forms.PictureBox();
+            this.SalaryHideIcon = new System.Windows.Forms.PictureBox();
+            this.AccLvlShowIcon = new System.Windows.Forms.PictureBox();
+            this.SalaryShowIcon = new System.Windows.Forms.PictureBox();
+            this.UserIDShowIcon = new System.Windows.Forms.PictureBox();
+            this.UserIDHideIcon = new System.Windows.Forms.PictureBox();
+            this.StaNumShowIcon = new System.Windows.Forms.PictureBox();
+            this.AllowanceShowIcon = new System.Windows.Forms.PictureBox();
+            this.StaNumHideIcon = new System.Windows.Forms.PictureBox();
+            this.AllowanceHideIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.StaffIDShowIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StaffIDHideIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccLvlHideIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SalaryHideIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccLvlShowIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SalaryShowIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UserIDShowIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UserIDHideIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StaNumShowIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AllowanceShowIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StaNumHideIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AllowanceHideIcon)).BeginInit();
+            this.SuspendLayout();
             // 
             // label2
             // 
-            label2.Anchor = AnchorStyles.None;
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(113, 29);
-            label2.TabIndex = 1;
-            label2.Text = "Full Name:";
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(113, 29);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Full Name:";
             // 
             // label3
             // 
-            label3.Anchor = AnchorStyles.None;
-            label3.AutoSize = true;
-            label3.Location = new Point(678, 9);
-            label3.Name = "label3";
-            label3.Size = new Size(119, 29);
-            label3.TabIndex = 2;
-            label3.Text = "Username:";
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(678, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(119, 29);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Username:";
             // 
             // label4
             // 
-            label4.Anchor = AnchorStyles.None;
-            label4.AutoSize = true;
-            label4.Location = new Point(678, 225);
-            label4.Name = "label4";
-            label4.Size = new Size(87, 29);
-            label4.TabIndex = 3;
-            label4.Text = "User ID:";
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(678, 225);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 29);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "User ID:";
             // 
             // label5
             // 
-            label5.Anchor = AnchorStyles.None;
-            label5.AutoSize = true;
-            label5.Location = new Point(12, 225);
-            label5.Name = "label5";
-            label5.Size = new Size(87, 29);
-            label5.TabIndex = 4;
-            label5.Text = "Staff ID:";
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 225);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(87, 29);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Staff ID:";
             // 
             // label6
             // 
-            label6.Anchor = AnchorStyles.None;
-            label6.AutoSize = true;
-            label6.Location = new Point(12, 332);
-            label6.Name = "label6";
-            label6.Size = new Size(153, 29);
-            label6.TabIndex = 5;
-            label6.Text = "Account Level:";
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 332);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(153, 29);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Account Level:";
             // 
             // label7
             // 
-            label7.Anchor = AnchorStyles.None;
-            label7.AutoSize = true;
-            label7.Location = new Point(12, 116);
-            label7.Name = "label7";
-            label7.Size = new Size(55, 29);
-            label7.TabIndex = 6;
-            label7.Text = "Sex: ";
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 116);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 29);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Sex: ";
             // 
             // label8
             // 
-            label8.Anchor = AnchorStyles.None;
-            label8.AutoSize = true;
-            label8.Location = new Point(678, 116);
-            label8.Name = "label8";
-            label8.Size = new Size(137, 29);
-            label8.TabIndex = 7;
-            label8.Text = "Date of Birth:";
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(678, 116);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(137, 29);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Date of Birth:";
             // 
             // label9
             // 
-            label9.Anchor = AnchorStyles.None;
-            label9.AutoSize = true;
-            label9.Location = new Point(678, 332);
-            label9.Name = "label9";
-            label9.Size = new Size(169, 29);
-            label9.TabIndex = 8;
-            label9.Text = "Station Number:";
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(678, 332);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(169, 29);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Station Number:";
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 440);
-            label1.Name = "label1";
-            label1.Size = new Size(80, 29);
-            label1.TabIndex = 10;
-            label1.Text = "Salary:";
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 440);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 29);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Salary:";
             // 
             // label10
             // 
-            label10.Anchor = AnchorStyles.None;
-            label10.AutoSize = true;
-            label10.Location = new Point(678, 440);
-            label10.Name = "label10";
-            label10.Size = new Size(118, 29);
-            label10.TabIndex = 9;
-            label10.Text = "Allowance:";
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(678, 440);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(118, 29);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "Allowance:";
             // 
             // TxtFullName
             // 
-            TxtFullName.Anchor = AnchorStyles.None;
-            TxtFullName.BackColor = SystemColors.Control;
-            TxtFullName.BorderStyle = BorderStyle.FixedSingle;
-            TxtFullName.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtFullName.Location = new Point(52, 41);
-            TxtFullName.Name = "TxtFullName";
-            TxtFullName.ReadOnly = true;
-            TxtFullName.Size = new Size(459, 56);
-            TxtFullName.TabIndex = 0;
+            this.TxtFullName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtFullName.BackColor = System.Drawing.SystemColors.Control;
+            this.TxtFullName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtFullName.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtFullName.Location = new System.Drawing.Point(52, 41);
+            this.TxtFullName.Name = "TxtFullName";
+            this.TxtFullName.ReadOnly = true;
+            this.TxtFullName.Size = new System.Drawing.Size(459, 56);
+            this.TxtFullName.TabIndex = 0;
             // 
             // TxtUserID
             // 
-            TxtUserID.Anchor = AnchorStyles.None;
-            TxtUserID.BorderStyle = BorderStyle.FixedSingle;
-            TxtUserID.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtUserID.Location = new Point(736, 257);
-            TxtUserID.Name = "TxtUserID";
-            TxtUserID.ReadOnly = true;
-            TxtUserID.Size = new Size(459, 56);
-            TxtUserID.TabIndex = 5;
-            TxtUserID.UseSystemPasswordChar = true;
+            this.TxtUserID.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtUserID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtUserID.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtUserID.Location = new System.Drawing.Point(736, 257);
+            this.TxtUserID.Name = "TxtUserID";
+            this.TxtUserID.ReadOnly = true;
+            this.TxtUserID.Size = new System.Drawing.Size(459, 56);
+            this.TxtUserID.TabIndex = 5;
+            this.TxtUserID.UseSystemPasswordChar = true;
             // 
             // TxtSex
             // 
-            TxtSex.Anchor = AnchorStyles.None;
-            TxtSex.BorderStyle = BorderStyle.FixedSingle;
-            TxtSex.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtSex.Location = new Point(52, 148);
-            TxtSex.Name = "TxtSex";
-            TxtSex.ReadOnly = true;
-            TxtSex.Size = new Size(459, 56);
-            TxtSex.TabIndex = 2;
+            this.TxtSex.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtSex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtSex.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtSex.Location = new System.Drawing.Point(52, 148);
+            this.TxtSex.Name = "TxtSex";
+            this.TxtSex.ReadOnly = true;
+            this.TxtSex.Size = new System.Drawing.Size(459, 56);
+            this.TxtSex.TabIndex = 2;
             // 
             // TxtUsername
             // 
-            TxtUsername.Anchor = AnchorStyles.None;
-            TxtUsername.BorderStyle = BorderStyle.FixedSingle;
-            TxtUsername.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtUsername.Location = new Point(736, 41);
-            TxtUsername.Name = "TxtUsername";
-            TxtUsername.ReadOnly = true;
-            TxtUsername.Size = new Size(459, 56);
-            TxtUsername.TabIndex = 1;
+            this.TxtUsername.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtUsername.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtUsername.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtUsername.Location = new System.Drawing.Point(736, 41);
+            this.TxtUsername.Name = "TxtUsername";
+            this.TxtUsername.ReadOnly = true;
+            this.TxtUsername.Size = new System.Drawing.Size(459, 56);
+            this.TxtUsername.TabIndex = 1;
             // 
             // TxtDOB
             // 
-            TxtDOB.Anchor = AnchorStyles.None;
-            TxtDOB.BorderStyle = BorderStyle.FixedSingle;
-            TxtDOB.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtDOB.Location = new Point(736, 148);
-            TxtDOB.Name = "TxtDOB";
-            TxtDOB.ReadOnly = true;
-            TxtDOB.Size = new Size(459, 56);
-            TxtDOB.TabIndex = 3;
+            this.TxtDOB.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtDOB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtDOB.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtDOB.Location = new System.Drawing.Point(736, 148);
+            this.TxtDOB.Name = "TxtDOB";
+            this.TxtDOB.ReadOnly = true;
+            this.TxtDOB.Size = new System.Drawing.Size(459, 56);
+            this.TxtDOB.TabIndex = 3;
             // 
             // TxtAccLvl
             // 
-            TxtAccLvl.Anchor = AnchorStyles.None;
-            TxtAccLvl.BorderStyle = BorderStyle.FixedSingle;
-            TxtAccLvl.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtAccLvl.Location = new Point(52, 364);
-            TxtAccLvl.Name = "TxtAccLvl";
-            TxtAccLvl.ReadOnly = true;
-            TxtAccLvl.Size = new Size(459, 56);
-            TxtAccLvl.TabIndex = 6;
-            TxtAccLvl.UseSystemPasswordChar = true;
+            this.TxtAccLvl.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtAccLvl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtAccLvl.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtAccLvl.Location = new System.Drawing.Point(52, 364);
+            this.TxtAccLvl.Name = "TxtAccLvl";
+            this.TxtAccLvl.ReadOnly = true;
+            this.TxtAccLvl.Size = new System.Drawing.Size(459, 56);
+            this.TxtAccLvl.TabIndex = 6;
+            this.TxtAccLvl.UseSystemPasswordChar = true;
             // 
             // TxtStaffID
             // 
-            TxtStaffID.Anchor = AnchorStyles.None;
-            TxtStaffID.BorderStyle = BorderStyle.FixedSingle;
-            TxtStaffID.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtStaffID.Location = new Point(52, 257);
-            TxtStaffID.Name = "TxtStaffID";
-            TxtStaffID.ReadOnly = true;
-            TxtStaffID.Size = new Size(459, 56);
-            TxtStaffID.TabIndex = 4;
-            TxtStaffID.UseSystemPasswordChar = true;
+            this.TxtStaffID.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtStaffID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtStaffID.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtStaffID.Location = new System.Drawing.Point(52, 257);
+            this.TxtStaffID.Name = "TxtStaffID";
+            this.TxtStaffID.ReadOnly = true;
+            this.TxtStaffID.Size = new System.Drawing.Size(459, 56);
+            this.TxtStaffID.TabIndex = 4;
+            this.TxtStaffID.UseSystemPasswordChar = true;
             // 
             // TxtStationNum
             // 
-            TxtStationNum.Anchor = AnchorStyles.None;
-            TxtStationNum.BorderStyle = BorderStyle.FixedSingle;
-            TxtStationNum.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtStationNum.Location = new Point(736, 364);
-            TxtStationNum.Name = "TxtStationNum";
-            TxtStationNum.ReadOnly = true;
-            TxtStationNum.Size = new Size(459, 56);
-            TxtStationNum.TabIndex = 7;
-            TxtStationNum.UseSystemPasswordChar = true;
+            this.TxtStationNum.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtStationNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtStationNum.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtStationNum.Location = new System.Drawing.Point(736, 364);
+            this.TxtStationNum.Name = "TxtStationNum";
+            this.TxtStationNum.ReadOnly = true;
+            this.TxtStationNum.Size = new System.Drawing.Size(459, 56);
+            this.TxtStationNum.TabIndex = 7;
+            this.TxtStationNum.UseSystemPasswordChar = true;
             // 
             // TxtSalary
             // 
-            TxtSalary.Anchor = AnchorStyles.None;
-            TxtSalary.BorderStyle = BorderStyle.FixedSingle;
-            TxtSalary.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtSalary.Location = new Point(52, 472);
-            TxtSalary.Name = "TxtSalary";
-            TxtSalary.ReadOnly = true;
-            TxtSalary.Size = new Size(459, 56);
-            TxtSalary.TabIndex = 8;
-            TxtSalary.UseSystemPasswordChar = true;
+            this.TxtSalary.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtSalary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtSalary.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtSalary.Location = new System.Drawing.Point(52, 472);
+            this.TxtSalary.Name = "TxtSalary";
+            this.TxtSalary.ReadOnly = true;
+            this.TxtSalary.Size = new System.Drawing.Size(459, 56);
+            this.TxtSalary.TabIndex = 8;
+            this.TxtSalary.UseSystemPasswordChar = true;
             // 
             // TxtAllowance
             // 
-            TxtAllowance.Anchor = AnchorStyles.None;
-            TxtAllowance.BorderStyle = BorderStyle.FixedSingle;
-            TxtAllowance.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtAllowance.Location = new Point(736, 472);
-            TxtAllowance.Name = "TxtAllowance";
-            TxtAllowance.ReadOnly = true;
-            TxtAllowance.Size = new Size(459, 56);
-            TxtAllowance.TabIndex = 9;
-            TxtAllowance.UseSystemPasswordChar = true;
+            this.TxtAllowance.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TxtAllowance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtAllowance.Font = new System.Drawing.Font("Impact", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtAllowance.Location = new System.Drawing.Point(736, 472);
+            this.TxtAllowance.Name = "TxtAllowance";
+            this.TxtAllowance.ReadOnly = true;
+            this.TxtAllowance.Size = new System.Drawing.Size(459, 56);
+            this.TxtAllowance.TabIndex = 9;
+            this.TxtAllowance.UseSystemPasswordChar = true;
             // 
             // EditAccountButton
             // 
-            EditAccountButton.Anchor = AnchorStyles.None;
-            EditAccountButton.Location = new Point(302, 592);
-            EditAccountButton.Name = "EditAccountButton";
-            EditAccountButton.Size = new Size(209, 56);
-            EditAccountButton.TabIndex = 10;
-            EditAccountButton.Text = "EDIT ACCOUNT";
-            EditAccountButton.UseVisualStyleBackColor = true;
-            EditAccountButton.Click += button1_Click;
+            this.EditAccountButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EditAccountButton.Location = new System.Drawing.Point(302, 592);
+            this.EditAccountButton.Name = "EditAccountButton";
+            this.EditAccountButton.Size = new System.Drawing.Size(209, 56);
+            this.EditAccountButton.TabIndex = 10;
+            this.EditAccountButton.Text = "EDIT ACCOUNT";
+            this.EditAccountButton.UseVisualStyleBackColor = true;
+            this.EditAccountButton.Click += new System.EventHandler(this.EditAccountButton_Click);
             // 
-            // button2
+            // ChangePasswordButton
             // 
-            button2.Anchor = AnchorStyles.None;
-            button2.Location = new Point(678, 592);
-            button2.Name = "button2";
-            button2.Size = new Size(209, 56);
-            button2.TabIndex = 11;
-            button2.Text = "CHANGE PASSWORD";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            this.ChangePasswordButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ChangePasswordButton.Location = new System.Drawing.Point(678, 592);
+            this.ChangePasswordButton.Name = "ChangePasswordButton";
+            this.ChangePasswordButton.Size = new System.Drawing.Size(209, 56);
+            this.ChangePasswordButton.TabIndex = 11;
+            this.ChangePasswordButton.Text = "CHANGE PASSWORD";
+            this.ChangePasswordButton.UseVisualStyleBackColor = true;
+            this.ChangePasswordButton.Click += new System.EventHandler(this.ChangePasswordButton_Click);
             // 
             // StaffIDShowIcon
             // 
-            StaffIDShowIcon.Anchor = AnchorStyles.None;
-            StaffIDShowIcon.BackColor = SystemColors.Control;
-            StaffIDShowIcon.Image = Properties.Resources.showPasswordIcon;
-            StaffIDShowIcon.Location = new Point(467, 267);
-            StaffIDShowIcon.Name = "StaffIDShowIcon";
-            StaffIDShowIcon.Size = new Size(35, 35);
-            StaffIDShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            StaffIDShowIcon.TabIndex = 28;
-            StaffIDShowIcon.TabStop = false;
-            StaffIDShowIcon.Visible = false;
-            StaffIDShowIcon.Click += StaffIDShowIcon_Click;
+            this.StaffIDShowIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StaffIDShowIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.StaffIDShowIcon.Image = global::Payroll_System.Properties.Resources.showPasswordIcon;
+            this.StaffIDShowIcon.Location = new System.Drawing.Point(467, 267);
+            this.StaffIDShowIcon.Name = "StaffIDShowIcon";
+            this.StaffIDShowIcon.Size = new System.Drawing.Size(35, 35);
+            this.StaffIDShowIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.StaffIDShowIcon.TabIndex = 28;
+            this.StaffIDShowIcon.TabStop = false;
+            this.StaffIDShowIcon.Visible = false;
+            this.StaffIDShowIcon.Click += new System.EventHandler(this.StaffIDShowIcon_Click);
             // 
             // StaffIDHideIcon
             // 
-            StaffIDHideIcon.Anchor = AnchorStyles.None;
-            StaffIDHideIcon.BackColor = SystemColors.Control;
-            StaffIDHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            StaffIDHideIcon.Location = new Point(467, 267);
-            StaffIDHideIcon.Name = "StaffIDHideIcon";
-            StaffIDHideIcon.Size = new Size(35, 35);
-            StaffIDHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            StaffIDHideIcon.TabIndex = 30;
-            StaffIDHideIcon.TabStop = false;
-            StaffIDHideIcon.Click += StaffIDHideIcon_Click;
+            this.StaffIDHideIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StaffIDHideIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.StaffIDHideIcon.Image = global::Payroll_System.Properties.Resources.hidePasswordIcon;
+            this.StaffIDHideIcon.Location = new System.Drawing.Point(426, 267);
+            this.StaffIDHideIcon.Name = "StaffIDHideIcon";
+            this.StaffIDHideIcon.Size = new System.Drawing.Size(35, 35);
+            this.StaffIDHideIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.StaffIDHideIcon.TabIndex = 30;
+            this.StaffIDHideIcon.TabStop = false;
+            this.StaffIDHideIcon.Click += new System.EventHandler(this.StaffIDHideIcon_Click);
             // 
             // AccLvlHideIcon
             // 
-            AccLvlHideIcon.Anchor = AnchorStyles.None;
-            AccLvlHideIcon.BackColor = SystemColors.Control;
-            AccLvlHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            AccLvlHideIcon.Location = new Point(467, 376);
-            AccLvlHideIcon.Name = "AccLvlHideIcon";
-            AccLvlHideIcon.Size = new Size(35, 35);
-            AccLvlHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            AccLvlHideIcon.TabIndex = 36;
-            AccLvlHideIcon.TabStop = false;
-            AccLvlHideIcon.Click += AccLvlHideIcon_Click;
+            this.AccLvlHideIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.AccLvlHideIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.AccLvlHideIcon.Image = global::Payroll_System.Properties.Resources.hidePasswordIcon;
+            this.AccLvlHideIcon.Location = new System.Drawing.Point(467, 376);
+            this.AccLvlHideIcon.Name = "AccLvlHideIcon";
+            this.AccLvlHideIcon.Size = new System.Drawing.Size(35, 35);
+            this.AccLvlHideIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.AccLvlHideIcon.TabIndex = 36;
+            this.AccLvlHideIcon.TabStop = false;
+            this.AccLvlHideIcon.Click += new System.EventHandler(this.AccLvlHideIcon_Click);
             // 
             // SalaryHideIcon
             // 
-            SalaryHideIcon.Anchor = AnchorStyles.None;
-            SalaryHideIcon.BackColor = SystemColors.Control;
-            SalaryHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            SalaryHideIcon.Location = new Point(467, 484);
-            SalaryHideIcon.Name = "SalaryHideIcon";
-            SalaryHideIcon.Size = new Size(35, 35);
-            SalaryHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            SalaryHideIcon.TabIndex = 37;
-            SalaryHideIcon.TabStop = false;
-            SalaryHideIcon.Click += SalaryHideIcon_Click;
+            this.SalaryHideIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.SalaryHideIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.SalaryHideIcon.Image = global::Payroll_System.Properties.Resources.hidePasswordIcon;
+            this.SalaryHideIcon.Location = new System.Drawing.Point(467, 484);
+            this.SalaryHideIcon.Name = "SalaryHideIcon";
+            this.SalaryHideIcon.Size = new System.Drawing.Size(35, 35);
+            this.SalaryHideIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.SalaryHideIcon.TabIndex = 37;
+            this.SalaryHideIcon.TabStop = false;
+            this.SalaryHideIcon.Click += new System.EventHandler(this.SalaryShowIcon_Click);
             // 
             // AccLvlShowIcon
             // 
-            AccLvlShowIcon.Anchor = AnchorStyles.None;
-            AccLvlShowIcon.BackColor = SystemColors.Control;
-            AccLvlShowIcon.Image = Properties.Resources.showPasswordIcon;
-            AccLvlShowIcon.Location = new Point(467, 376);
-            AccLvlShowIcon.Name = "AccLvlShowIcon";
-            AccLvlShowIcon.Size = new Size(35, 35);
-            AccLvlShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            AccLvlShowIcon.TabIndex = 38;
-            AccLvlShowIcon.TabStop = false;
-            AccLvlShowIcon.Visible = false;
-            AccLvlShowIcon.Click += AccLvlShowIcon_Click;
+            this.AccLvlShowIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.AccLvlShowIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.AccLvlShowIcon.Image = global::Payroll_System.Properties.Resources.showPasswordIcon;
+            this.AccLvlShowIcon.Location = new System.Drawing.Point(426, 376);
+            this.AccLvlShowIcon.Name = "AccLvlShowIcon";
+            this.AccLvlShowIcon.Size = new System.Drawing.Size(35, 35);
+            this.AccLvlShowIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.AccLvlShowIcon.TabIndex = 38;
+            this.AccLvlShowIcon.TabStop = false;
+            this.AccLvlShowIcon.Visible = false;
+            this.AccLvlShowIcon.Click += new System.EventHandler(this.AccLvlShowIcon_Click);
             // 
             // SalaryShowIcon
             // 
-            SalaryShowIcon.Anchor = AnchorStyles.None;
-            SalaryShowIcon.BackColor = SystemColors.Control;
-            SalaryShowIcon.Image = Properties.Resources.showPasswordIcon;
-            SalaryShowIcon.Location = new Point(467, 484);
-            SalaryShowIcon.Name = "SalaryShowIcon";
-            SalaryShowIcon.Size = new Size(35, 35);
-            SalaryShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            SalaryShowIcon.TabIndex = 39;
-            SalaryShowIcon.TabStop = false;
-            SalaryShowIcon.Visible = false;
-            SalaryShowIcon.Click += SalaryShowIcon_Click;
+            this.SalaryShowIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.SalaryShowIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.SalaryShowIcon.Image = global::Payroll_System.Properties.Resources.showPasswordIcon;
+            this.SalaryShowIcon.Location = new System.Drawing.Point(426, 484);
+            this.SalaryShowIcon.Name = "SalaryShowIcon";
+            this.SalaryShowIcon.Size = new System.Drawing.Size(35, 35);
+            this.SalaryShowIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.SalaryShowIcon.TabIndex = 39;
+            this.SalaryShowIcon.TabStop = false;
+            this.SalaryShowIcon.Visible = false;
+            this.SalaryShowIcon.Click += new System.EventHandler(this.SalaryHideIcon_Click);
             // 
             // UserIDShowIcon
             // 
-            UserIDShowIcon.Anchor = AnchorStyles.None;
-            UserIDShowIcon.BackColor = SystemColors.Control;
-            UserIDShowIcon.Image = Properties.Resources.showPasswordIcon;
-            UserIDShowIcon.Location = new Point(1145, 267);
-            UserIDShowIcon.Name = "UserIDShowIcon";
-            UserIDShowIcon.Size = new Size(35, 35);
-            UserIDShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            UserIDShowIcon.TabIndex = 40;
-            UserIDShowIcon.TabStop = false;
-            UserIDShowIcon.Visible = false;
-            UserIDShowIcon.Click += UserIDShowIcon_Click;
+            this.UserIDShowIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.UserIDShowIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.UserIDShowIcon.Image = global::Payroll_System.Properties.Resources.showPasswordIcon;
+            this.UserIDShowIcon.Location = new System.Drawing.Point(1145, 267);
+            this.UserIDShowIcon.Name = "UserIDShowIcon";
+            this.UserIDShowIcon.Size = new System.Drawing.Size(35, 35);
+            this.UserIDShowIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.UserIDShowIcon.TabIndex = 40;
+            this.UserIDShowIcon.TabStop = false;
+            this.UserIDShowIcon.Visible = false;
+            this.UserIDShowIcon.Click += new System.EventHandler(this.UserIDShowIcon_Click);
             // 
             // UserIDHideIcon
             // 
-            UserIDHideIcon.Anchor = AnchorStyles.None;
-            UserIDHideIcon.BackColor = SystemColors.Control;
-            UserIDHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            UserIDHideIcon.Location = new Point(1145, 267);
-            UserIDHideIcon.Name = "UserIDHideIcon";
-            UserIDHideIcon.Size = new Size(35, 35);
-            UserIDHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            UserIDHideIcon.TabIndex = 41;
-            UserIDHideIcon.TabStop = false;
-            UserIDHideIcon.Click += UserIDHideIcon_Click;
+            this.UserIDHideIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.UserIDHideIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.UserIDHideIcon.Image = global::Payroll_System.Properties.Resources.hidePasswordIcon;
+            this.UserIDHideIcon.Location = new System.Drawing.Point(1104, 267);
+            this.UserIDHideIcon.Name = "UserIDHideIcon";
+            this.UserIDHideIcon.Size = new System.Drawing.Size(35, 35);
+            this.UserIDHideIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.UserIDHideIcon.TabIndex = 41;
+            this.UserIDHideIcon.TabStop = false;
+            this.UserIDHideIcon.Click += new System.EventHandler(this.UserIDHideIcon_Click);
             // 
             // StaNumShowIcon
             // 
-            StaNumShowIcon.Anchor = AnchorStyles.None;
-            StaNumShowIcon.BackColor = SystemColors.Control;
-            StaNumShowIcon.Image = Properties.Resources.showPasswordIcon;
-            StaNumShowIcon.Location = new Point(1145, 376);
-            StaNumShowIcon.Name = "StaNumShowIcon";
-            StaNumShowIcon.Size = new Size(35, 35);
-            StaNumShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            StaNumShowIcon.TabIndex = 42;
-            StaNumShowIcon.TabStop = false;
-            StaNumShowIcon.Visible = false;
-            StaNumShowIcon.Click += StaNumShowIcon_Click;
+            this.StaNumShowIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StaNumShowIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.StaNumShowIcon.Image = global::Payroll_System.Properties.Resources.showPasswordIcon;
+            this.StaNumShowIcon.Location = new System.Drawing.Point(1145, 376);
+            this.StaNumShowIcon.Name = "StaNumShowIcon";
+            this.StaNumShowIcon.Size = new System.Drawing.Size(35, 35);
+            this.StaNumShowIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.StaNumShowIcon.TabIndex = 42;
+            this.StaNumShowIcon.TabStop = false;
+            this.StaNumShowIcon.Visible = false;
+            this.StaNumShowIcon.Click += new System.EventHandler(this.StaNumShowIcon_Click);
             // 
             // AllowanceShowIcon
             // 
-            AllowanceShowIcon.Anchor = AnchorStyles.None;
-            AllowanceShowIcon.BackColor = SystemColors.Control;
-            AllowanceShowIcon.Image = Properties.Resources.showPasswordIcon;
-            AllowanceShowIcon.Location = new Point(1145, 484);
-            AllowanceShowIcon.Name = "AllowanceShowIcon";
-            AllowanceShowIcon.Size = new Size(35, 35);
-            AllowanceShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            AllowanceShowIcon.TabIndex = 43;
-            AllowanceShowIcon.TabStop = false;
-            AllowanceShowIcon.Visible = false;
-            AllowanceShowIcon.Click += AllowanceShowIcon_Click;
+            this.AllowanceShowIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.AllowanceShowIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.AllowanceShowIcon.Image = global::Payroll_System.Properties.Resources.showPasswordIcon;
+            this.AllowanceShowIcon.Location = new System.Drawing.Point(1145, 484);
+            this.AllowanceShowIcon.Name = "AllowanceShowIcon";
+            this.AllowanceShowIcon.Size = new System.Drawing.Size(35, 35);
+            this.AllowanceShowIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.AllowanceShowIcon.TabIndex = 43;
+            this.AllowanceShowIcon.TabStop = false;
+            this.AllowanceShowIcon.Visible = false;
+            this.AllowanceShowIcon.Click += new System.EventHandler(this.AllowanceShowIcon_Click);
             // 
             // StaNumHideIcon
             // 
-            StaNumHideIcon.Anchor = AnchorStyles.None;
-            StaNumHideIcon.BackColor = SystemColors.Control;
-            StaNumHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            StaNumHideIcon.Location = new Point(1145, 376);
-            StaNumHideIcon.Name = "StaNumHideIcon";
-            StaNumHideIcon.Size = new Size(35, 35);
-            StaNumHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            StaNumHideIcon.TabIndex = 44;
-            StaNumHideIcon.TabStop = false;
-            StaNumHideIcon.Click += StaNumHideIcon_Click;
+            this.StaNumHideIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StaNumHideIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.StaNumHideIcon.Image = global::Payroll_System.Properties.Resources.hidePasswordIcon;
+            this.StaNumHideIcon.Location = new System.Drawing.Point(1104, 376);
+            this.StaNumHideIcon.Name = "StaNumHideIcon";
+            this.StaNumHideIcon.Size = new System.Drawing.Size(35, 35);
+            this.StaNumHideIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.StaNumHideIcon.TabIndex = 44;
+            this.StaNumHideIcon.TabStop = false;
+            this.StaNumHideIcon.Click += new System.EventHandler(this.StaNumHideIcon_Click);
             // 
             // AllowanceHideIcon
             // 
-            AllowanceHideIcon.Anchor = AnchorStyles.None;
-            AllowanceHideIcon.BackColor = SystemColors.Control;
-            AllowanceHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            AllowanceHideIcon.Location = new Point(1145, 484);
-            AllowanceHideIcon.Name = "AllowanceHideIcon";
-            AllowanceHideIcon.Size = new Size(35, 35);
-            AllowanceHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            AllowanceHideIcon.TabIndex = 45;
-            AllowanceHideIcon.TabStop = false;
-            AllowanceHideIcon.Click += AllowanceHideIcon_Click;
+            this.AllowanceHideIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.AllowanceHideIcon.BackColor = System.Drawing.SystemColors.Control;
+            this.AllowanceHideIcon.Image = global::Payroll_System.Properties.Resources.hidePasswordIcon;
+            this.AllowanceHideIcon.Location = new System.Drawing.Point(1104, 484);
+            this.AllowanceHideIcon.Name = "AllowanceHideIcon";
+            this.AllowanceHideIcon.Size = new System.Drawing.Size(35, 35);
+            this.AllowanceHideIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.AllowanceHideIcon.TabIndex = 45;
+            this.AllowanceHideIcon.TabStop = false;
+            this.AllowanceHideIcon.Click += new System.EventHandler(this.AllowanceHideIcon_Click);
             // 
             // AccountDetailsForm
             // 
-            AutoScaleDimensions = new SizeF(12F, 29F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(1256, 660);
-            Controls.Add(AllowanceHideIcon);
-            Controls.Add(StaNumHideIcon);
-            Controls.Add(AllowanceShowIcon);
-            Controls.Add(StaNumShowIcon);
-            Controls.Add(UserIDHideIcon);
-            Controls.Add(UserIDShowIcon);
-            Controls.Add(SalaryShowIcon);
-            Controls.Add(AccLvlShowIcon);
-            Controls.Add(SalaryHideIcon);
-            Controls.Add(AccLvlHideIcon);
-            Controls.Add(StaffIDHideIcon);
-            Controls.Add(StaffIDShowIcon);
-            Controls.Add(button2);
-            Controls.Add(EditAccountButton);
-            Controls.Add(TxtAllowance);
-            Controls.Add(TxtSalary);
-            Controls.Add(TxtStationNum);
-            Controls.Add(TxtStaffID);
-            Controls.Add(TxtAccLvl);
-            Controls.Add(TxtDOB);
-            Controls.Add(TxtUsername);
-            Controls.Add(TxtSex);
-            Controls.Add(TxtUserID);
-            Controls.Add(TxtFullName);
-            Controls.Add(label1);
-            Controls.Add(label10);
-            Controls.Add(label9);
-            Controls.Add(label8);
-            Controls.Add(label7);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(5, 6, 5, 6);
-            Name = "AccountDetailsForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "AccountDetailsForm";
-            ((System.ComponentModel.ISupportInitialize)StaffIDShowIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)StaffIDHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)SalaryHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlShowIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)SalaryShowIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)UserIDShowIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)UserIDHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)StaNumShowIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AllowanceShowIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)StaNumHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AllowanceHideIcon).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 29F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1256, 660);
+            this.Controls.Add(this.AllowanceHideIcon);
+            this.Controls.Add(this.StaNumHideIcon);
+            this.Controls.Add(this.AllowanceShowIcon);
+            this.Controls.Add(this.StaNumShowIcon);
+            this.Controls.Add(this.UserIDHideIcon);
+            this.Controls.Add(this.UserIDShowIcon);
+            this.Controls.Add(this.SalaryShowIcon);
+            this.Controls.Add(this.AccLvlShowIcon);
+            this.Controls.Add(this.SalaryHideIcon);
+            this.Controls.Add(this.AccLvlHideIcon);
+            this.Controls.Add(this.StaffIDHideIcon);
+            this.Controls.Add(this.StaffIDShowIcon);
+            this.Controls.Add(this.ChangePasswordButton);
+            this.Controls.Add(this.EditAccountButton);
+            this.Controls.Add(this.TxtAllowance);
+            this.Controls.Add(this.TxtSalary);
+            this.Controls.Add(this.TxtStationNum);
+            this.Controls.Add(this.TxtStaffID);
+            this.Controls.Add(this.TxtAccLvl);
+            this.Controls.Add(this.TxtDOB);
+            this.Controls.Add(this.TxtUsername);
+            this.Controls.Add(this.TxtSex);
+            this.Controls.Add(this.TxtUserID);
+            this.Controls.Add(this.TxtFullName);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.Name = "AccountDetailsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "AccountDetailsForm";
+            ((System.ComponentModel.ISupportInitialize)(this.StaffIDShowIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StaffIDHideIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccLvlHideIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SalaryHideIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccLvlShowIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SalaryShowIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UserIDShowIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UserIDHideIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StaNumShowIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AllowanceShowIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StaNumHideIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AllowanceHideIcon)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
@@ -561,7 +562,7 @@
         private TextBox TxtSalary;
         private TextBox TxtAllowance;
         private Button EditAccountButton;
-        private Button button2;
+        private Button ChangePasswordButton;
         private PictureBox StaffIDShowIcon;
         private PictureBox StaffIDHideIcon;
         private PictureBox AccLvlHideIcon;

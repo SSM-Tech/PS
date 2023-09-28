@@ -122,8 +122,7 @@ namespace Payroll_System
             AllowanceHideIcon.Show();
             AllowanceShowIcon.Hide();
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void EditAccountButton_Click(object sender, EventArgs e)
         {
             EditAccountForm editAccountForm = new EditAccountForm();
             editAccountForm.UpdateSuccessfulEvent += EditAccountForm_UpdateSuccessfulEvent;
@@ -133,11 +132,12 @@ namespace Payroll_System
         {
             // Refresh data in AccountDetailsForm
             ShowAccDetails();
+
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void ChangePasswordButton_Click(object sender, EventArgs e)
         {
-
+            EditPasswordForm editPasswordForm = new EditPasswordForm();
+            editPasswordForm.ShowDialog();
         }
     }
 }
