@@ -28,51 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            userDatasGrid = new DataGridView();
+            ButtonEdit = new Button();
+            ButtonRegister = new Button();
+            txtBoxSearch = new TextBox();
+            btnLocked = new Button();
+            ((System.ComponentModel.ISupportInitialize)userDatasGrid).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // userDatasGrid
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Location = new Point(523, 418);
-            label1.Margin = new Padding(5, 0, 5, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(222, 29);
-            label1.TabIndex = 1;
-            label1.Text = "ManageAccountForm";
+            userDatasGrid.AllowUserToAddRows = false;
+            userDatasGrid.AllowUserToDeleteRows = false;
+            userDatasGrid.AllowUserToResizeColumns = false;
+            userDatasGrid.AllowUserToResizeRows = false;
+            userDatasGrid.BackgroundColor = SystemColors.Control;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Georgia", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            userDatasGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            userDatasGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Georgia", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            userDatasGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            userDatasGrid.Location = new Point(12, 55);
+            userDatasGrid.Name = "userDatasGrid";
+            userDatasGrid.ReadOnly = true;
+            userDatasGrid.RowTemplate.Height = 25;
+            userDatasGrid.Size = new Size(1232, 550);
+            userDatasGrid.TabIndex = 2;
+            userDatasGrid.CellClick += userDatasGrid_CellClick;
             // 
-            // dataGridView1
+            // ButtonEdit
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(1232, 338);
-            dataGridView1.TabIndex = 2;
+            ButtonEdit.Anchor = AnchorStyles.None;
+            ButtonEdit.Location = new Point(12, 611);
+            ButtonEdit.Name = "ButtonEdit";
+            ButtonEdit.Size = new Size(220, 37);
+            ButtonEdit.TabIndex = 3;
+            ButtonEdit.Text = "Modify";
+            ButtonEdit.UseVisualStyleBackColor = true;
+            ButtonEdit.Click += ButtonEdit_Click;
+            // 
+            // ButtonRegister
+            // 
+            ButtonRegister.Anchor = AnchorStyles.None;
+            ButtonRegister.Location = new Point(238, 611);
+            ButtonRegister.Name = "ButtonRegister";
+            ButtonRegister.Size = new Size(220, 37);
+            ButtonRegister.TabIndex = 4;
+            ButtonRegister.Text = "Register";
+            ButtonRegister.UseVisualStyleBackColor = true;
+            ButtonRegister.Click += ButtonRegister_Click;
+            // 
+            // txtBoxSearch
+            // 
+            txtBoxSearch.Location = new Point(12, 12);
+            txtBoxSearch.Name = "txtBoxSearch";
+            txtBoxSearch.Size = new Size(446, 37);
+            txtBoxSearch.TabIndex = 5;
+            txtBoxSearch.TextChanged += txtBoxSearch_TextChanged;
+            // 
+            // btnLocked
+            // 
+            btnLocked.Location = new Point(1024, 611);
+            btnLocked.Name = "btnLocked";
+            btnLocked.Size = new Size(220, 37);
+            btnLocked.TabIndex = 7;
+            btnLocked.Text = "Locked";
+            btnLocked.UseVisualStyleBackColor = true;
             // 
             // ManageAccountForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1256, 660);
-            Controls.Add(dataGridView1);
-            Controls.Add(label1);
+            Controls.Add(btnLocked);
+            Controls.Add(txtBoxSearch);
+            Controls.Add(ButtonRegister);
+            Controls.Add(ButtonEdit);
+            Controls.Add(userDatasGrid);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(5, 6, 5, 6);
             Name = "ManageAccountForm";
             Text = "ManageAccountForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)userDatasGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
-        private DataGridView dataGridView1;
+        private DataGridView userDatasGrid;
+        private Button ButtonEdit;
+        private Button ButtonRegister;
+        private TextBox txtBoxSearch;
+        private Button btnLocked;
     }
 }

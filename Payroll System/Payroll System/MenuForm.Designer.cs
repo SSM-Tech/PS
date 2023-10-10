@@ -163,6 +163,7 @@
             ManageAccoountFormButton.UseVisualStyleBackColor = true;
             ManageAccoountFormButton.Visible = false;
             ManageAccoountFormButton.Click += ManageAccoountFormButton_Click;
+            ManageAccoountFormButton.Enter += ManageAccoountFormButton_Enter;
             // 
             // MainPanel
             // 
@@ -188,6 +189,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "HomeForm";
             Click += LogoutButton_Click;
+            Enter += MenuForm_Enter;
             SidePanel.ResumeLayout(false);
             SidePanel.PerformLayout();
             ResumeLayout(false);

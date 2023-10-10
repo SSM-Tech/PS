@@ -56,7 +56,7 @@ namespace Payroll_System
 
                     MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
 
-                    mscUserDetail.Parameters.Add("@p0", MySqlDbType.VarChar).Value = staffID;
+                    mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
 
                     mscAdapter.SelectCommand = mscUserDetail;
 

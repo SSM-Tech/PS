@@ -30,7 +30,6 @@ C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll Syste
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.deps.json
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.runtimeconfig.json
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.dll
-C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\ref\Payroll System.dll
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Payroll System.pdb
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\Google.Protobuf.dll
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\bin\Debug\net6.0-windows\K4os.Compression.LZ4.dll
@@ -175,3 +174,7 @@ C:\Users\laure\OneDrive\Desktop\repos\PS\Payroll System\Payroll System\obj\Debug
 C:\Users\laure\OneDrive\Desktop\repos\PS\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.pdb
 C:\Users\laure\OneDrive\Desktop\repos\PS\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.genruntimeconfig.cache
 C:\Users\laure\OneDrive\Desktop\repos\PS\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.EditPasswordForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.EditPasswordForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\refint\Payroll System.dll
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.AccountRegisterForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.ManageAccountEditForm.resources

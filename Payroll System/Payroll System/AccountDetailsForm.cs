@@ -14,7 +14,6 @@ namespace Payroll_System
     {
         public event EventHandler UpdateSuccessfulEvent;
         DataTable? retrievedTable = UserDetails.UserDetail;
-        MenuForm menuForm = new MenuForm();
 
         public AccountDetailsForm()
         {
@@ -130,9 +129,7 @@ namespace Payroll_System
         }
         private void EditAccountForm_UpdateSuccessfulEvent(object sender, EventArgs e)
         {
-            // Refresh data in AccountDetailsForm
             ShowAccDetails();
-
         }
         private void ChangePasswordButton_Click(object sender, EventArgs e)
         {

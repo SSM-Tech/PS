@@ -81,5 +81,15 @@ namespace Payroll_System
         {
             LoadForm(new TicketsForm());
         }
+
+        private void MenuForm_Enter(object sender, EventArgs e)
+        {
+            LoadForm(new HomeForm());
+        }
+
+        private void ManageAccoountFormButton_Enter(object sender, EventArgs e)
+        {
+            LoadForm(new ManageAccountForm());
+        }
     }
 }
