@@ -50,10 +50,10 @@
             ConfirmButton = new Button();
             label1 = new Label();
             panel1 = new Panel();
-            comboBox1 = new ComboBox();
+            btnResetPassword = new Button();
+            cBLockAcc = new ComboBox();
             label4 = new Label();
             TxtPass = new TextBox();
-            button1 = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -73,6 +73,7 @@
             cBManager.Name = "cBManager";
             cBManager.Size = new Size(452, 37);
             cBManager.TabIndex = 5;
+            cBManager.SelectedIndexChanged += cBManager_SelectedIndexChanged;
             // 
             // txtBAllowance
             // 
@@ -80,6 +81,7 @@
             txtBAllowance.Name = "txtBAllowance";
             txtBAllowance.Size = new Size(452, 37);
             txtBAllowance.TabIndex = 8;
+            txtBAllowance.TextChanged += txtBAllowance_TextChanged;
             // 
             // label11
             // 
@@ -96,6 +98,7 @@
             txtBSalary.Name = "txtBSalary";
             txtBSalary.Size = new Size(452, 37);
             txtBSalary.TabIndex = 7;
+            txtBSalary.TextChanged += txtBSalary_TextChanged;
             // 
             // label10
             // 
@@ -112,6 +115,7 @@
             txtBPosition.Name = "txtBPosition";
             txtBPosition.Size = new Size(452, 37);
             txtBPosition.TabIndex = 6;
+            txtBPosition.TextChanged += txtBPosition_TextChanged;
             // 
             // label9
             // 
@@ -130,6 +134,7 @@
             cBAccResLVL.Name = "cBAccResLVL";
             cBAccResLVL.Size = new Size(452, 37);
             cBAccResLVL.TabIndex = 4;
+            cBAccResLVL.SelectedIndexChanged += cBAccResLVL_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -147,6 +152,7 @@
             dTPBOD.Name = "dTPBOD";
             dTPBOD.Size = new Size(452, 37);
             dTPBOD.TabIndex = 3;
+            dTPBOD.ValueChanged += dTPBOD_ValueChanged;
             // 
             // label6
             // 
@@ -165,6 +171,7 @@
             cBGender.Name = "cBGender";
             cBGender.Size = new Size(452, 37);
             cBGender.TabIndex = 2;
+            cBGender.SelectedIndexChanged += cBGender_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -181,6 +188,7 @@
             txtBFirstname.Name = "txtBFirstname";
             txtBFirstname.Size = new Size(452, 37);
             txtBFirstname.TabIndex = 0;
+            txtBFirstname.TextChanged += txtBFirstname_TextChanged;
             // 
             // txtBLastname
             // 
@@ -188,6 +196,7 @@
             txtBLastname.Name = "txtBLastname";
             txtBLastname.Size = new Size(452, 37);
             txtBLastname.TabIndex = 1;
+            txtBLastname.TextChanged += txtBLastname_TextChanged;
             // 
             // label3
             // 
@@ -241,8 +250,8 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(comboBox1);
+            panel1.Controls.Add(btnResetPassword);
+            panel1.Controls.Add(cBLockAcc);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(cBManager);
@@ -271,14 +280,25 @@
             panel1.Size = new Size(974, 529);
             panel1.TabIndex = 26;
             // 
-            // comboBox1
+            // btnResetPassword
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Yes", "No" });
-            comboBox1.Location = new Point(20, 257);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(452, 37);
-            comboBox1.TabIndex = 64;
+            btnResetPassword.Location = new Point(502, 372);
+            btnResetPassword.Name = "btnResetPassword";
+            btnResetPassword.Size = new Size(470, 54);
+            btnResetPassword.TabIndex = 66;
+            btnResetPassword.Text = "Reset Password";
+            btnResetPassword.UseVisualStyleBackColor = true;
+            btnResetPassword.Click += btnResetPassword_Click;
+            // 
+            // cBLockAcc
+            // 
+            cBLockAcc.FormattingEnabled = true;
+            cBLockAcc.Items.AddRange(new object[] { "Yes", "No" });
+            cBLockAcc.Location = new Point(20, 257);
+            cBLockAcc.Name = "cBLockAcc";
+            cBLockAcc.Size = new Size(452, 37);
+            cBLockAcc.TabIndex = 64;
+            cBLockAcc.SelectedIndexChanged += cBLockAcc_SelectedIndexChanged;
             // 
             // label4
             // 
@@ -299,15 +319,6 @@
             TxtPass.Size = new Size(459, 56);
             TxtPass.TabIndex = 7;
             TxtPass.UseSystemPasswordChar = true;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(502, 372);
-            button1.Name = "button1";
-            button1.Size = new Size(470, 54);
-            button1.TabIndex = 66;
-            button1.Text = "Reset Password";
-            button1.UseVisualStyleBackColor = true;
             // 
             // ManageAccountEditForm
             // 
@@ -351,9 +362,9 @@
         private Button ConfirmButton;
         private Label label1;
         private Panel panel1;
-        private ComboBox comboBox1;
+        private ComboBox cBLockAcc;
         private Label label4;
         private TextBox TxtPass;
-        private Button button1;
+        private Button btnResetPassword;
     }
 }

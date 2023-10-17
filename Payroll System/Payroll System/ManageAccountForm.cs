@@ -16,10 +16,11 @@ namespace Payroll_System
     public partial class ManageAccountForm : Form
     {
         DataTable? retrievedTable = UserDetails.UserDetail;
+        int? selectedStaffID = UserDetails.SelectedStaffID;
         DataTable? allAccDet = new DataTable();
         DBConn dbConn = new();
         DBQuery dbQuery = new DBQuery();
-        private string selectedStaffID;
+        private string cellValue;
 
         public ManageAccountForm()
         {
@@ -74,16 +75,23 @@ namespace Payroll_System
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow selectedRow = userDatasGrid.Rows[e.RowIndex];
-
-                selectedStaffID = selectedRow.Cells[0].Value?.ToString();
+                cellValue = selectedRow.Cells[0].Value?.ToString();
+                if (!string.IsNullOrEmpty(cellValue) && int.TryParse(cellValue, out int selectedStaffID))
+                {
+                    UserDetails.SelectedStaffID = selectedStaffID;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid or empty cell value.", "Error");
+                }
             }
         }
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
-            if(selectedStaffID != null)
+            if (cellValue != null)
             {
                 ManageAccountEditForm manageAccountEditForm = new ManageAccountEditForm();
-                manageAccountEditForm.selectedStaffID = selectedStaffID;
+                manageAccountEditForm.Success += Success;
                 manageAccountEditForm.ShowDialog();
             }
             else
@@ -94,10 +102,10 @@ namespace Payroll_System
         private void ButtonRegister_Click(object sender, EventArgs e)
         {
             AccountRegisterForm accountRegisterForm = new AccountRegisterForm();
-            accountRegisterForm.RegistrationSuccess += AccountRegisterForm_RegistrationSuccess;
+            accountRegisterForm.Success += Success;
             accountRegisterForm.ShowDialog();
         }
-        private void AccountRegisterForm_RegistrationSuccess(object sender, EventArgs e)
+        private void Success(object sender, EventArgs e)
         {
             ShowAccounts();
         }
@@ -127,6 +135,29 @@ namespace Payroll_System
                 mscAdapter.Fill(allAccDet);
             }
             FillDGV();
+        }
+
+        private void userDatasGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                string targetColumnName = "Locked";
+
+                if (userDatasGrid.Columns[e.ColumnIndex].Name == targetColumnName)
+                {
+                    // Check if the cell value is 0
+                    if (e.Value != null && int.TryParse(e.Value.ToString(), out int cellValue) && cellValue == 0)
+                    {
+                        e.Value = "Yes";
+                        e.FormattingApplied = true;
+                    }
+                    else
+                    {
+                        e.Value = "No";
+                        e.FormattingApplied = true;
+                    }
+                }
+            }
         }
     }
 }

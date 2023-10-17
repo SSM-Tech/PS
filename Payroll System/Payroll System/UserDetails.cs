@@ -11,10 +11,14 @@ namespace Payroll_System
     static class UserDetails
     {
         static DataTable? userDetail;
-
+        static int? selectedStaffID;
         public static DataTable? UserDetail { 
             get => userDetail; 
             set => userDetail = value; 
+        }
+        public static int? SelectedStaffID {
+            get => selectedStaffID; 
+            set => selectedStaffID = value; 
         }
     }
 }

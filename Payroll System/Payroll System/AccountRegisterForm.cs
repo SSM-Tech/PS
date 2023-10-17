@@ -17,7 +17,7 @@ namespace Payroll_System
     public partial class AccountRegisterForm : Form
     {
         bool registerWasSuccessful;
-        public event EventHandler RegistrationSuccess;
+        public event EventHandler Success;
 
         DBConn dbConn = new();
         DBQuery dbQuery = new DBQuery();
@@ -94,7 +94,6 @@ namespace Payroll_System
             string accountLevel = AccountLevel(cBAccResLVL.SelectedItem.ToString());
             DateTime dob = dTPBOD.Value;
             string position = txtBPosition.Text;
-
             decimal salary = decimal.Parse(txtBSalary.Text);
             decimal allowance = decimal.Parse(txtBSalary.Text);
             using (MySqlConnection dbConnection = dbConn.getConnection())
@@ -121,9 +120,9 @@ namespace Payroll_System
 
                     if (rowsAffected > 0)
                     {
+                        MessageBox.Show("Username: " + username + "\nPassword: " + password, "Successfully Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         registerWasSuccessful = true;
                         OnRegistrationSuccess(EventArgs.Empty);
-                        MessageBox.Show("Username: " + username + "\nPassword: " + password, "Successfully Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Hide();
                     }
                     else
@@ -135,7 +134,7 @@ namespace Payroll_System
         }
         protected virtual void OnRegistrationSuccess(EventArgs e)
         {
-            RegistrationSuccess?.Invoke(this, e);
+            Success?.Invoke(this, e);
         }
         private void ConfirmButton_Click(object sender, EventArgs e)
         {
@@ -170,8 +169,6 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
-
-            // only allow one decimal point
             if (e.KeyChar == '.'
                 && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
             {
@@ -191,8 +188,6 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
-
-            // only allow one decimal point
             if (e.KeyChar == '.'
                 && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
             {

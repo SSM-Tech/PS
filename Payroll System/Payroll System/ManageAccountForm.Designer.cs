@@ -34,7 +34,6 @@
             ButtonEdit = new Button();
             ButtonRegister = new Button();
             txtBoxSearch = new TextBox();
-            btnLocked = new Button();
             ((System.ComponentModel.ISupportInitialize)userDatasGrid).BeginInit();
             SuspendLayout();
             // 
@@ -69,6 +68,7 @@
             userDatasGrid.Size = new Size(1232, 550);
             userDatasGrid.TabIndex = 2;
             userDatasGrid.CellClick += userDatasGrid_CellClick;
+            userDatasGrid.CellFormatting += userDatasGrid_CellFormatting;
             // 
             // ButtonEdit
             // 
@@ -100,22 +100,12 @@
             txtBoxSearch.TabIndex = 5;
             txtBoxSearch.TextChanged += txtBoxSearch_TextChanged;
             // 
-            // btnLocked
-            // 
-            btnLocked.Location = new Point(1024, 611);
-            btnLocked.Name = "btnLocked";
-            btnLocked.Size = new Size(220, 37);
-            btnLocked.TabIndex = 7;
-            btnLocked.Text = "Locked";
-            btnLocked.UseVisualStyleBackColor = true;
-            // 
             // ManageAccountForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1256, 660);
-            Controls.Add(btnLocked);
             Controls.Add(txtBoxSearch);
             Controls.Add(ButtonRegister);
             Controls.Add(ButtonEdit);
@@ -135,6 +125,5 @@
         private Button ButtonEdit;
         private Button ButtonRegister;
         private TextBox txtBoxSearch;
-        private Button btnLocked;
     }
 }

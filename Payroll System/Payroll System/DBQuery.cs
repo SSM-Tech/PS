@@ -22,6 +22,8 @@ namespace Payroll_System
         private string registerNewManager = @"CALL `registerNewManager`(@p0)";
         private string searchAccForLvl3 = @"CALL `searchAccforLvl3`(@p0)";
         private string searchAccForLvl2 = @"CALL `searchAccForLvl2`(@p0, @p1)";
+        private string editUserAcc = @"CALL `editUserAcc`(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)";
+        private string getManagerName = @"CALL `getManagerName`(@p0)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -75,6 +77,14 @@ namespace Payroll_System
         public string GetSearchAccForLvl2()
         {
             return searchAccForLvl2;
+        }
+        public string EditUserAcc()
+        {
+            return editUserAcc;
+        }
+        public string GetManagerName()
+        {
+            return getManagerName;
         }
     }
 }

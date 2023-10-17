@@ -38,7 +38,7 @@ namespace Payroll_System
             string allowance = retrievedTable.Rows[0][columnName: "allowance"].ToString();
             TxtFullName.Text = firstName + " " + lastName;
             TxtUsername.Text = username;
-            TxtAccLvl.Text = accLevel;
+            TxtAccLvl.Text = "Level " + accLevel;
             TxtSex.Text = sex;
             TxtDOB.Text = formattedDate;
             TxtStaffID.Text = staffID;

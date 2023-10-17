@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 10, 2023 at 10:14 AM
+-- Generation Time: Oct 17, 2023 at 04:14 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -27,6 +27,22 @@ DELIMITER $$
 --
 DROP PROCEDURE IF EXISTS `checkUsername`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkUsername` (IN `usn` VARCHAR(50))   SELECT username FROM account WHERE username = usn$$
+
+DROP PROCEDURE IF EXISTS `editUserAcc`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `editUserAcc` (IN `p_staffID` INT, IN `p_firstname` VARCHAR(50), IN `p_lastname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATETIME, IN `p_position` VARCHAR(50), IN `p_salary` DECIMAL, IN `p_allowance` DECIMAL, IN `p_stationNo` VARCHAR(50), IN `p_isEnabled` INT, IN `p_accountLevel` INT, IN `p_managerID` INT)   UPDATE staff s, account a
+SET s.firstName = p_firstname,
+	s.lastName = p_lastname,
+    s.managerID = p_managerID,
+    s.sex = p_sex,
+    s.DOB = p_dOB,
+    s.position = p_position,
+    s.salary = p_salary,
+    s.allowance = p_allowance,
+    s.stationNo = p_stationNo,
+    a.isEnabled = p_isEnabled,
+    a.accountLevel = p_accountLevel
+WHERE s.staffID = p_staffID
+AND a.staffID = p_staffID$$
 
 DROP PROCEDURE IF EXISTS `getAccDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE)   SELECT 
@@ -81,6 +97,12 @@ JOIN manager m ON stf.managerID = m.managerID$$
 
 DROP PROCEDURE IF EXISTS `getLogin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin` (IN `usn` VARCHAR(50), IN `pass` VARCHAR(50))   SELECT * FROM account WHERE username = usn AND password = pass$$
+
+DROP PROCEDURE IF EXISTS `getManagerName`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getManagerName` (IN `p_managerID` INT)   SELECT s.firstName
+FROM staff s
+INNER JOIN manager m ON s.staffId = m.staffID
+WHERE m.managerID = p_managerID$$
 
 DROP PROCEDURE IF EXISTS `getManagerNames`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getManagerNames` ()   SELECT s.firstName
@@ -194,13 +216,13 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`, `accountLevel`) VALUES
-(1, 1, 'johnrey.silverio', 'johnrey1', 1, 3),
+(1, 1, 'johnrey.silverio', 'berio123', 1, 3),
 (2, 2, 'laurence.silverio', 'laurence', 1, 2),
-(3, 3, 'username.password', 'password', 0, 1),
-(5, 5, 'test.test', 'test1234', 1, 2),
+(3, 3, 'username.password', 'password', 1, 1),
+(5, 5, 'test.test', 'test1234', 1, 3),
 (7, 7, 'johnmatheow.morillo', 'cho12345', 1, 1),
 (8, 8, 'emily.johnson', 'johnson123', 1, 1),
-(9, 9, 'mikejasper.otero', 'otero123', 1, 1),
+(9, 9, 'mikejasper.otero', '7n8Vh', 1, 1),
 (10, 10, 'johnwilliard.sanjuan', 'sanjuan123', 1, 1),
 (11, 11, 'walterhartwel.white', 'ShZiG7dbbehjJwUj', 1, 2),
 (12, 12, 'jesse.pinkman', 'hJnbdrtqJXdZ6XRJ', 1, 2),
@@ -360,9 +382,9 @@ CREATE TABLE IF NOT EXISTS `staff` (
 INSERT INTO `staff` (`staffID`, `managerID`, `firstName`, `lastName`, `sex`, `DOB`, `position`, `salary`, `allowance`, `stationNo`) VALUES
 (1, 1, 'John Rey', 'Silverio', 'Male', '2001-04-17 00:00:00', 'Employee', '500.00', '0.00', 'S001'),
 (2, 1, 'laurence', 'silverio', 'Male', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S001'),
-(3, 2, 'username', 'password', 'm', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S002'),
-(5, 1, 'test', 'test', 'Female', '2023-09-28 00:00:00', 'Manager', '1000.00', '500.00', 'S002'),
-(7, 3, 'john matheo', 'morillo', 'Male', '2023-09-28 00:00:00', 'Employee', '500.00', NULL, 'S001'),
+(3, 1, 'username', 'password', 'Female', '2023-10-26 16:23:27', 'Employee', '0.00', '0.00', ''),
+(5, 1, 'Edit', 'Test', 'Male', '2023-09-28 00:00:00', 'New Manager', '1500.00', '500.00', ''),
+(7, 3, 'john matheo', 'morillo', 'Male', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S001'),
 (8, 2, 'Emily', 'Johnson', 'Female', '2023-10-01 00:00:00', 'Cashier', '500.00', '0.00', 'S002'),
 (9, 3, 'Mike Jasper', 'Otero', 'Male', '2023-10-01 00:00:00', 'Guitarist', '1000.00', '500.00', 'S002'),
 (10, 2, 'John Williard', 'San Juan', 'Male', '2023-10-01 00:00:00', 'Cashier', '1000.00', '500.00', 'S001'),
