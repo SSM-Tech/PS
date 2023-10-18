@@ -33,6 +33,7 @@
             ConfirmButton = new Button();
             CancelButton = new Button();
             panel1 = new Panel();
+            txtBDOB = new TextBox();
             label12 = new Label();
             cBManager = new ComboBox();
             txtBAllowance = new TextBox();
@@ -99,6 +100,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(txtBDOB);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(cBManager);
             panel1.Controls.Add(txtBAllowance);
@@ -126,6 +128,14 @@
             panel1.Size = new Size(974, 529);
             panel1.TabIndex = 25;
             // 
+            // txtBDOB
+            // 
+            txtBDOB.Location = new Point(519, 113);
+            txtBDOB.Name = "txtBDOB";
+            txtBDOB.ReadOnly = true;
+            txtBDOB.Size = new Size(434, 37);
+            txtBDOB.TabIndex = 68;
+            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -137,8 +147,9 @@
             // 
             // cBManager
             // 
+            cBManager.DropDownStyle = ComboBoxStyle.DropDownList;
             cBManager.FormattingEnabled = true;
-            cBManager.Location = new Point(515, 185);
+            cBManager.Location = new Point(519, 185);
             cBManager.Name = "cBManager";
             cBManager.Size = new Size(452, 37);
             cBManager.TabIndex = 5;
@@ -162,7 +173,7 @@
             // 
             // txtBSalary
             // 
-            txtBSalary.Location = new Point(20, 329);
+            txtBSalary.Location = new Point(18, 329);
             txtBSalary.Name = "txtBSalary";
             txtBSalary.Size = new Size(452, 37);
             txtBSalary.TabIndex = 7;
@@ -195,9 +206,10 @@
             // 
             // cBAccResLVL
             // 
+            cBAccResLVL.DropDownStyle = ComboBoxStyle.DropDownList;
             cBAccResLVL.FormattingEnabled = true;
             cBAccResLVL.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3" });
-            cBAccResLVL.Location = new Point(20, 185);
+            cBAccResLVL.Location = new Point(18, 185);
             cBAccResLVL.Name = "cBAccResLVL";
             cBAccResLVL.Size = new Size(452, 37);
             cBAccResLVL.TabIndex = 4;
@@ -214,10 +226,11 @@
             // dTPBOD
             // 
             dTPBOD.Format = DateTimePickerFormat.Short;
-            dTPBOD.Location = new Point(519, 113);
+            dTPBOD.Location = new Point(951, 113);
             dTPBOD.Name = "dTPBOD";
-            dTPBOD.Size = new Size(452, 37);
+            dTPBOD.Size = new Size(20, 37);
             dTPBOD.TabIndex = 3;
+            dTPBOD.ValueChanged += dTPBOD_ValueChanged;
             // 
             // label6
             // 
@@ -230,6 +243,7 @@
             // 
             // cBGender
             // 
+            cBGender.DropDownStyle = ComboBoxStyle.DropDownList;
             cBGender.FormattingEnabled = true;
             cBGender.Items.AddRange(new object[] { "Male", "Female", "Other", "Prefer not to say" });
             cBGender.Location = new Point(18, 113);
@@ -321,5 +335,6 @@
         private ComboBox cBAccResLVL;
         private Label label12;
         private ComboBox cBManager;
+        private TextBox txtBDOB;
     }
 }

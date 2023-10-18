@@ -47,6 +47,7 @@ namespace Payroll_System
             }
             else
             {
+                ButtonRegister.Enabled = false;
                 mscUserDetail = new(dbQuery.GetAllAccountDetailsForLVL2(), dbConn.getConnection());
                 mscUserDetail.Parameters.Add("@p0", MySqlDbType.VarChar).Value = managerID;
                 mscAdapter.SelectCommand = mscUserDetail;

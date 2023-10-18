@@ -21,6 +21,7 @@ namespace Payroll_System
         int? selectedStaffID = UserDetails.SelectedStaffID;
         DataTable? dtSelectedUser = new DataTable();
         DataTable? managerNames = new DataTable();
+        DataTable? retrievedTable = UserDetails.UserDetail;
         DBConn dbConn = new();
         DBQuery dbQuery = new DBQuery();
         MySqlDataAdapter adapter = new();
@@ -31,6 +32,7 @@ namespace Payroll_System
         DateTime dob;
         int accLvlIndex;
         int managerID;
+        int managerIndex;
         int lockAcc;
         string position;
         decimal salary;
@@ -115,12 +117,25 @@ namespace Payroll_System
             txtBFirstname.Text = firstname;
             txtBLastname.Text = lastname;
             dTPBOD.Value = dob;
+            txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
             cBManager.SelectedIndex = cBManager.Items.IndexOf(dataTable.Rows[0][columnName: "firstName"].ToString());
             txtBPosition.Text = position;
             txtBSalary.Text = salary.ToString();
             txtBAllowance.Text = allowance.ToString();
 
+            genderIndex = cBGender.SelectedIndex;
+            accLvlIndex = cBAccResLVL.SelectedIndex;
+            managerIndex = cBManager.SelectedIndex;
+
             ConfirmButton.Enabled = false;
+            if (retrievedTable.Rows[0][columnName: "accountLevel"].ToString() == "2")
+            {
+                cBAccResLVL.Enabled = false;
+                cBManager.Enabled = false;
+                txtBSalary.ReadOnly = true;
+                txtBAllowance.ReadOnly = true;
+            }
+
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
@@ -133,13 +148,13 @@ namespace Payroll_System
 
             switch (genderIndex)
             {
-                case 1:
+                case 0:
                     gender = "Male";
                     break;
-                case 2:
+                case 1:
                     gender = "Female";
                     break;
-                case 3:
+                case 2:
                     gender = "Other";
                     break;
                 default:
@@ -266,7 +281,7 @@ namespace Payroll_System
 
         private void txtBFirstname_TextChanged(object sender, EventArgs e)
         {
-            if (txtBFirstname.Text != firstname)
+            if (txtBFirstname.Text != firstname && txtBFirstname.Text != "")
             {
                 ConfirmButton.Enabled = true;
             }
@@ -278,7 +293,7 @@ namespace Payroll_System
 
         private void txtBLastname_TextChanged(object sender, EventArgs e)
         {
-            if (txtBLastname.Text != lastname)
+            if (txtBLastname.Text != lastname && txtBLastname.Text != "")
             {
                 ConfirmButton.Enabled = true;
             }
@@ -302,6 +317,7 @@ namespace Payroll_System
 
         private void dTPBOD_ValueChanged(object sender, EventArgs e)
         {
+            txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
             if (dTPBOD.Value != dob)
             {
                 ConfirmButton.Enabled = true;
@@ -326,7 +342,7 @@ namespace Payroll_System
 
         private void cBManager_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cBManager.SelectedIndex != managerID - 1)
+            if (cBManager.SelectedIndex != managerIndex)
             {
                 ConfirmButton.Enabled = true;
             }
@@ -350,7 +366,7 @@ namespace Payroll_System
 
         private void txtBPosition_TextChanged(object sender, EventArgs e)
         {
-            if (txtBPosition.Text != position)
+            if (txtBPosition.Text != position && txtBPosition.Text != "")
             {
                 ConfirmButton.Enabled = true;
             }
@@ -362,7 +378,7 @@ namespace Payroll_System
 
         private void txtBSalary_TextChanged(object sender, EventArgs e)
         {
-            if (txtBSalary.Text != salary.ToString())
+            if (txtBSalary.Text != salary.ToString() && txtBSalary.Text != "")
             {
                 ConfirmButton.Enabled = true;
             }
@@ -374,13 +390,51 @@ namespace Payroll_System
 
         private void txtBAllowance_TextChanged(object sender, EventArgs e)
         {
-            if (txtBAllowance.Text != allowance.ToString())
+            if (txtBAllowance.Text != allowance.ToString() && txtBAllowance.Text != "")
             {
                 ConfirmButton.Enabled = true;
             }
             else
             {
                 ConfirmButton.Enabled = false;
+            }
+        }
+
+        private void txtBSalary_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            if ((txtBSalary.Text.IndexOf('.') > -1) && (txtBSalary.Text.Substring(txtBSalary.Text.IndexOf('.') + 1).Length >= 2) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtBAllowance_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar)
+                && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '.'
+                && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            if ((txtBAllowance.Text.IndexOf('.') > -1) && (txtBAllowance.Text.Substring(txtBAllowance.Text.IndexOf('.') + 1).Length >= 2) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }

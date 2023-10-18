@@ -50,6 +50,7 @@
             ConfirmButton = new Button();
             label1 = new Label();
             panel1 = new Panel();
+            txtBDOB = new TextBox();
             btnResetPassword = new Button();
             cBLockAcc = new ComboBox();
             label4 = new Label();
@@ -68,8 +69,9 @@
             // 
             // cBManager
             // 
+            cBManager.DropDownStyle = ComboBoxStyle.DropDownList;
             cBManager.FormattingEnabled = true;
-            cBManager.Location = new Point(515, 185);
+            cBManager.Location = new Point(519, 185);
             cBManager.Name = "cBManager";
             cBManager.Size = new Size(452, 37);
             cBManager.TabIndex = 5;
@@ -77,11 +79,12 @@
             // 
             // txtBAllowance
             // 
-            txtBAllowance.Location = new Point(515, 329);
+            txtBAllowance.Location = new Point(519, 329);
             txtBAllowance.Name = "txtBAllowance";
             txtBAllowance.Size = new Size(452, 37);
             txtBAllowance.TabIndex = 8;
             txtBAllowance.TextChanged += txtBAllowance_TextChanged;
+            txtBAllowance.KeyPress += txtBAllowance_KeyPress;
             // 
             // label11
             // 
@@ -99,6 +102,7 @@
             txtBSalary.Size = new Size(452, 37);
             txtBSalary.TabIndex = 7;
             txtBSalary.TextChanged += txtBSalary_TextChanged;
+            txtBSalary.KeyPress += txtBSalary_KeyPress;
             // 
             // label10
             // 
@@ -111,7 +115,7 @@
             // 
             // txtBPosition
             // 
-            txtBPosition.Location = new Point(516, 257);
+            txtBPosition.Location = new Point(519, 257);
             txtBPosition.Name = "txtBPosition";
             txtBPosition.Size = new Size(452, 37);
             txtBPosition.TabIndex = 6;
@@ -128,6 +132,7 @@
             // 
             // cBAccResLVL
             // 
+            cBAccResLVL.DropDownStyle = ComboBoxStyle.DropDownList;
             cBAccResLVL.FormattingEnabled = true;
             cBAccResLVL.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3" });
             cBAccResLVL.Location = new Point(20, 185);
@@ -148,9 +153,9 @@
             // dTPBOD
             // 
             dTPBOD.Format = DateTimePickerFormat.Short;
-            dTPBOD.Location = new Point(519, 113);
+            dTPBOD.Location = new Point(953, 113);
             dTPBOD.Name = "dTPBOD";
-            dTPBOD.Size = new Size(452, 37);
+            dTPBOD.Size = new Size(18, 37);
             dTPBOD.TabIndex = 3;
             dTPBOD.ValueChanged += dTPBOD_ValueChanged;
             // 
@@ -165,6 +170,7 @@
             // 
             // cBGender
             // 
+            cBGender.DropDownStyle = ComboBoxStyle.DropDownList;
             cBGender.FormattingEnabled = true;
             cBGender.Items.AddRange(new object[] { "Male", "Female", "Other", "Prefer not to say" });
             cBGender.Location = new Point(18, 113);
@@ -250,6 +256,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(txtBDOB);
             panel1.Controls.Add(btnResetPassword);
             panel1.Controls.Add(cBLockAcc);
             panel1.Controls.Add(label4);
@@ -280,6 +287,14 @@
             panel1.Size = new Size(974, 529);
             panel1.TabIndex = 26;
             // 
+            // txtBDOB
+            // 
+            txtBDOB.Location = new Point(519, 113);
+            txtBDOB.Name = "txtBDOB";
+            txtBDOB.ReadOnly = true;
+            txtBDOB.Size = new Size(434, 37);
+            txtBDOB.TabIndex = 67;
+            // 
             // btnResetPassword
             // 
             btnResetPassword.Location = new Point(502, 372);
@@ -292,6 +307,7 @@
             // 
             // cBLockAcc
             // 
+            cBLockAcc.DropDownStyle = ComboBoxStyle.DropDownList;
             cBLockAcc.FormattingEnabled = true;
             cBLockAcc.Items.AddRange(new object[] { "Yes", "No" });
             cBLockAcc.Location = new Point(20, 257);
@@ -366,5 +382,6 @@
         private Label label4;
         private TextBox TxtPass;
         private Button btnResetPassword;
+        private TextBox txtBDOB;
     }
 }

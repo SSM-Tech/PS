@@ -45,6 +45,7 @@ namespace Payroll_System
             cBManager.SelectedIndex = 0;
             cBGender.SelectedIndex = 0;
             cBAccResLVL.SelectedIndex = 0;
+            txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
         }
         static string GenerateRandomPassword(int minLength, int maxLength)
         {
@@ -89,7 +90,7 @@ namespace Payroll_System
             string firstname = txtBFirstname.Text;
             string lastname = txtBLastname.Text;
             string username = $"{firstname.Replace(" ", "").ToLower()}.{lastname.Replace(" ", "").ToLower()}";
-            string password = GenerateRandomPassword(5,5);
+            string password = GenerateRandomPassword(5, 5);
             string gender = cBGender.SelectedItem.ToString();
             string accountLevel = AccountLevel(cBAccResLVL.SelectedItem.ToString());
             DateTime dob = dTPBOD.Value;
@@ -197,6 +198,11 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
+        }
+
+        private void dTPBOD_ValueChanged(object sender, EventArgs e)
+        {
+            txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
         }
     }
 }
