@@ -1,0 +1,10 @@
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\bin\Debug\PayrollSystemServer.exe.config
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\bin\Debug\PayrollSystemServer.exe
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\bin\Debug\PayrollSystemServer.pdb
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.csproj.AssemblyReference.cache
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.Form1.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.Properties.Resources.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.csproj.GenerateResource.cache
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.csproj.CoreCompileInputs.cache
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.exe
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PayrollSystemServer\PayrollSystemServer\obj\Debug\PayrollSystemServer.pdb
