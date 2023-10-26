@@ -51,7 +51,6 @@ C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll Syste
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.csproj.AssemblyReference.cache
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.AccountDetailsForm.resources
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.DTRForm.resources
-C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.EditAccountForm.resources
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.HomeForm.resources
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.LoginForm.resources
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.ManageAccountForm.resources

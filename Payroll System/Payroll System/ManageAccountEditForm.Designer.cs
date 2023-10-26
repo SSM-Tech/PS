@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label12 = new Label();
-            cBManager = new ComboBox();
             txtBAllowance = new TextBox();
             label11 = new Label();
             txtBSalary = new TextBox();
@@ -50,6 +49,7 @@
             ConfirmButton = new Button();
             label1 = new Label();
             panel1 = new Panel();
+            txtBStationNo = new TextBox();
             txtBDOB = new TextBox();
             btnResetPassword = new Button();
             cBLockAcc = new ComboBox();
@@ -63,19 +63,9 @@
             label12.AutoSize = true;
             label12.Location = new Point(502, 153);
             label12.Name = "label12";
-            label12.Size = new Size(105, 29);
+            label12.Size = new Size(115, 29);
             label12.TabIndex = 63;
-            label12.Text = "Manager:";
-            // 
-            // cBManager
-            // 
-            cBManager.DropDownStyle = ComboBoxStyle.DropDownList;
-            cBManager.FormattingEnabled = true;
-            cBManager.Location = new Point(519, 185);
-            cBManager.Name = "cBManager";
-            cBManager.Size = new Size(452, 37);
-            cBManager.TabIndex = 5;
-            cBManager.SelectedIndexChanged += cBManager_SelectedIndexChanged;
+            label12.Text = "Station No.";
             // 
             // txtBAllowance
             // 
@@ -134,7 +124,7 @@
             // 
             cBAccResLVL.DropDownStyle = ComboBoxStyle.DropDownList;
             cBAccResLVL.FormattingEnabled = true;
-            cBAccResLVL.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3" });
+            cBAccResLVL.Items.AddRange(new object[] { "Level 1", "Level 2" });
             cBAccResLVL.Location = new Point(20, 185);
             cBAccResLVL.Name = "cBAccResLVL";
             cBAccResLVL.Size = new Size(452, 37);
@@ -256,12 +246,12 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(txtBStationNo);
             panel1.Controls.Add(txtBDOB);
             panel1.Controls.Add(btnResetPassword);
             panel1.Controls.Add(cBLockAcc);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label12);
-            panel1.Controls.Add(cBManager);
             panel1.Controls.Add(txtBAllowance);
             panel1.Controls.Add(label11);
             panel1.Controls.Add(txtBSalary);
@@ -287,6 +277,14 @@
             panel1.Size = new Size(974, 529);
             panel1.TabIndex = 26;
             // 
+            // txtBStationNo
+            // 
+            txtBStationNo.Location = new Point(519, 185);
+            txtBStationNo.Name = "txtBStationNo";
+            txtBStationNo.Size = new Size(452, 37);
+            txtBStationNo.TabIndex = 68;
+            txtBStationNo.TextChanged += txtBStationNo_TextChanged;
+            // 
             // txtBDOB
             // 
             txtBDOB.Location = new Point(519, 113);
@@ -294,6 +292,7 @@
             txtBDOB.ReadOnly = true;
             txtBDOB.Size = new Size(434, 37);
             txtBDOB.TabIndex = 67;
+            txtBDOB.Click += txtBDOB_Click;
             // 
             // btnResetPassword
             // 
@@ -357,7 +356,6 @@
         #endregion
 
         private Label label12;
-        private ComboBox cBManager;
         private TextBox txtBAllowance;
         private Label label11;
         private TextBox txtBSalary;
@@ -383,5 +381,6 @@
         private TextBox TxtPass;
         private Button btnResetPassword;
         private TextBox txtBDOB;
+        private TextBox txtBStationNo;
     }
 }

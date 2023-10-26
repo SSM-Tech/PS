@@ -32,27 +32,14 @@ namespace Payroll_System
         {
             allAccDet.Rows.Clear();
 
-            string managerID = retrievedTable.Rows[0][columnName: "ownManagerID"].ToString();
-
+            string search = txtBoxSearch.Text;
             MySqlDataAdapter? mscAdapter = new();
 
-            MySqlCommand? mscUserDetail;
-
-            if (retrievedTable.Rows[0][columnName: "accountLevel"].ToString() == "3")
-            {
-                mscUserDetail = new(dbQuery.GetAllAccountDetailsForLVL3(), dbConn.getConnection());
-                mscUserDetail.ExecuteReaderAsync();
-                mscAdapter.SelectCommand = mscUserDetail;
-                mscAdapter.Fill(allAccDet);
-            }
-            else
-            {
-                ButtonRegister.Enabled = false;
-                mscUserDetail = new(dbQuery.GetAllAccountDetailsForLVL2(), dbConn.getConnection());
-                mscUserDetail.Parameters.Add("@p0", MySqlDbType.VarChar).Value = managerID;
-                mscAdapter.SelectCommand = mscUserDetail;
-                mscAdapter.Fill(allAccDet);
-            }
+            MySqlCommand? mscSearchAcc;
+            mscSearchAcc = new(dbQuery.GetUserAcc(), dbConn.getConnection());
+            mscSearchAcc.Parameters.Add("@p0", MySqlDbType.VarChar).Value = search;
+            mscAdapter.SelectCommand = mscSearchAcc;
+            mscAdapter.Fill(allAccDet);
             FillDGV();
         }
         private void FillDGV()
@@ -68,7 +55,7 @@ namespace Payroll_System
         }
         private void txtBoxSearch_TextChanged(object sender, EventArgs e)
         {
-            SearchAccount();
+            ShowAccounts();
         }
 
         private void userDatasGrid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -110,33 +97,6 @@ namespace Payroll_System
         {
             ShowAccounts();
         }
-        private void SearchAccount()
-        {
-            allAccDet.Rows.Clear();
-            string managerID = retrievedTable.Rows[0][columnName: "ownManagerID"].ToString();
-            string search = txtBoxSearch.Text;
-            MySqlDataAdapter? mscAdapter = new();
-
-            MySqlCommand? mscSearchAcc;
-
-            FillDGV();
-            if (retrievedTable.Rows[0][columnName: "accountLevel"].ToString() == "3")
-            {
-                mscSearchAcc = new(dbQuery.GetSearchAccForLvl3(), dbConn.getConnection());
-                mscSearchAcc.Parameters.Add("@p0", MySqlDbType.VarChar).Value = search;
-                mscAdapter.SelectCommand = mscSearchAcc;
-                mscAdapter.Fill(allAccDet);
-            }
-            else
-            {
-                mscSearchAcc = new(dbQuery.GetSearchAccForLvl2(), dbConn.getConnection());
-                mscSearchAcc.Parameters.Add("@p0", MySqlDbType.VarChar).Value = search;
-                mscSearchAcc.Parameters.Add("@p1", MySqlDbType.VarChar).Value = managerID;
-                mscAdapter.SelectCommand = mscSearchAcc;
-                mscAdapter.Fill(allAccDet);
-            }
-            FillDGV();
-        }
 
         private void userDatasGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -146,7 +106,6 @@ namespace Payroll_System
 
                 if (userDatasGrid.Columns[e.ColumnIndex].Name == targetColumnName)
                 {
-                    // Check if the cell value is 0
                     if (e.Value != null && int.TryParse(e.Value.ToString(), out int cellValue) && cellValue == 0)
                     {
                         e.Value = "Yes";

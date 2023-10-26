@@ -19,13 +19,11 @@ namespace Payroll_System
         {
             InitializeComponent();
             ShowAccDetails();
-
         }
 
         public void ShowAccDetails()
         {
             string username = retrievedTable.Rows[0][columnName: "username"].ToString();
-            string accLevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
             string firstName = retrievedTable.Rows[0][columnName: "firstName"].ToString();
             string lastName = retrievedTable.Rows[0][columnName: "lastName"].ToString();
             string sex = retrievedTable.Rows[0][columnName: "sex"].ToString();
@@ -38,7 +36,6 @@ namespace Payroll_System
             string allowance = retrievedTable.Rows[0][columnName: "allowance"].ToString();
             TxtFullName.Text = firstName + " " + lastName;
             TxtUsername.Text = username;
-            TxtAccLvl.Text = "Level " + accLevel;
             TxtSex.Text = sex;
             TxtDOB.Text = formattedDate;
             TxtStaffID.Text = staffID;
@@ -59,18 +56,6 @@ namespace Payroll_System
             TxtStaffID.UseSystemPasswordChar = true;
             StaffIDHideIcon.Show();
             StaffIDShowIcon.Hide();
-        }
-        private void AccLvlHideIcon_Click(object sender, EventArgs e)
-        {
-            TxtAccLvl.UseSystemPasswordChar = false;
-            AccLvlHideIcon.Hide();
-            AccLvlShowIcon.Show();
-        }
-        private void AccLvlShowIcon_Click(object sender, EventArgs e)
-        {
-            TxtAccLvl.UseSystemPasswordChar = true;
-            AccLvlHideIcon.Show();
-            AccLvlShowIcon.Hide();
         }
         private void SalaryHideIcon_Click(object sender, EventArgs e)
         {
@@ -120,16 +105,6 @@ namespace Payroll_System
             TxtAllowance.UseSystemPasswordChar = true;
             AllowanceHideIcon.Show();
             AllowanceShowIcon.Hide();
-        }
-        private void EditAccountButton_Click(object sender, EventArgs e)
-        {
-            EditAccountForm editAccountForm = new EditAccountForm();
-            editAccountForm.UpdateSuccessfulEvent += EditAccountForm_UpdateSuccessfulEvent;
-            editAccountForm.ShowDialog();
-        }
-        private void EditAccountForm_UpdateSuccessfulEvent(object sender, EventArgs e)
-        {
-            ShowAccDetails();
         }
         private void ChangePasswordButton_Click(object sender, EventArgs e)
         {

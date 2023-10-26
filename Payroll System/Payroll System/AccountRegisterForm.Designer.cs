@@ -35,7 +35,6 @@
             panel1 = new Panel();
             txtBDOB = new TextBox();
             label12 = new Label();
-            cBManager = new ComboBox();
             txtBAllowance = new TextBox();
             label11 = new Label();
             txtBSalary = new TextBox();
@@ -52,6 +51,7 @@
             txtBLastname = new TextBox();
             label3 = new Label();
             label2 = new Label();
+            txtBStationNo = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -100,9 +100,9 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(txtBStationNo);
             panel1.Controls.Add(txtBDOB);
             panel1.Controls.Add(label12);
-            panel1.Controls.Add(cBManager);
             panel1.Controls.Add(txtBAllowance);
             panel1.Controls.Add(label11);
             panel1.Controls.Add(txtBSalary);
@@ -141,18 +141,9 @@
             label12.AutoSize = true;
             label12.Location = new Point(502, 153);
             label12.Name = "label12";
-            label12.Size = new Size(105, 29);
+            label12.Size = new Size(116, 29);
             label12.TabIndex = 63;
-            label12.Text = "Manager:";
-            // 
-            // cBManager
-            // 
-            cBManager.DropDownStyle = ComboBoxStyle.DropDownList;
-            cBManager.FormattingEnabled = true;
-            cBManager.Location = new Point(519, 185);
-            cBManager.Name = "cBManager";
-            cBManager.Size = new Size(452, 37);
-            cBManager.TabIndex = 5;
+            label12.Text = "Station No:";
             // 
             // txtBAllowance
             // 
@@ -208,7 +199,7 @@
             // 
             cBAccResLVL.DropDownStyle = ComboBoxStyle.DropDownList;
             cBAccResLVL.FormattingEnabled = true;
-            cBAccResLVL.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3" });
+            cBAccResLVL.Items.AddRange(new object[] { "Level 1", "Level 2" });
             cBAccResLVL.Location = new Point(18, 185);
             cBAccResLVL.Name = "cBAccResLVL";
             cBAccResLVL.Size = new Size(452, 37);
@@ -292,6 +283,13 @@
             label2.TabIndex = 39;
             label2.Text = "Firstname:";
             // 
+            // txtBStationNo
+            // 
+            txtBStationNo.Location = new Point(519, 185);
+            txtBStationNo.Name = "txtBStationNo";
+            txtBStationNo.Size = new Size(452, 37);
+            txtBStationNo.TabIndex = 69;
+            // 
             // AccountRegisterForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
@@ -334,7 +332,7 @@
         private Label label9;
         private ComboBox cBAccResLVL;
         private Label label12;
-        private ComboBox cBManager;
         private TextBox txtBDOB;
+        private TextBox txtBStationNo;
     }
 }

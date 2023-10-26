@@ -1,4 +1,5 @@
-﻿using MySqlX.XDevAPI.Relational;
+﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,10 +17,21 @@ namespace Payroll_System
     public partial class MenuForm : Form
     {
         DataTable? retrievedTable = UserDetails.UserDetail;
+        private System.Timers.Timer logoutTimer;
+        private bool isProgrammaticClose = false;
 
         public MenuForm()
         {
             InitializeComponent();
+
+            logoutTimer = new System.Timers.Timer(60000);
+            logoutTimer.Elapsed += LogoutTimerElapsed;
+            logoutTimer.AutoReset = true;
+            logoutTimer.Enabled = true;
+
+            logoutTimer.Start();
+
+            FormClosing += new FormClosingEventHandler(OnFormClosing);
             string username = retrievedTable.Rows[0][columnName: "username"].ToString().ToUpper();
             string acclevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
             if (acclevel != "1")
@@ -30,7 +42,57 @@ namespace Payroll_System
             }
             UsernameLabel.Text = "Welcome " + username;
             LoadForm(new HomeForm());
+        }
+        private void LogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
 
+            DBConn dbConn = new();
+            DBQuery dbQuery = new DBQuery();
+
+            DataTable? table = new();
+
+            MySqlDataAdapter adapter = new();
+            MySqlCommand command = new(dbQuery.CheckIsEnabled(), dbConn.getConnection());
+
+            command.Parameters.AddWithValue("@p0", userID);
+
+            adapter.SelectCommand = command;
+
+            adapter.Fill(table);
+
+            var isEnabled = table.Rows[0][columnName: "isEnabled"].ToString();
+
+            if (isEnabled == "0")
+            {
+                this.Invoke(new Action(() => {
+                    logoutTimer.Stop();
+                    Logout();
+                    MessageBox.Show("Your account has been locked, Please Contact the HR for more Information.", "Account Locked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }));
+            }
+
+            table.Rows.Clear();
+        }
+
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!isProgrammaticClose && e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult result = MessageBox.Show("Do you want to continue and perform some action before closing?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    LoginStatus();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+            }
         }
         public void LoadForm(object Form)
         {
@@ -48,11 +110,38 @@ namespace Payroll_System
         {
             if (MessageBox.Show("Are you sure you want to Logout?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                LoginForm loginForm = new();
-                loginForm.Show();
-                this.Close();
+                Logout();
             }
         }
+        private void Logout()
+        {
+            isProgrammaticClose = true;
+            LoginStatus();
+            LoginForm loginForm = new();
+            loginForm.Show();
+            this.Close();
+        }
+        private void LoginStatus()
+        {
+            DBConn dbConn = new();
+
+            DBQuery dbQuery = new DBQuery();
+
+            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
+            using (MySqlConnection dbConnection = dbConn.getConnection())
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand acommand = new MySqlCommand(dbQuery.LoginStatus(), dbConnection))
+                {
+                    acommand.Parameters.AddWithValue("@p0", 0);
+                    acommand.Parameters.AddWithValue("@p1", userID);
+
+                    acommand.ExecuteNonQuery();
+                }
+            }
+        }
+
         private void HomeFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new HomeForm());

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            btnClockIn = new Button();
+            btnClockOut = new Button();
             SuspendLayout();
             // 
             // label1
@@ -41,11 +43,37 @@
             label1.TabIndex = 0;
             label1.Text = "HomeForm";
             // 
+            // btnClockIn
+            // 
+            btnClockIn.BackColor = Color.Lime;
+            btnClockIn.ForeColor = SystemColors.ControlText;
+            btnClockIn.Location = new Point(768, 12);
+            btnClockIn.Name = "btnClockIn";
+            btnClockIn.Size = new Size(235, 53);
+            btnClockIn.TabIndex = 1;
+            btnClockIn.Text = "CLOCK IN";
+            btnClockIn.UseVisualStyleBackColor = false;
+            btnClockIn.Click += btnClockIn_Click;
+            // 
+            // btnClockOut
+            // 
+            btnClockOut.BackColor = Color.Red;
+            btnClockOut.ForeColor = SystemColors.ControlText;
+            btnClockOut.Location = new Point(1009, 12);
+            btnClockOut.Name = "btnClockOut";
+            btnClockOut.Size = new Size(235, 53);
+            btnClockOut.TabIndex = 2;
+            btnClockOut.Text = "CLOCK OUT";
+            btnClockOut.UseVisualStyleBackColor = false;
+            btnClockOut.Click += btnClockOut_Click;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1256, 660);
+            Controls.Add(btnClockOut);
+            Controls.Add(btnClockIn);
             Controls.Add(label1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
@@ -60,5 +88,7 @@
         #endregion
 
         private Label label1;
+        private Button btnClockIn;
+        private Button btnClockOut;
     }
 }

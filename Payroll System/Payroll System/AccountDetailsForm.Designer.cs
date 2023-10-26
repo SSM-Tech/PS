@@ -32,7 +32,6 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            label6 = new Label();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
@@ -43,18 +42,14 @@
             TxtSex = new TextBox();
             TxtUsername = new TextBox();
             TxtDOB = new TextBox();
-            TxtAccLvl = new TextBox();
             TxtStaffID = new TextBox();
             TxtStationNum = new TextBox();
             TxtSalary = new TextBox();
             TxtAllowance = new TextBox();
-            EditAccountButton = new Button();
             ChangePasswordButton = new Button();
             StaffIDShowIcon = new PictureBox();
             StaffIDHideIcon = new PictureBox();
-            AccLvlHideIcon = new PictureBox();
             SalaryHideIcon = new PictureBox();
-            AccLvlShowIcon = new PictureBox();
             SalaryShowIcon = new PictureBox();
             UserIDShowIcon = new PictureBox();
             UserIDHideIcon = new PictureBox();
@@ -64,9 +59,7 @@
             AllowanceHideIcon = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)StaffIDShowIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)StaffIDHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlHideIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SalaryHideIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlShowIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SalaryShowIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UserIDShowIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UserIDHideIcon).BeginInit();
@@ -115,16 +108,6 @@
             label5.Size = new Size(87, 29);
             label5.TabIndex = 4;
             label5.Text = "Staff ID:";
-            // 
-            // label6
-            // 
-            label6.Anchor = AnchorStyles.None;
-            label6.AutoSize = true;
-            label6.Location = new Point(12, 332);
-            label6.Name = "label6";
-            label6.Size = new Size(153, 29);
-            label6.TabIndex = 5;
-            label6.Text = "Account Level:";
             // 
             // label7
             // 
@@ -233,18 +216,6 @@
             TxtDOB.Size = new Size(459, 56);
             TxtDOB.TabIndex = 3;
             // 
-            // TxtAccLvl
-            // 
-            TxtAccLvl.Anchor = AnchorStyles.None;
-            TxtAccLvl.BorderStyle = BorderStyle.FixedSingle;
-            TxtAccLvl.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtAccLvl.Location = new Point(52, 364);
-            TxtAccLvl.Name = "TxtAccLvl";
-            TxtAccLvl.ReadOnly = true;
-            TxtAccLvl.Size = new Size(459, 56);
-            TxtAccLvl.TabIndex = 6;
-            TxtAccLvl.UseSystemPasswordChar = true;
-            // 
             // TxtStaffID
             // 
             TxtStaffID.Anchor = AnchorStyles.None;
@@ -293,17 +264,6 @@
             TxtAllowance.TabIndex = 9;
             TxtAllowance.UseSystemPasswordChar = true;
             // 
-            // EditAccountButton
-            // 
-            EditAccountButton.Anchor = AnchorStyles.None;
-            EditAccountButton.Location = new Point(302, 592);
-            EditAccountButton.Name = "EditAccountButton";
-            EditAccountButton.Size = new Size(209, 56);
-            EditAccountButton.TabIndex = 10;
-            EditAccountButton.Text = "EDIT ACCOUNT";
-            EditAccountButton.UseVisualStyleBackColor = true;
-            EditAccountButton.Click += EditAccountButton_Click;
-            // 
             // ChangePasswordButton
             // 
             ChangePasswordButton.Anchor = AnchorStyles.None;
@@ -342,19 +302,6 @@
             StaffIDHideIcon.TabStop = false;
             StaffIDHideIcon.Click += StaffIDHideIcon_Click;
             // 
-            // AccLvlHideIcon
-            // 
-            AccLvlHideIcon.Anchor = AnchorStyles.None;
-            AccLvlHideIcon.BackColor = SystemColors.Control;
-            AccLvlHideIcon.Image = Properties.Resources.hidePasswordIcon;
-            AccLvlHideIcon.Location = new Point(467, 376);
-            AccLvlHideIcon.Name = "AccLvlHideIcon";
-            AccLvlHideIcon.Size = new Size(35, 35);
-            AccLvlHideIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            AccLvlHideIcon.TabIndex = 36;
-            AccLvlHideIcon.TabStop = false;
-            AccLvlHideIcon.Click += AccLvlHideIcon_Click;
-            // 
             // SalaryHideIcon
             // 
             SalaryHideIcon.Anchor = AnchorStyles.None;
@@ -367,20 +314,6 @@
             SalaryHideIcon.TabIndex = 37;
             SalaryHideIcon.TabStop = false;
             SalaryHideIcon.Click += SalaryShowIcon_Click;
-            // 
-            // AccLvlShowIcon
-            // 
-            AccLvlShowIcon.Anchor = AnchorStyles.None;
-            AccLvlShowIcon.BackColor = SystemColors.Control;
-            AccLvlShowIcon.Image = Properties.Resources.showPasswordIcon;
-            AccLvlShowIcon.Location = new Point(426, 376);
-            AccLvlShowIcon.Name = "AccLvlShowIcon";
-            AccLvlShowIcon.Size = new Size(35, 35);
-            AccLvlShowIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            AccLvlShowIcon.TabIndex = 38;
-            AccLvlShowIcon.TabStop = false;
-            AccLvlShowIcon.Visible = false;
-            AccLvlShowIcon.Click += AccLvlShowIcon_Click;
             // 
             // SalaryShowIcon
             // 
@@ -490,18 +423,14 @@
             Controls.Add(UserIDHideIcon);
             Controls.Add(UserIDShowIcon);
             Controls.Add(SalaryShowIcon);
-            Controls.Add(AccLvlShowIcon);
             Controls.Add(SalaryHideIcon);
-            Controls.Add(AccLvlHideIcon);
             Controls.Add(StaffIDHideIcon);
             Controls.Add(StaffIDShowIcon);
             Controls.Add(ChangePasswordButton);
-            Controls.Add(EditAccountButton);
             Controls.Add(TxtAllowance);
             Controls.Add(TxtSalary);
             Controls.Add(TxtStationNum);
             Controls.Add(TxtStaffID);
-            Controls.Add(TxtAccLvl);
             Controls.Add(TxtDOB);
             Controls.Add(TxtUsername);
             Controls.Add(TxtSex);
@@ -512,7 +441,6 @@
             Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
-            Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -525,9 +453,7 @@
             Text = "AccountDetailsForm";
             ((System.ComponentModel.ISupportInitialize)StaffIDShowIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)StaffIDHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlHideIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)SalaryHideIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AccLvlShowIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)SalaryShowIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)UserIDShowIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)UserIDHideIcon).EndInit();
@@ -544,7 +470,6 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private Label label6;
         private Label label7;
         private Label label8;
         private Label label9;
@@ -555,18 +480,14 @@
         private TextBox TxtSex;
         private TextBox TxtUsername;
         private TextBox TxtDOB;
-        private TextBox TxtAccLvl;
         private TextBox TxtStaffID;
         private TextBox TxtStationNum;
         private TextBox TxtSalary;
         private TextBox TxtAllowance;
-        private Button EditAccountButton;
         private Button ChangePasswordButton;
         private PictureBox StaffIDShowIcon;
         private PictureBox StaffIDHideIcon;
-        private PictureBox AccLvlHideIcon;
         private PictureBox SalaryHideIcon;
-        private PictureBox AccLvlShowIcon;
         private PictureBox SalaryShowIcon;
         private PictureBox UserIDShowIcon;
         private PictureBox UserIDHideIcon;

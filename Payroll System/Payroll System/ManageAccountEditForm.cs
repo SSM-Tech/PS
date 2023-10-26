@@ -28,6 +28,7 @@ namespace Payroll_System
         static Random random = new Random();
         string firstname;
         string lastname;
+        string stationNo;
         int genderIndex;
         DateTime dob;
         int accLvlIndex;
@@ -41,17 +42,7 @@ namespace Payroll_System
         public ManageAccountEditForm()
         {
             InitializeComponent();
-            MySqlCommand? msqManagerNames;
 
-            msqManagerNames = new(dbQuery.GetManagerNames(), dbConn.getConnection());
-            msqManagerNames.ExecuteReaderAsync();
-            adapter.SelectCommand = msqManagerNames;
-            adapter.Fill(managerNames);
-
-            foreach (DataRow row in managerNames.Rows)
-            {
-                cBManager.Items.Add(row["firstName"].ToString());
-            }
             MySqlCommand mscGetUserDetails = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
             mscGetUserDetails.Parameters.Add("@p0", MySqlDbType.Int32).Value = selectedStaffID;
 
@@ -64,18 +55,11 @@ namespace Payroll_System
             string gender = dtSelectedUser.Rows[0][columnName: "sex"].ToString();
             dob = (DateTime)dtSelectedUser.Rows[0][columnName: "DOB"];
             int accountLvl = (int)dtSelectedUser.Rows[0][columnName: "accountLevel"];
-            managerID = (int)dtSelectedUser.Rows[0][columnName: "managerID"];
+            stationNo = dtSelectedUser.Rows[0][columnName: "StationNo"].ToString();
             lockAcc = (int)dtSelectedUser.Rows[0][columnName: "isEnabled"];
             position = dtSelectedUser.Rows[0][columnName: "position"].ToString();
             salary = (decimal)dtSelectedUser.Rows[0][columnName: "salary"];
             allowance = (decimal)dtSelectedUser.Rows[0][columnName: "allowance"];
-
-            DataTable? dataTable = new DataTable();
-            MySqlCommand mscGetManagerName = new(dbQuery.GetManagerName(), dbConn.getConnection());
-            mscGetManagerName.Parameters.Add("@p0", MySqlDbType.Int32).Value = managerID;
-
-            adapter.SelectCommand = mscGetManagerName;
-            adapter.Fill(dataTable);
 
             switch (accountLvl)
             {
@@ -84,9 +68,6 @@ namespace Payroll_System
                     break;
                 case 2:
                     cBAccResLVL.SelectedIndex = 1;
-                    break;
-                case 3:
-                    cBAccResLVL.SelectedIndex = 2;
                     break;
             }
             switch (gender)
@@ -118,24 +99,15 @@ namespace Payroll_System
             txtBLastname.Text = lastname;
             dTPBOD.Value = dob;
             txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
-            cBManager.SelectedIndex = cBManager.Items.IndexOf(dataTable.Rows[0][columnName: "firstName"].ToString());
+            txtBStationNo.Text = stationNo;
             txtBPosition.Text = position;
             txtBSalary.Text = salary.ToString();
             txtBAllowance.Text = allowance.ToString();
 
             genderIndex = cBGender.SelectedIndex;
             accLvlIndex = cBAccResLVL.SelectedIndex;
-            managerIndex = cBManager.SelectedIndex;
 
             ConfirmButton.Enabled = false;
-            if (retrievedTable.Rows[0][columnName: "accountLevel"].ToString() == "2")
-            {
-                cBAccResLVL.Enabled = false;
-                cBManager.Enabled = false;
-                txtBSalary.ReadOnly = true;
-                txtBAllowance.ReadOnly = true;
-            }
-
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
@@ -169,9 +141,6 @@ namespace Payroll_System
                 case 1:
                     accLvl = 2;
                     break;
-                case 2:
-                    accLvl = 3;
-                    break;
             }
             DBConn dbConn = new();
 
@@ -182,15 +151,7 @@ namespace Payroll_System
 
                 using (MySqlCommand acommand = new MySqlCommand(dbQuery.EditUserAcc(), dbConnection))
                 {
-                    DataTable mSD = new DataTable();
-                    string managerName = cBManager.SelectedItem.ToString();
-                    MySqlCommand commandMSD = new(dbQuery.GetSelectedManagerID(), dbConn.getConnection());
 
-                    commandMSD.Parameters.Add("@p0", MySqlDbType.VarChar).Value = managerName;
-                    adapter.SelectCommand = commandMSD;
-                    adapter.Fill(mSD);
-                    double managerID = (double)mSD.Rows[0][columnName: "managerID"];
-                    string stationNo = mSD.Rows[0][columnName: "stationNo"].ToString();
 
                     acommand.Parameters.AddWithValue("@p0", selectedStaffID);
                     acommand.Parameters.AddWithValue("@p1", txtBFirstname.Text);
@@ -200,10 +161,9 @@ namespace Payroll_System
                     acommand.Parameters.AddWithValue("@p5", txtBPosition.Text);
                     acommand.Parameters.AddWithValue("@p6", txtBSalary.Text);
                     acommand.Parameters.AddWithValue("@p7", txtBAllowance.Text);
-                    acommand.Parameters.AddWithValue("@p8", stationNo);
+                    acommand.Parameters.AddWithValue("@p8", txtBStationNo.Text);
                     acommand.Parameters.AddWithValue("@p9", cBLockAcc.SelectedIndex);
                     acommand.Parameters.AddWithValue("@p10", accLvl);
-                    acommand.Parameters.AddWithValue("@p11", managerID);
 
                     int rowsAffected = acommand.ExecuteNonQuery();
 
@@ -340,18 +300,6 @@ namespace Payroll_System
             }
         }
 
-        private void cBManager_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cBManager.SelectedIndex != managerIndex)
-            {
-                ConfirmButton.Enabled = true;
-            }
-            else
-            {
-                ConfirmButton.Enabled = false;
-            }
-        }
-
         private void cBLockAcc_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cBLockAcc.SelectedIndex != lockAcc)
@@ -436,6 +384,22 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
+        }
+
+        private void txtBStationNo_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBStationNo.Text != stationNo.ToString() && txtBStationNo.Text != "")
+            {
+                ConfirmButton.Enabled = true;
+            }
+            else
+            {
+                ConfirmButton.Enabled = false;
+            }
+        }
+        private void txtBDOB_Click(object sender, EventArgs e)
+        {
+            dTPBOD.Show();
         }
     }
 }

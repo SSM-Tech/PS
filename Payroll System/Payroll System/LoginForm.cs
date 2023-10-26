@@ -14,6 +14,8 @@ namespace Payroll_System
 {
     public partial class LoginForm : Form
     {
+        
+        DataTable? userDataTable = new();
         public LoginForm()
         {
             InitializeComponent();
@@ -28,8 +30,6 @@ namespace Payroll_System
             DBQuery dbQuery = new DBQuery();
 
             DataTable? table = new();
-
-            DataTable? userDataTable = new();
 
             MySqlDataAdapter adapter = new();
 
@@ -50,23 +50,33 @@ namespace Payroll_System
 
                 if (isEnabled == "1")
                 {
-                    string staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
+                    var isLoggedIn = table.Rows[rowCheck][columnName: "isLoggedIn"].ToString();
+                    if (isLoggedIn != "1")
+                    {
+                        string staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
 
-                    MySqlDataAdapter mscAdapter = new();
+                        MySqlDataAdapter mscAdapter = new();
 
-                    MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
+                        MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
 
-                    mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
+                        mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
 
-                    mscAdapter.SelectCommand = mscUserDetail;
+                        mscAdapter.SelectCommand = mscUserDetail;
 
-                    mscAdapter.Fill(userDataTable);
+                        mscAdapter.Fill(userDataTable);
 
-                    UserDetails.UserDetail = userDataTable;
+                        UserDetails.UserDetail = userDataTable;
 
-                    MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide();
-                    new MenuForm().Show();
+                        LoginStatus();
+
+                        MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Hide();
+                        new MenuForm().Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Account is currently Logged In in other Device", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
                 else
                 {
@@ -76,6 +86,28 @@ namespace Payroll_System
             else
             {
                 MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            table.Rows.Clear();
+        }
+
+        private void LoginStatus()
+        {
+            DBConn dbConn = new();
+
+            DBQuery dbQuery = new DBQuery();
+
+            string userID = userDataTable.Rows[0][columnName: "userID"].ToString();
+            using (MySqlConnection dbConnection = dbConn.getConnection())
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand acommand = new MySqlCommand(dbQuery.LoginStatus(), dbConnection))
+                {
+                    acommand.Parameters.AddWithValue("@p0", 1);
+                    acommand.Parameters.AddWithValue("@p1", userID);
+
+                    acommand.ExecuteNonQuery();
+                }
             }
         }
 

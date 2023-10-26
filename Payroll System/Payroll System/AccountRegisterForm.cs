@@ -23,26 +23,12 @@ namespace Payroll_System
         DBQuery dbQuery = new DBQuery();
         DataTable? retrievedTable = UserDetails.UserDetail;
         DataTable? managerNames = new DataTable();
-        DataTable? mSD = new DataTable();
         MySqlDataAdapter? adapter = new();
         static Random random = new Random();
 
         public AccountRegisterForm()
         {
             InitializeComponent();
-
-            MySqlCommand? msqManagerNames;
-
-            msqManagerNames = new(dbQuery.GetManagerNames(), dbConn.getConnection());
-            msqManagerNames.ExecuteReaderAsync();
-            adapter.SelectCommand = msqManagerNames;
-            adapter.Fill(managerNames);
-
-            foreach (DataRow row in managerNames.Rows)
-            {
-                cBManager.Items.Add(row["firstName"].ToString());
-            }
-            cBManager.SelectedIndex = 0;
             cBGender.SelectedIndex = 0;
             cBAccResLVL.SelectedIndex = 0;
             txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
@@ -69,8 +55,6 @@ namespace Payroll_System
                     return "1";
                 case "Level 2":
                     return "2";
-                case "Level 3":
-                    return "3";
                 default:
                     return "1";
             }
@@ -78,15 +62,7 @@ namespace Payroll_System
 
         private void Register()
         {
-            string managerName = cBManager.SelectedItem.ToString();
-            MySqlCommand commandMSD = new(dbQuery.GetSelectedManagerID(), dbConn.getConnection());
-
-            commandMSD.Parameters.Add("@p0", MySqlDbType.VarChar).Value = managerName;
-            adapter.SelectCommand = commandMSD;
-            adapter.Fill(mSD);
-
-            double managerID = (double)mSD.Rows[0][columnName: "managerID"];
-            string stationNo = mSD.Rows[0][columnName: "stationNo"].ToString();
+            string stationNo = txtBStationNo.Text;
             string firstname = txtBFirstname.Text;
             string lastname = txtBLastname.Text;
             string username = $"{firstname.Replace(" ", "").ToLower()}.{lastname.Replace(" ", "").ToLower()}";
@@ -103,19 +79,18 @@ namespace Payroll_System
 
                 using (MySqlCommand regCommand = new MySqlCommand(dbQuery.RegisterAccount(), dbConnection))
                 {
-                    regCommand.Parameters.Add("@p0", MySqlDbType.Double).Value = managerID;
-                    regCommand.Parameters.Add("@p1", MySqlDbType.VarChar).Value = firstname;
-                    regCommand.Parameters.Add("@p2", MySqlDbType.VarChar).Value = lastname;
-                    regCommand.Parameters.Add("@p3", MySqlDbType.VarChar).Value = gender;
-                    regCommand.Parameters.Add("@p4", MySqlDbType.DateTime).Value = dob;
-                    regCommand.Parameters.Add("@p5", MySqlDbType.VarChar).Value = position;
-                    regCommand.Parameters.Add("@p6", MySqlDbType.Decimal).Value = salary;
-                    regCommand.Parameters.Add("@p7", MySqlDbType.Decimal).Value = allowance;
-                    regCommand.Parameters.Add("@p8", MySqlDbType.VarChar).Value = stationNo;
-                    regCommand.Parameters.Add("@p9", MySqlDbType.VarChar).Value = username;
-                    regCommand.Parameters.Add("@p10", MySqlDbType.VarChar).Value = password;
-                    regCommand.Parameters.Add("@p11", MySqlDbType.VarChar).Value = "1";
-                    regCommand.Parameters.Add("@p12", MySqlDbType.VarChar).Value = accountLevel;
+                    regCommand.Parameters.Add("@p0", MySqlDbType.VarChar).Value = firstname;
+                    regCommand.Parameters.Add("@p1", MySqlDbType.VarChar).Value = lastname;
+                    regCommand.Parameters.Add("@p2", MySqlDbType.VarChar).Value = gender;
+                    regCommand.Parameters.Add("@p3", MySqlDbType.DateTime).Value = dob;
+                    regCommand.Parameters.Add("@p4", MySqlDbType.VarChar).Value = position;
+                    regCommand.Parameters.Add("@p5", MySqlDbType.Decimal).Value = salary;
+                    regCommand.Parameters.Add("@p6", MySqlDbType.Decimal).Value = allowance;
+                    regCommand.Parameters.Add("@p7", MySqlDbType.VarChar).Value = stationNo;
+                    regCommand.Parameters.Add("@p8", MySqlDbType.VarChar).Value = username;
+                    regCommand.Parameters.Add("@p9", MySqlDbType.VarChar).Value = password;
+                    regCommand.Parameters.Add("@p10", MySqlDbType.VarChar).Value = "1";
+                    regCommand.Parameters.Add("@p11", MySqlDbType.VarChar).Value = accountLevel;
 
                     int rowsAffected = regCommand.ExecuteNonQuery();
 
@@ -142,20 +117,24 @@ namespace Payroll_System
             registerWasSuccessful = false;
             if (txtBFirstname.Text == "" || txtBLastname.Text == "")
             {
-                MessageBox.Show("No Empty Fields Allowed", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowAlert("No Empty Fields Allowed");
             }
-            else if (cBGender.SelectedIndex == -1 || cBAccResLVL.SelectedIndex == -1 || cBManager.SelectedIndex == -1)
+            else if (cBGender.SelectedIndex == -1 || cBAccResLVL.SelectedIndex == -1)
             {
-                MessageBox.Show("No Empty Fields Allowed", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowAlert("No Empty Fields Allowed");
             }
-            else if (txtBPosition.Text == "" || txtBSalary.Text == "" || txtBAllowance.Text == "")
+            else if (txtBPosition.Text == "" || txtBSalary.Text == "" || txtBAllowance.Text == "" ||txtBStationNo.Text == "")
             {
-                MessageBox.Show("No Empty Fields Allowed", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowAlert("No Empty Fields Allowed");
             }
             else
             {
                 Register();
             }
+        }
+        void ShowAlert(string message)
+        {
+            MessageBox.Show(message, "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         private void CancelButton_Click(object sender, EventArgs e)
         {

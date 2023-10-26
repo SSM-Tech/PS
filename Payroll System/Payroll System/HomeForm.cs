@@ -16,5 +16,15 @@ namespace Payroll_System
         {
             InitializeComponent();
         }
+
+        private void btnClockIn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClockOut_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
