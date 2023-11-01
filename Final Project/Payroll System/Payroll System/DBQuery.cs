@@ -26,6 +26,7 @@ namespace Payroll_System
         private string checkIsEnabled = @"CALL `checkIsEnabled`(@p0)";
         private string checkServerStatus = @"CALL `CheckServerStatus`()";
         private string getUserDTR = @"CALL `getUserDTR`(@p0)";
+        private string updateLoginStatus = @"CALL `UpdateLoginStatus`(@p0)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -94,6 +95,10 @@ namespace Payroll_System
         public string GetUserDTR()
         {
             return getUserDTR;
+        }
+        public string UpdateLoginStatus()
+        {
+            return updateLoginStatus;
         }
     }
 }

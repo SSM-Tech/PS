@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 26, 2023 at 04:16 PM
+-- Generation Time: Nov 01, 2023 at 02:31 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -25,6 +25,11 @@ DELIMITER $$
 --
 -- Procedures
 --
+DROP PROCEDURE IF EXISTS `ChangeServerStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ChangeServerStatus` (IN `p_status` INT)   UPDATE serverstatus
+SET status = p_status,
+	lastChecked = NOW()$$
+
 DROP PROCEDURE IF EXISTS `CheckAndGeneratePayslip`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckAndGeneratePayslip` ()   BEGIN
     -- Check if the current date is inside any existing payslip
@@ -43,6 +48,10 @@ DROP PROCEDURE IF EXISTS `checkIsEnabled`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkIsEnabled` (IN `p_userID` INT)   SELECT a.isEnabled
 FROM account a
 WHERE a.userID = p_userID$$
+
+DROP PROCEDURE IF EXISTS `CheckServerStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckServerStatus` ()   SELECT *
+FROM serverstatus$$
 
 DROP PROCEDURE IF EXISTS `checkUsername`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkUsername` (IN `usn` VARCHAR(50))   SELECT username FROM account WHERE username = usn$$
@@ -89,9 +98,15 @@ SET s.firstName = p_firstname,
 WHERE s.staffID = p_staffID
 AND a.staffID = p_staffID$$
 
+DROP PROCEDURE IF EXISTS `EventLog`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EventLog` (IN `p_eventDescription` VARCHAR(255))   INSERT INTO eventlog (eventDateTime, eventDescription)
+VALUES(NOW(), p_eventDescription)$$
+
 DROP PROCEDURE IF EXISTS `GeneratePayslipDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GeneratePayslipDetails` (IN `userID` INT)   BEGIN
     DECLARE retpayslipID INT;
+
+    START TRANSACTION;  -- Start a transaction
 
     -- Get the payslipID from the payslip table for the current date
     SELECT payslipID INTO retpayslipID
@@ -100,37 +115,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GeneratePayslipDetails` (IN `userID
 
     -- Check if payslipID is found
     IF retpayslipID IS NOT NULL THEN
-        -- Check if a row with the same userID and payslipID doesn't already exist
-        IF NOT EXISTS (
-            SELECT 1
-            FROM payslipdetail
-            WHERE userID = userID AND payslipID = retpayslipID
-        ) THEN
-            -- Insert a new row in payslipDetails with initial values set to 0
-            INSERT INTO payslipdetail (payslipID, userID, totalHours, subtotal, allowance, deduction, totalSalary)
-            VALUES (retpayslipID, userID, 0, 0, 0, 0, 0);
-        END IF;
+        -- Insert a new row in payslipDetails with initial values set to 0
+        INSERT IGNORE INTO payslipdetail (payslipID, userID, totalHours, subtotal, allowance, deduction, totalSalary)
+        VALUES (retpayslipID, userID, 0, 0, 0, 0, 0);
     END IF;
+
+    COMMIT;  -- Commit the transaction
 END$$
 
 DROP PROCEDURE IF EXISTS `getAccDetails`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE)   SELECT 
-                        a.*,
-                        stf.firstName,
-                        stf.lastName,
-                        stf.sex,
-                        stf.DOB,
-                        stf.position,
-                        stf.stationNo,
-                        stf.allowance,
-                        stf.salary,
-                        m.managerID AS ownManagerID
-                        
-                    FROM account a
-                    JOIN staff stf ON a.staffID = stf.staffID
-                    LEFT JOIN station stn ON stf.stationNO = stn.stationNO
-                    LEFT JOIN manager m ON stf.staffID = m.staffID
-                    Where a.staffID = staffID$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE)   SELECT
+	a.*,
+	stf.firstName,
+	stf.lastName,
+	stf.sex,
+	stf.DOB,
+	stf.position,
+	stf.salary,
+	stf.allowance,
+	stf.stationNo,
+    dtr.clockintime,
+    dtr.clockedIn,
+    dtr.clockouttime,
+    dtr.clockedOut
+FROM account a
+JOIN staff stf ON a.staffID = stf.staffID
+LEFT JOIN dtr dtr ON a.userID = dtr.userID AND DATE(dtr.dtrDate) = CURDATE()
+Where a.staffID = 1$$
 
 DROP PROCEDURE IF EXISTS `getAllAccountDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllAccountDetails` ()   SELECT
@@ -149,6 +160,12 @@ LEFT JOIN station stn ON stf.stationNO = stn.stationNO$$
 DROP PROCEDURE IF EXISTS `getAllUserID`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllUserID` ()   SELECT a.userID
 FROM account a$$
+
+DROP PROCEDURE IF EXISTS `GetEventLogs`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEventLogs` ()   SELECT 
+	e.eventDateTime,
+    e.eventDescription
+FROM eventlog e$$
 
 DROP PROCEDURE IF EXISTS `getLogin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin` (IN `usn` VARCHAR(50), IN `pass` VARCHAR(50))   SELECT * FROM account WHERE username = usn AND password = pass$$
@@ -198,6 +215,16 @@ WHERE a.username LIKE CONCAT('%', p_search, '%')
 OR stf.firstName LIKE CONCAT('%', p_search, '%')
 OR stf.lastName LIKE CONCAT('%', p_search, '%')$$
 
+DROP PROCEDURE IF EXISTS `getUserDTR`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDTR` (IN `p_userID` INT)   SELECT
+	dtr.dtrDate,
+    dtr.clockintime,
+    dtr.clockouttime,
+    dtr.totalHours
+FROM dtr 
+WHERE DATE(dtrDate) <= CURDATE() AND userID = p_userID
+ORDER BY dtr.dtrDate ASC$$
+
 DROP PROCEDURE IF EXISTS `loginStatus`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `loginStatus` (IN `p_status` INT, IN `p_userID` INT)   UPDATE account
 SET account.isLoggedIn = p_status
@@ -224,6 +251,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAccountPassword` (IN `p_passw
 SET account.password = p_password
 WHERE account.staffID = p_staffID$$
 
+DROP PROCEDURE IF EXISTS `UpdateLoginStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateLoginStatus` (IN `p_userID` INT)   UPDATE account
+SET isLoggedIn = 0
+WHERE userID = p_userID$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -243,10 +275,9 @@ CREATE TABLE IF NOT EXISTS `account` (
   `isLoggedIn` int NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `userID_Unique` (`userID`) USING BTREE,
-  KEY `userID_Index` (`userID`),
   KEY `username_Index` (`username`) USING BTREE,
-  KEY `accountLevel_Index` (`accountLevel`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `staffID` (`staffID`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `account`
@@ -287,26 +318,192 @@ INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`,
 DROP TABLE IF EXISTS `dtr`;
 CREATE TABLE IF NOT EXISTS `dtr` (
   `dtrID` int NOT NULL AUTO_INCREMENT,
-  `nthPayslip` int NOT NULL,
+  `payslipID` int NOT NULL,
   `userID` int NOT NULL,
   `clockintime` time NOT NULL,
+  `clockedIn` tinyint NOT NULL DEFAULT '0',
   `clockouttime` time NOT NULL,
+  `clockedOut` tinyint NOT NULL DEFAULT '0',
   `totalHours` decimal(10,2) DEFAULT NULL,
   `dtrDate` date NOT NULL,
   PRIMARY KEY (`dtrID`),
   UNIQUE KEY `dtrID_Unique` (`dtrID`) USING BTREE,
   KEY `dtrID_Index` (`dtrID`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `dtr`
 --
 
-INSERT INTO `dtr` (`dtrID`, `nthPayslip`, `userID`, `clockintime`, `clockouttime`, `totalHours`, `dtrDate`) VALUES
-(11, 1, 5, '00:00:00', '00:00:00', '0.00', '2023-10-24'),
-(10, 1, 3, '00:00:00', '00:00:00', '0.00', '2023-10-24'),
-(9, 1, 2, '00:00:00', '00:00:00', '0.00', '2023-10-24'),
-(8, 1, 1, '00:00:00', '00:00:00', '0.00', '2023-10-24');
+INSERT INTO `dtr` (`dtrID`, `payslipID`, `userID`, `clockintime`, `clockedIn`, `clockouttime`, `clockedOut`, `totalHours`, `dtrDate`) VALUES
+(12, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(13, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(14, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(15, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(16, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(17, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(18, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(19, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(20, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(21, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(22, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(23, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(24, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(25, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(26, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(27, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(28, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(29, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(30, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(31, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(32, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(33, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(34, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(35, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(36, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(37, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(38, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(39, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(40, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(41, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(42, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(43, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(44, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(45, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(46, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(47, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(48, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(49, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(50, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(51, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(52, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(53, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(54, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(55, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(56, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(57, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(58, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(59, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(60, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(61, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(62, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(63, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(64, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(65, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(66, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(67, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(68, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(69, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(70, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(71, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(72, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(73, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(74, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(75, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(76, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(77, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(78, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(79, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(80, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(81, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(82, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(83, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(84, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(85, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(86, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(87, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(88, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(89, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(90, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(91, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(92, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(93, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(94, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(95, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(96, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(97, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(98, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(99, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(100, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(101, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(102, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(103, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(104, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(105, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(106, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(107, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(108, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(109, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(110, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(111, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(112, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(113, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(114, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(115, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(116, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(117, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(118, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(119, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(120, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(121, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(122, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(123, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(124, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(125, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(126, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(127, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(128, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(129, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(130, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(131, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(132, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(133, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(134, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(135, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(136, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(137, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(138, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(139, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(140, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(141, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(142, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(143, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(144, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(145, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(146, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(147, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(148, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(149, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(150, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(151, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(152, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(153, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(154, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(155, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(156, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(157, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(158, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(159, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(160, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(161, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(162, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(163, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(164, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(165, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(166, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(167, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(168, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(169, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(170, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(171, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(172, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
+(173, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
+(174, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
+(175, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
+(176, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
+(177, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
+(178, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
+(179, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04');
 
 -- --------------------------------------------------------
 
@@ -327,35 +524,75 @@ CREATE TABLE IF NOT EXISTS `dtrtickets` (
   PRIMARY KEY (`dtrTicketID`),
   UNIQUE KEY `dtrTicketID_Unique` (`dtrTicketID`) USING BTREE,
   KEY `dtrTicketID_Index` (`dtrTicketID`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `manager`
+-- Table structure for table `eventlog`
 --
 
-DROP TABLE IF EXISTS `manager`;
-CREATE TABLE IF NOT EXISTS `manager` (
-  `managerID` double NOT NULL AUTO_INCREMENT,
-  `staffID` double NOT NULL,
-  PRIMARY KEY (`managerID`),
-  UNIQUE KEY `managerID` (`managerID`),
-  KEY `managerID_2` (`managerID`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `eventlog`;
+CREATE TABLE IF NOT EXISTS `eventlog` (
+  `logID` int NOT NULL AUTO_INCREMENT,
+  `eventDateTime` datetime DEFAULT NULL,
+  `eventDescription` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`logID`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `manager`
+-- Dumping data for table `eventlog`
 --
 
-INSERT INTO `manager` (`managerID`, `staffID`) VALUES
-(1, 1),
-(2, 2),
-(3, 5),
-(4, 11),
-(5, 12),
-(6, 17),
-(7, 18);
+INSERT INTO `eventlog` (`logID`, `eventDateTime`, `eventDescription`) VALUES
+(1, '2023-10-29 18:25:07', 'TESTING eventlog 123'),
+(2, '2023-10-29 18:27:13', 'testNum2 asjdaifbka'),
+(3, '2023-10-29 18:31:49', 'Server Started'),
+(4, '2023-10-29 18:33:57', 'Server Terminated'),
+(5, '2023-10-29 20:08:45', 'Server Started'),
+(6, '2023-10-29 20:09:01', 'Server Terminated'),
+(7, '2023-10-29 20:09:58', 'Server Started'),
+(8, '2023-10-29 20:10:04', 'Server Terminated'),
+(9, '2023-10-29 20:25:30', 'Server Started'),
+(10, '2023-10-29 20:25:32', 'Server Terminated'),
+(11, '2023-10-29 20:25:33', 'Server Started'),
+(12, '2023-10-29 20:25:33', 'Server Terminated'),
+(13, '2023-10-29 20:25:34', 'Server Started'),
+(14, '2023-10-29 20:25:35', 'Server Terminated'),
+(15, '2023-10-29 20:25:36', 'Server Started'),
+(16, '2023-10-29 20:25:36', 'Server Terminated'),
+(17, '2023-10-29 20:25:37', 'Server Started'),
+(18, '2023-10-29 20:25:37', 'Server Terminated'),
+(19, '2023-10-29 20:25:38', 'Server Started'),
+(20, '2023-10-29 20:25:39', 'Server Terminated'),
+(21, '2023-10-29 20:25:39', 'Server Started'),
+(22, '2023-10-29 20:25:39', 'Server Terminated'),
+(23, '2023-10-29 20:25:40', 'Server Started'),
+(24, '2023-10-29 20:25:40', 'Server Terminated'),
+(25, '2023-10-29 20:25:41', 'Server Started'),
+(26, '2023-10-29 20:25:41', 'Server Terminated'),
+(27, '2023-10-29 20:25:42', 'Server Started'),
+(28, '2023-10-29 20:25:42', 'Server Terminated'),
+(29, '2023-10-29 20:25:43', 'Server Started'),
+(30, '2023-10-29 20:25:45', 'Server Terminated'),
+(31, '2023-10-31 08:29:32', 'Server Started'),
+(32, '2023-10-31 08:29:54', 'Server Terminated'),
+(33, '2023-10-31 16:45:44', 'Server Started'),
+(34, '2023-10-31 16:47:04', 'Server Terminated'),
+(35, '2023-10-31 17:05:56', 'Server Started'),
+(36, '2023-10-31 19:25:58', 'Server Terminated'),
+(37, '2023-10-31 19:50:45', 'Server Started'),
+(38, '2023-10-31 20:56:38', 'Server Terminated'),
+(39, '2023-11-01 20:11:26', 'Server Started'),
+(40, '2023-11-01 20:17:27', 'Server Terminated'),
+(41, '2023-11-01 20:25:58', 'Server Started'),
+(42, '2023-11-01 21:29:24', 'Server Terminated'),
+(43, '2023-11-01 21:30:30', 'Server Started'),
+(44, '2023-11-01 22:11:48', 'Server Terminated'),
+(45, '2023-11-01 22:13:32', 'Server Started'),
+(46, '2023-11-01 22:14:07', 'Server Terminated'),
+(47, '2023-11-01 22:15:42', 'Server Started'),
+(48, '2023-11-01 22:30:20', 'Server Terminated');
 
 -- --------------------------------------------------------
 
@@ -369,7 +606,14 @@ CREATE TABLE IF NOT EXISTS `payslip` (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   PRIMARY KEY (`payslipID`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `payslip`
+--
+
+INSERT INTO `payslip` (`payslipID`, `startDate`, `endDate`) VALUES
+(7, '2023-10-29', '2023-11-05');
 
 -- --------------------------------------------------------
 
@@ -389,8 +633,58 @@ CREATE TABLE IF NOT EXISTS `payslipdetail` (
   `totalSalary` double(10,2) NOT NULL,
   PRIMARY KEY (`payslipDetailID`),
   UNIQUE KEY `payslipID_Unique` (`payslipDetailID`) USING BTREE,
+  UNIQUE KEY `unique_user_payslip` (`userID`,`payslipID`),
   KEY `payslipID_Index` (`payslipDetailID`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=368 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `payslipdetail`
+--
+
+INSERT INTO `payslipdetail` (`payslipDetailID`, `payslipID`, `userID`, `totalHours`, `subtotal`, `allowance`, `deduction`, `totalSalary`) VALUES
+(56, 7, 1, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(57, 7, 2, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(58, 7, 3, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(59, 7, 5, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(60, 7, 7, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(61, 7, 8, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(62, 7, 9, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(63, 7, 10, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(64, 7, 11, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(65, 7, 12, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(66, 7, 13, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(67, 7, 14, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(68, 7, 15, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(69, 7, 16, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(70, 7, 17, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(71, 7, 18, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(72, 7, 19, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(73, 7, 20, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(74, 7, 21, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(75, 7, 22, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(76, 7, 23, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(77, 7, 24, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(78, 7, 25, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(79, 7, 27, '00:00:00', '0.00', '0.00', '0.00', 0.00);
+
+--
+-- Triggers `payslipdetail`
+--
+DROP TRIGGER IF EXISTS `after_insert_payslipdetail`;
+DELIMITER $$
+CREATE TRIGGER `after_insert_payslipdetail` AFTER INSERT ON `payslipdetail` FOR EACH ROW BEGIN
+  DECLARE i INT;
+  SET i = 0;
+  SET @startDate = (SELECT startDate FROM payslip WHERE payslipID = NEW.payslipID);
+
+  WHILE i < 7 DO
+    INSERT INTO dtr (payslipID, userID, clockintime, clockouttime, totalHours, dtrDate)
+    VALUES (NEW.payslipID, NEW.userID, '00:00:00', '00:00:00', 0, DATE_ADD(@startDate, INTERVAL i DAY));
+    SET i = i + 1;
+  END WHILE;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -411,7 +705,27 @@ CREATE TABLE IF NOT EXISTS `paysliptickets` (
   PRIMARY KEY (`payslipTicketID`),
   UNIQUE KEY `payslipTicketID_Unique` (`payslipTicketID`) USING BTREE,
   KEY `payslipTicketID_Index` (`payslipTicketID`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `serverstatus`
+--
+
+DROP TABLE IF EXISTS `serverstatus`;
+CREATE TABLE IF NOT EXISTS `serverstatus` (
+  `serverName` varchar(50) NOT NULL DEFAULT 'PS Server',
+  `status` int NOT NULL,
+  `lastChecked` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `serverstatus`
+--
+
+INSERT INTO `serverstatus` (`serverName`, `status`, `lastChecked`) VALUES
+('PS Server', 0, '2023-11-01 22:30:20');
 
 -- --------------------------------------------------------
 
@@ -436,7 +750,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   KEY `firstName_Index` (`firstName`) USING BTREE,
   KEY `lastName_Index` (`lastName`) USING BTREE,
   KEY `firstName` (`firstName`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff`
@@ -468,28 +782,15 @@ INSERT INTO `staff` (`staffID`, `firstName`, `lastName`, `sex`, `DOB`, `position
 (25, 'John Mari', 'Giducos', 'Male', '2023-10-10 15:03:46', 'okems', '0.00', '0.00', ''),
 (27, 'Kontra', 'Dengue', 'Male', '2023-04-04 14:03:45', 'Dengue', '0.00', '0.00', 'S003');
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `station`
+-- Constraints for dumped tables
 --
 
-DROP TABLE IF EXISTS `station`;
-CREATE TABLE IF NOT EXISTS `station` (
-  `stationNo` varchar(50) NOT NULL,
-  `stationName` varchar(50) DEFAULT NULL,
-  `stationFloor` int DEFAULT NULL,
-  `managerID` int NOT NULL,
-  PRIMARY KEY (`stationNo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 --
--- Dumping data for table `station`
+-- Constraints for table `account`
 --
-
-INSERT INTO `station` (`stationNo`, `stationName`, `stationFloor`, `managerID`) VALUES
-('S001', 'Lobby', 1, 2),
-('S002', 'Grocery', 1, 3);
+ALTER TABLE `account`
+  ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`staffID`) REFERENCES `staff` (`staffID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

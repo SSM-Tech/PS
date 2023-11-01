@@ -25,9 +25,10 @@ namespace Payroll_System
             string clockedIn = retrievedTable.Rows[0][columnName: "clockedIn"].ToString();
             string clockedOut = retrievedTable.Rows[0][columnName: "clockedOut"].ToString();
 
-            DateTime clockIntTime = DateTime.Today.AddHours(17);
+            DateTime clockIn = DateTime.Today.AddHours(1);
+            DateTime clockOut = DateTime.Today.AddHours(24);
 
-            if(clockIntTime < currentTime && clockedIn == "0")
+            if(clockOut > currentTime && clockOut < currentTime && clockedIn == "0")
             {
                 ClockedOut();
             }

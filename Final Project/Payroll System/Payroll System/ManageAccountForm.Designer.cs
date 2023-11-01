@@ -68,6 +68,7 @@
             userDatasGrid.ReadOnly = true;
             userDatasGrid.RowHeadersVisible = false;
             userDatasGrid.RowTemplate.Height = 25;
+            userDatasGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             userDatasGrid.Size = new Size(1232, 550);
             userDatasGrid.TabIndex = 2;
             userDatasGrid.CellClick += userDatasGrid_CellClick;

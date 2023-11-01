@@ -17,14 +17,18 @@ namespace Payroll_System
 {
     public partial class MenuForm : Form
     {
+        DBConn dbConn = new();
+        DBQuery dbQuery = new DBQuery();
         DataTable? retrievedTable = UserDetails.UserDetail;
-        private System.Timers.Timer logoutTimer;
         private System.Timers.Timer serverTimer;
         private bool isProgrammaticClose = false;
+        private string userID;
 
         public MenuForm()
         {
             InitializeComponent();
+
+            userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
 
             serverTimer = new System.Timers.Timer(60000);
             serverTimer.Elapsed += ServerTimerElapsed;
@@ -32,13 +36,6 @@ namespace Payroll_System
             serverTimer.Enabled = true;
 
             serverTimer.Start();
-
-            logoutTimer = new System.Timers.Timer(60000);
-            logoutTimer.Elapsed += LogoutTimerElapsed;
-            logoutTimer.AutoReset = true;
-            logoutTimer.Enabled = true;
-
-            logoutTimer.Start();
 
             FormClosing += new FormClosingEventHandler(OnFormClosing);
             string username = retrievedTable.Rows[0][columnName: "username"].ToString().ToUpper();
@@ -54,9 +51,11 @@ namespace Payroll_System
         }
         private void ServerTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            DBConn dbConn = new();
-            DBQuery dbQuery = new DBQuery();
-
+            CheckServerStatus();
+            CheckAccountStatus();
+        }
+        private void CheckServerStatus()
+        {
             DataTable? table = new();
 
             MySqlDataAdapter adapter = new();
@@ -72,21 +71,17 @@ namespace Payroll_System
             {
                 this.Invoke(new Action(() =>
                 {
-                    logoutTimer.Stop();
+                    serverTimer.Stop();
                     Logout();
                     MessageBox.Show("Server Stopped, Please login later", "Server Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }));
+                UpdateLoginStatus();
             }
 
             table.Rows.Clear();
         }
-        private void LogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void CheckAccountStatus()
         {
-            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
-
-            DBConn dbConn = new();
-            DBQuery dbQuery = new DBQuery();
-
             DataTable? table = new();
 
             MySqlDataAdapter adapter = new();
@@ -104,13 +99,31 @@ namespace Payroll_System
             {
                 this.Invoke(new Action(() =>
                 {
-                    logoutTimer.Stop();
+                    serverTimer.Stop();
                     Logout();
                     MessageBox.Show("Your account has been locked, Please Contact the HR for more Information.", "Account Locked", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }));
+                UpdateLoginStatus();
             }
 
             table.Rows.Clear();
+        }
+        private void UpdateLoginStatus()
+        {
+            dbConn.openConnection();
+
+            MySqlDataAdapter adapter = new();
+            MySqlCommand command = new(dbQuery.UpdateLoginStatus(), dbConn.getConnection());
+
+            command.Parameters.AddWithValue("@p0", userID);
+
+            command.ExecuteNonQuery();
+
+            dbConn.closeConnection();
+        }
+        private void LogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            
         }
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)

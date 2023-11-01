@@ -87,9 +87,13 @@
             dgvDTR.ReadOnly = true;
             dgvDTR.RowHeadersVisible = false;
             dgvDTR.RowTemplate.Height = 25;
-            dgvDTR.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgvDTR.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDTR.Size = new Size(1232, 593);
             dgvDTR.TabIndex = 6;
+            dgvDTR.TabStop = false;
+            dgvDTR.ColumnHeaderMouseClick += dgvDTR_ColumnHeaderMouseClick;
+            dgvDTR.ColumnHeaderMouseDoubleClick += dgvDTR_ColumnHeaderMouseDoubleClick;
+            dgvDTR.RowPrePaint += dgvDTR_RowPrePaint;
             // 
             // DTRForm
             // 

@@ -239,8 +239,12 @@ namespace Payroll_System
                 foreach (DataRow row in dtEventLogs.Rows)
                 {
                     string dateTime = Convert.ToString(row["eventDateTime"]);
-                    string eventDescription = Convert.ToString(row["eventDescription"]);
-                    richTextBox1.AppendText($"> {dateTime}\t: {eventDescription}" + Environment.NewLine);
+                    if (DateTime.TryParse(dateTime, out DateTime parsedDateTime))
+                    {
+                        string formattedDate = parsedDateTime.ToString("MM/dd/yyyy");
+                        string eventDescription = Convert.ToString(row["eventDescription"]);
+                        richTextBox1.AppendText($"> {formattedDate}\t: {eventDescription}" + Environment.NewLine);
+                    }
                 }
             });
         }
