@@ -66,6 +66,7 @@
             userDatasGrid.Location = new Point(12, 55);
             userDatasGrid.Name = "userDatasGrid";
             userDatasGrid.ReadOnly = true;
+            userDatasGrid.RowHeadersVisible = false;
             userDatasGrid.RowTemplate.Height = 25;
             userDatasGrid.Size = new Size(1232, 550);
             userDatasGrid.TabIndex = 2;

@@ -45,13 +45,17 @@ namespace Payroll_System
         private void FillDGV()
         {
             userDatasGrid.DataSource = allAccDet;
-            userDatasGrid.Columns["Staff_ID"].Width = 75;
+            var dgvStaffIDColum = userDatasGrid.Columns["Staff_ID"];
+            dgvStaffIDColum.HeaderText = "Staff ID";
+            dgvStaffIDColum.Width = 75;
             userDatasGrid.Columns["Locked"].Width = 75;
-            userDatasGrid.Columns["Staff_ID"].Width = 80;
-            userDatasGrid.Columns["Username"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            userDatasGrid.Columns["Username"].Width = 400;
             userDatasGrid.Columns["Firstname"].Width = 150;
             userDatasGrid.Columns["Lastname"].Width = 150;
             userDatasGrid.Columns["Position"].Width = 150;
+            var dgvStationNoColum = userDatasGrid.Columns["Station_No"];
+            dgvStationNoColum.HeaderText = "Station No";
+            dgvStationNoColum.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         private void txtBoxSearch_TextChanged(object sender, EventArgs e)
         {

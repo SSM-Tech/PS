@@ -14,8 +14,6 @@ namespace Payroll_System
 {
     public partial class ManageAccountEditForm : Form
     {
-        //DataTable? retrievedTable = UserDetails.UserDetail;
-        //DataTable? allAccDet = new DataTable();
         public event EventHandler Success;
         bool editWasSuccessful;
         int? selectedStaffID = UserDetails.SelectedStaffID;

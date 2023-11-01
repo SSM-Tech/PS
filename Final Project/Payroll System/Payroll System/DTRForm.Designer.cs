@@ -28,20 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             ButtonEdit = new Button();
             button1 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dgvDTR = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dgvDTR).BeginInit();
             SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(1232, 593);
-            dataGridView1.TabIndex = 0;
             // 
             // ButtonEdit
             // 
@@ -52,6 +45,7 @@
             ButtonEdit.TabIndex = 4;
             ButtonEdit.Text = "Refresh";
             ButtonEdit.UseVisualStyleBackColor = true;
+            ButtonEdit.Click += ButtonEdit_Click;
             // 
             // button1
             // 
@@ -63,28 +57,62 @@
             button1.Text = "Report";
             button1.UseVisualStyleBackColor = true;
             // 
+            // dgvDTR
+            // 
+            dgvDTR.AllowUserToAddRows = false;
+            dgvDTR.AllowUserToDeleteRows = false;
+            dgvDTR.AllowUserToResizeColumns = false;
+            dgvDTR.AllowUserToResizeRows = false;
+            dgvDTR.BackgroundColor = SystemColors.Control;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Georgia", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvDTR.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvDTR.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Georgia", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvDTR.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvDTR.Location = new Point(12, 12);
+            dgvDTR.MultiSelect = false;
+            dgvDTR.Name = "dgvDTR";
+            dgvDTR.ReadOnly = true;
+            dgvDTR.RowHeadersVisible = false;
+            dgvDTR.RowTemplate.Height = 25;
+            dgvDTR.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgvDTR.Size = new Size(1232, 593);
+            dgvDTR.TabIndex = 6;
+            // 
             // DTRForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1256, 660);
+            Controls.Add(dgvDTR);
             Controls.Add(button1);
             Controls.Add(ButtonEdit);
-            Controls.Add(dataGridView1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(5, 6, 5, 6);
             Name = "DTRForm";
             StartPosition = FormStartPosition.WindowsDefaultBounds;
             Text = "DTRForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDTR).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private DataGridView dataGridView1;
         private Button ButtonEdit;
         private Button button1;
+        private DataGridView dgvDTR;
     }
 }

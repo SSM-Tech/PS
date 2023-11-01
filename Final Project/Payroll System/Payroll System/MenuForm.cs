@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,19 @@ namespace Payroll_System
     {
         DataTable? retrievedTable = UserDetails.UserDetail;
         private System.Timers.Timer logoutTimer;
+        private System.Timers.Timer serverTimer;
         private bool isProgrammaticClose = false;
 
         public MenuForm()
         {
             InitializeComponent();
+
+            serverTimer = new System.Timers.Timer(60000);
+            serverTimer.Elapsed += ServerTimerElapsed;
+            serverTimer.AutoReset = true;
+            serverTimer.Enabled = true;
+
+            serverTimer.Start();
 
             logoutTimer = new System.Timers.Timer(60000);
             logoutTimer.Elapsed += LogoutTimerElapsed;
@@ -42,6 +51,34 @@ namespace Payroll_System
             }
             UsernameLabel.Text = "Welcome " + username;
             LoadForm(new HomeForm());
+        }
+        private void ServerTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            DBConn dbConn = new();
+            DBQuery dbQuery = new DBQuery();
+
+            DataTable? table = new();
+
+            MySqlDataAdapter adapter = new();
+            MySqlCommand command = new(dbQuery.CheckServerStatus(), dbConn.getConnection());
+
+            adapter.SelectCommand = command;
+
+            adapter.Fill(table);
+
+            int status = (int)table.Rows[0][columnName: "status"];
+
+            if (status == 0)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    logoutTimer.Stop();
+                    Logout();
+                    MessageBox.Show("Server Stopped, Please login later", "Server Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }));
+            }
+
+            table.Rows.Clear();
         }
         private void LogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {

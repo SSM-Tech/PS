@@ -14,88 +14,99 @@ namespace Payroll_System
 {
     public partial class LoginForm : Form
     {
-        
         DataTable? userDataTable = new();
+        DBConn dbConn = new();
+        DBQuery dbQuery = new DBQuery();
         public LoginForm()
         {
             InitializeComponent();
         }
         private void Login()
         {
-            string username = UsernameTextBox.Text.ToString();
-            string password = PasswordTextBox.Text.ToString();
+            DataTable? dtServerCheck = new();
 
-            DBConn dbConn = new();
+            MySqlDataAdapter msdServerCheck = new();
 
-            DBQuery dbQuery = new DBQuery();
+            MySqlCommand mscServerCheck = new(dbQuery.CheckServerStatus(), dbConn.getConnection());
 
-            DataTable? table = new();
+            msdServerCheck.SelectCommand = mscServerCheck;
 
-            MySqlDataAdapter adapter = new();
-
-            MySqlCommand command = new(dbQuery.LoginQuery(), dbConn.getConnection());
-
-            command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username;
-            command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = password;
-
-            adapter.SelectCommand = command;
-
-            adapter.Fill(table);
-
-            int rowCheck = 0;
-
-            if (table.Rows.Count > rowCheck)
+            msdServerCheck.Fill(dtServerCheck);
+            int status = (int)dtServerCheck.Rows[0][columnName: "status"];
+            if(status != 0 )
             {
-                var isEnabled = table.Rows[rowCheck][columnName: "isEnabled"].ToString();
+                string username = UsernameTextBox.Text.ToString();
+                string password = PasswordTextBox.Text.ToString();
 
-                if (isEnabled == "1")
+                DataTable? table = new();
+
+                MySqlDataAdapter adapter = new();
+
+                MySqlCommand command = new(dbQuery.LoginQuery(), dbConn.getConnection());
+
+                command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username;
+                command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = password;
+
+                adapter.SelectCommand = command;
+
+                adapter.Fill(table);
+
+                int rowCheck = 0;
+
+                if (table.Rows.Count > rowCheck)
                 {
-                    var isLoggedIn = table.Rows[rowCheck][columnName: "isLoggedIn"].ToString();
-                    if (isLoggedIn != "1")
+                    var isEnabled = table.Rows[rowCheck][columnName: "isEnabled"].ToString();
+
+                    if (isEnabled == "1")
                     {
-                        string staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
+                        var isLoggedIn = table.Rows[rowCheck][columnName: "isLoggedIn"].ToString();
+                        if (isLoggedIn != "1")
+                        {
+                            string staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
 
-                        MySqlDataAdapter mscAdapter = new();
+                            MySqlDataAdapter mscAdapter = new();
 
-                        MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
+                            MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
 
-                        mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
+                            mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
 
-                        mscAdapter.SelectCommand = mscUserDetail;
+                            mscAdapter.SelectCommand = mscUserDetail;
 
-                        mscAdapter.Fill(userDataTable);
+                            mscAdapter.Fill(userDataTable);
 
-                        UserDetails.UserDetail = userDataTable;
+                            UserDetails.UserDetail = userDataTable;
 
-                        LoginStatus();
+                            LoginStatus();
 
-                        MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Hide();
-                        new MenuForm().Show();
+                            MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Hide();
+                            new MenuForm().Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Account is currently Logged In in other Device", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Account is currently Logged In in other Device", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Your Account is currently locked, please contact HR for assistance", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Your Account is currently locked, please contact HR for assistance", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                table.Rows.Clear();
             }
             else
             {
-                MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Server is currently down, please wait...", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            table.Rows.Clear();
+            dtServerCheck.Rows.Clear();
         }
 
         private void LoginStatus()
         {
-            DBConn dbConn = new();
-
-            DBQuery dbQuery = new DBQuery();
-
             string userID = userDataTable.Rows[0][columnName: "userID"].ToString();
             using (MySqlConnection dbConnection = dbConn.getConnection())
             {

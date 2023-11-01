@@ -24,6 +24,8 @@ namespace Payroll_System
         private string getManagerName = @"CALL `getManagerName`(@p0)";
         private string loginStatus = @"CALL `loginStatus`(@p0, @p1)";
         private string checkIsEnabled = @"CALL `checkIsEnabled`(@p0)";
+        private string checkServerStatus = @"CALL `CheckServerStatus`()";
+        private string getUserDTR = @"CALL `getUserDTR`(@p0)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -84,6 +86,14 @@ namespace Payroll_System
         public string GetManagerName()
         {
             return getManagerName;
+        }
+        public string CheckServerStatus()
+        {
+            return checkServerStatus;
+        }
+        public string GetUserDTR()
+        {
+            return getUserDTR;
         }
     }
 }
