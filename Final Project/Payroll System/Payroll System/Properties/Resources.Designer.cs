@@ -173,6 +173,16 @@ namespace Payroll_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Payroll_System {
+            get {
+                object obj = ResourceManager.GetObject("Payroll_System", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap payslip {
             get {
                 object obj = ResourceManager.GetObject("payslip", resourceCulture);

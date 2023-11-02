@@ -91,6 +91,7 @@
             dgvDTR.Size = new Size(1232, 593);
             dgvDTR.TabIndex = 6;
             dgvDTR.TabStop = false;
+            dgvDTR.CellToolTipTextNeeded += dgvDTR_CellToolTipTextNeeded;
             dgvDTR.ColumnHeaderMouseClick += dgvDTR_ColumnHeaderMouseClick;
             dgvDTR.ColumnHeaderMouseDoubleClick += dgvDTR_ColumnHeaderMouseDoubleClick;
             dgvDTR.RowPrePaint += dgvDTR_RowPrePaint;

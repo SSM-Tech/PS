@@ -36,6 +36,7 @@
             txtBoxSearch = new TextBox();
             btnClear = new Button();
             searchPlaceholder = new Label();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)userDatasGrid).BeginInit();
             SuspendLayout();
             // 
@@ -77,23 +78,25 @@
             // ButtonEdit
             // 
             ButtonEdit.Anchor = AnchorStyles.None;
+            ButtonEdit.BackColor = Color.Yellow;
             ButtonEdit.Location = new Point(798, 611);
             ButtonEdit.Name = "ButtonEdit";
             ButtonEdit.Size = new Size(220, 37);
             ButtonEdit.TabIndex = 3;
             ButtonEdit.Text = "Modify";
-            ButtonEdit.UseVisualStyleBackColor = true;
+            ButtonEdit.UseVisualStyleBackColor = false;
             ButtonEdit.Click += ButtonEdit_Click;
             // 
             // ButtonRegister
             // 
             ButtonRegister.Anchor = AnchorStyles.None;
-            ButtonRegister.Location = new Point(1024, 611);
+            ButtonRegister.BackColor = Color.Lime;
+            ButtonRegister.Location = new Point(572, 611);
             ButtonRegister.Name = "ButtonRegister";
             ButtonRegister.Size = new Size(220, 37);
             ButtonRegister.TabIndex = 4;
             ButtonRegister.Text = "Register";
-            ButtonRegister.UseVisualStyleBackColor = true;
+            ButtonRegister.UseVisualStyleBackColor = false;
             ButtonRegister.Click += ButtonRegister_Click;
             // 
             // txtBoxSearch
@@ -129,12 +132,25 @@
             searchPlaceholder.Text = "Username or Firstname or Lastname";
             searchPlaceholder.Click += searchPlaceholder_Click;
             // 
+            // btnDelete
+            // 
+            btnDelete.Anchor = AnchorStyles.None;
+            btnDelete.BackColor = Color.Red;
+            btnDelete.Location = new Point(1024, 611);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(220, 37);
+            btnDelete.TabIndex = 8;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
+            // 
             // ManageAccountForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1256, 660);
+            Controls.Add(btnDelete);
             Controls.Add(searchPlaceholder);
             Controls.Add(btnClear);
             Controls.Add(txtBoxSearch);
@@ -158,5 +174,6 @@
         private TextBox txtBoxSearch;
         private Button btnClear;
         private Label searchPlaceholder;
+        private Button btnDelete;
     }
 }

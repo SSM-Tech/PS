@@ -123,7 +123,7 @@ namespace Payroll_System
         }
         private void LogoutTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            
+
         }
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)

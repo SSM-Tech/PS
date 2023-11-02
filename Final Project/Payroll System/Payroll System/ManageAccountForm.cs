@@ -148,5 +148,29 @@ namespace Payroll_System
         {
             txtBoxSearch.Focus();
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to Delete the Account?\nOnce deleted, it can no longer be restored", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                if (MessageBox.Show("Are you really sure you want to Delete the Account?\nOnce deleted, it can no longer be restored", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+
+                    if (cellValue != null)
+                    {
+                        dbConn.openConnection();
+                        MySqlCommand mscDeleteUser = new(dbQuery.DeleteUser(), dbConn.getConnection());
+                        mscDeleteUser.Parameters.Add("@p0", MySqlDbType.Int32).Value = cellValue;
+                        mscDeleteUser.ExecuteNonQuery();
+                        dbConn.closeConnection();
+                        ShowAccounts();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Select a row first");
+                    }
+                }
+            }
+        }
     }
 }

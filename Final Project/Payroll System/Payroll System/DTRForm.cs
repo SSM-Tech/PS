@@ -50,18 +50,28 @@ namespace Payroll_System
         private void FilldgvDTR()
         {
             dgvDTR.DataSource = dtDTR;
+
+            dgvDTR.Columns["clockedIn"].Visible = false;
+            dgvDTR.Columns["clockedOut"].Visible = false;
+
             var dtrDateColumn = dgvDTR.Columns["dtrDate"];
             dtrDateColumn.DefaultCellStyle.Format = "MM/dd/yyyy , dddd";
             dtrDateColumn.HeaderText = "Date";
             dtrDateColumn.Width = 900;
+
             var dtrClockInColumn = dgvDTR.Columns["clockintime"];
             dtrClockInColumn.HeaderText = "Clock In";
+            dtrClockInColumn.DefaultCellStyle.Format = "h:mm:ss tt";
             dtrClockInColumn.Width = 100;
+
             var dtrClockOutColumn = dgvDTR.Columns["clockouttime"];
             dtrClockOutColumn.HeaderText = "Clock Out";
+            dtrClockOutColumn.DefaultCellStyle.Format = "h:mm:ss tt";
             dtrClockOutColumn.Width = 100;
+
             var dtrTotalHoursColumn = dgvDTR.Columns["totalHours"];
             dtrTotalHoursColumn.HeaderText = "Total Hours";
+            dtrTotalHoursColumn.DefaultCellStyle.Format = "HH:mm:ss";
             dtrTotalHoursColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             dgvDTR.RowPrePaint += dgvDTR_RowPrePaint;
@@ -98,16 +108,19 @@ namespace Payroll_System
                 {
                     if (date.DayOfWeek == DayOfWeek.Sunday)
                     {
-                        // Set the entire row's background color to red for Saturday
                         row.DefaultCellStyle.BackColor = Color.LightSalmon;
                     }
                     else
                     {
-                        // Set the entire row's background color to its default color
                         row.DefaultCellStyle.BackColor = dgvDTR.DefaultCellStyle.BackColor;
                     }
                 }
             }
+        }
+
+        private void dgvDTR_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
+        {
+            e.ToolTipText = "";
         }
     }
 }

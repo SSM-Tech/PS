@@ -33,7 +33,7 @@ namespace Payroll_System
 
             msdServerCheck.Fill(dtServerCheck);
             int status = (int)dtServerCheck.Rows[0][columnName: "status"];
-            if(status != 0 )
+            if (status != 0)
             {
                 string username = UsernameTextBox.Text.ToString();
                 string password = PasswordTextBox.Text.ToString();
@@ -77,7 +77,6 @@ namespace Payroll_System
                             UserDetails.UserDetail = userDataTable;
 
                             LoginStatus();
-
                             MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Hide();
                             new MenuForm().Show();

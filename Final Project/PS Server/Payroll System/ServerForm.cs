@@ -226,12 +226,14 @@ namespace Payroll_System
             }
 
             dtEventLogs.Rows.Clear();
+            dbConn.openConnection();
             MySqlDataAdapter? msdEventLog = new();
 
             MySqlCommand? mscEventLog;
             mscEventLog = new(dbQuery.CallEventLog(), dbConn.getConnection());
             msdEventLog.SelectCommand = mscEventLog;
             msdEventLog.Fill(dtEventLogs);
+            dbConn.closeConnection();
 
             richTextBox1.Invoke((MethodInvoker)delegate
             {

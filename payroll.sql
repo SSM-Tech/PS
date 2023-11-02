@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 01, 2023 at 02:31 PM
+-- Generation Time: Nov 02, 2023 at 12:25 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -53,8 +53,17 @@ DROP PROCEDURE IF EXISTS `CheckServerStatus`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckServerStatus` ()   SELECT *
 FROM serverstatus$$
 
-DROP PROCEDURE IF EXISTS `checkUsername`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkUsername` (IN `usn` VARCHAR(50))   SELECT username FROM account WHERE username = usn$$
+DROP PROCEDURE IF EXISTS `ClockInOut`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ClockInOut` (IN `p_userID` INT, IN `p_clockintime` DATETIME, IN `p_clockedIn` INT, IN `p_clockouttime` DATETIME, IN `p_clockedOut` INT)   UPDATE dtr
+    SET dtr.clockintime = p_clockintime,
+        dtr.clockedIn = p_clockedIn,
+        dtr.clockouttime = p_clockouttime,
+        dtr.clockedOut = p_clockedOut
+    WHERE userID = p_userID AND dtrDate = CURDATE()$$
+
+DROP PROCEDURE IF EXISTS `DeleteUser`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteUser` (IN `p_userID` INT)   DELETE FROM account 
+WHERE account.userID = p_userID$$
 
 DROP PROCEDURE IF EXISTS `DTR`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DTR` (IN `pUserID` INT, IN `pNthPayslip` INT)   BEGIN
@@ -82,6 +91,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DTR` (IN `pUserID` INT, IN `pNthPay
         VALUES (pNthPayslip, pUserID, clockinTime, clockoutTime, totalHours, currentDate);
     END IF;
 END$$
+
+DROP PROCEDURE IF EXISTS `DTRTotalHour`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DTRTotalHour` (IN `p_userID` INT)   UPDATE dtr
+SET dtr.totalHours = TIMEDIFF(clockouttime, clockintime)
+WHERE userID = p_userID AND dtrDate = CURDATE()$$
 
 DROP PROCEDURE IF EXISTS `editUserAcc`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `editUserAcc` (IN `p_staffID` INT, IN `p_firstname` VARCHAR(50), IN `p_lastname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATETIME, IN `p_position` VARCHAR(50), IN `p_salary` DECIMAL, IN `p_allowance` DECIMAL, IN `p_stationNo` VARCHAR(50), IN `p_isEnabled` INT, IN `p_accountLevel` INT)   UPDATE staff s, account a
@@ -124,7 +138,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GeneratePayslipDetails` (IN `userID
 END$$
 
 DROP PROCEDURE IF EXISTS `getAccDetails`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE)   SELECT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `p_staffID` INT)   SELECT
 	a.*,
 	stf.firstName,
 	stf.lastName,
@@ -141,21 +155,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAccDetails` (IN `staffID` DOUBLE
 FROM account a
 JOIN staff stf ON a.staffID = stf.staffID
 LEFT JOIN dtr dtr ON a.userID = dtr.userID AND DATE(dtr.dtrDate) = CURDATE()
-Where a.staffID = 1$$
-
-DROP PROCEDURE IF EXISTS `getAllAccountDetails`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllAccountDetails` ()   SELECT
-    a.staffID as Staff_ID,
-    a.isEnabled as Locked,
-    a.accountLevel as Restriction,
-    a.username as Username,
-    stf.firstName as Firstname,
-    stf.lastName as Lastname,
-    stf.position as Position,
-    stf.stationNo as Station_No
-FROM account a
-JOIN staff stf ON a.staffID = stf.staffID
-LEFT JOIN station stn ON stf.stationNO = stn.stationNO$$
+Where a.staffID = p_staffID$$
 
 DROP PROCEDURE IF EXISTS `getAllUserID`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllUserID` ()   SELECT a.userID
@@ -170,17 +170,6 @@ FROM eventlog e$$
 DROP PROCEDURE IF EXISTS `getLogin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin` (IN `usn` VARCHAR(50), IN `pass` VARCHAR(50))   SELECT * FROM account WHERE username = usn AND password = pass$$
 
-DROP PROCEDURE IF EXISTS `getManagerName`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getManagerName` (IN `p_managerID` INT)   SELECT s.firstName
-FROM staff s
-INNER JOIN manager m ON s.staffId = m.staffID
-WHERE m.managerID = p_managerID$$
-
-DROP PROCEDURE IF EXISTS `getManagerNames`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getManagerNames` ()   SELECT s.firstName
-FROM manager m
-JOIN staff s ON s.staffID = m.staffID$$
-
 DROP PROCEDURE IF EXISTS `getNthPayslip`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getNthPayslip` ()   SELECT
     a.userID,
@@ -191,13 +180,6 @@ LEFT JOIN
     payslip p
 ON p.userID = a.userID
 WHERE CURRENT_DATE BETWEEN p.startDate AND p.endDate$$
-
-DROP PROCEDURE IF EXISTS `getSelectedManagerID`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getSelectedManagerID` (IN `fname` VARCHAR(50))   SELECT m.managerID, st.stationNo
-FROM manager m
-JOIN staff s ON s.staffID = m.staffID
-LEFT JOIN station st ON m.managerID = st.managerID
-WHERE s.firstName LIKE CONCAT('%', fname, '%') COLLATE utf8mb4_unicode_ci$$
 
 DROP PROCEDURE IF EXISTS `getUserAcc`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserAcc` (IN `p_search` VARCHAR(50))   SELECT
@@ -219,7 +201,9 @@ DROP PROCEDURE IF EXISTS `getUserDTR`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDTR` (IN `p_userID` INT)   SELECT
 	dtr.dtrDate,
     dtr.clockintime,
+    dtr.clockedIn,
     dtr.clockouttime,
+    dtr.clockedOut,
     dtr.totalHours
 FROM dtr 
 WHERE DATE(dtrDate) <= CURDATE() AND userID = p_userID
@@ -288,26 +272,22 @@ INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`,
 (2, 2, 'laurence.silverio', 'laurence', 1, 2, 0),
 (3, 3, 'username.password', 'password', 1, 1, 0),
 (5, 5, 'test.test', 'test1234', 0, 1, 0),
-(7, 7, 'johnmatheow.morillo', 'cho12345', 1, 1, 0),
-(8, 8, 'emily.johnson', 'johnson123', 1, 1, 0),
-(9, 9, 'mikejasper.otero', '7n8Vh', 1, 1, 0),
-(10, 10, 'johnwilliard.sanjuan', 'sanjuan123', 1, 1, 0),
-(11, 11, 'walterhartwel.white', 'ShZiG7dbbehjJwUj', 1, 1, 0),
-(12, 12, 'jesse.pinkman', 'hJnbdrtqJXdZ6XRJ', 1, 1, 0),
-(13, 13, 'gus.fring', 'yXuJMxQH6N3mlcep', 1, 1, 0),
-(14, 14, 'saul.goodman', 'gwhVrBVqucCmKTgc', 1, 1, 0),
-(15, 15, 'mike.ermantrauth', 'zs5TeAfNlDvQwGoR', 1, 1, 0),
-(16, 16, 'smurf.account', 'vo7bEeE1YNumW6d0', 1, 1, 0),
-(17, 17, 'hank.shrader', 'MZULPv1yQuYSFLmM', 1, 1, 0),
-(18, 18, 'thomas.shelby', 'yPxhZVUQ6G5M7JyV', 1, 1, 0),
-(19, 19, 'normal.abnormal', '3AADvkh4ZMeeQSvN', 1, 1, 0),
-(20, 20, 'asjd.ashflasd', 'jQGo0IyqNo79MDVg', 1, 1, 0),
-(21, 21, 'test20.test20', 'jgRhpZdCwo57Or6V', 1, 1, 0),
-(22, 22, 'aa.z', '3AOsDiR6OJ4ofXqB', 1, 1, 0),
-(23, 23, 'aaa.a', 'a5uFVEN2424ZEkpB', 1, 1, 0),
-(24, 24, 'a.a', 'fYE3TSY1pcqxDED4', 1, 1, 0),
-(25, 25, 'johnmari.giducos', 'uo5h2', 1, 1, 0),
-(27, 27, 'kontra.dengue', 'GnF1P', 1, 2, 0);
+(7, 7, 'johnmatheow.morillo', 'cho12345', 1, 1, 0);
+
+--
+-- Triggers `account`
+--
+DROP TRIGGER IF EXISTS `DeleteAccountAndRelatedRows`;
+DELIMITER $$
+CREATE TRIGGER `DeleteAccountAndRelatedRows` AFTER DELETE ON `account` FOR EACH ROW BEGIN
+    DELETE FROM staff WHERE staffID = OLD.staffID;
+
+    DELETE FROM dtr WHERE userID = OLD.staffID;
+
+    DELETE FROM payslipdetail WHERE userID = OLD.staffID;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -320,190 +300,57 @@ CREATE TABLE IF NOT EXISTS `dtr` (
   `dtrID` int NOT NULL AUTO_INCREMENT,
   `payslipID` int NOT NULL,
   `userID` int NOT NULL,
-  `clockintime` time NOT NULL,
+  `clockintime` datetime DEFAULT NULL,
   `clockedIn` tinyint NOT NULL DEFAULT '0',
-  `clockouttime` time NOT NULL,
+  `clockouttime` datetime DEFAULT NULL,
   `clockedOut` tinyint NOT NULL DEFAULT '0',
-  `totalHours` decimal(10,2) DEFAULT NULL,
+  `totalHours` datetime DEFAULT NULL,
   `dtrDate` date NOT NULL,
   PRIMARY KEY (`dtrID`),
   UNIQUE KEY `dtrID_Unique` (`dtrID`) USING BTREE,
   KEY `dtrID_Index` (`dtrID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `dtr`
 --
 
 INSERT INTO `dtr` (`dtrID`, `payslipID`, `userID`, `clockintime`, `clockedIn`, `clockouttime`, `clockedOut`, `totalHours`, `dtrDate`) VALUES
-(12, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(13, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(14, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(15, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(16, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(17, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(18, 7, 1, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(19, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(20, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(21, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(22, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(23, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(24, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(25, 7, 2, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(26, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(27, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(28, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(29, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(30, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(31, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(32, 7, 3, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(33, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(34, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(35, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(36, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(37, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(38, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(39, 7, 5, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(40, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(41, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(42, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(43, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(44, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(45, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(46, 7, 7, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(47, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(48, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(49, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(50, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(51, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(52, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(53, 7, 8, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(54, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(55, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(56, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(57, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(58, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(59, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(60, 7, 9, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(61, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(62, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(63, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(64, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(65, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(66, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(67, 7, 10, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(68, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(69, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(70, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(71, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(72, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(73, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(74, 7, 11, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(75, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(76, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(77, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(78, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(79, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(80, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(81, 7, 12, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(82, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(83, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(84, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(85, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(86, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(87, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(88, 7, 13, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(89, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(90, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(91, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(92, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(93, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(94, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(95, 7, 14, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(96, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(97, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(98, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(99, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(100, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(101, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(102, 7, 15, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(103, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(104, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(105, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(106, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(107, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(108, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(109, 7, 16, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(110, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(111, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(112, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(113, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(114, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(115, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(116, 7, 17, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(117, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(118, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(119, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(120, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(121, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(122, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(123, 7, 18, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(124, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(125, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(126, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(127, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(128, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(129, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(130, 7, 19, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(131, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(132, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(133, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(134, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(135, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(136, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(137, 7, 20, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(138, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(139, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(140, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(141, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(142, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(143, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(144, 7, 21, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(145, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(146, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(147, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(148, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(149, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(150, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(151, 7, 22, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(152, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(153, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(154, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(155, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(156, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(157, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(158, 7, 23, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(159, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(160, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(161, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(162, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(163, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(164, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(165, 7, 24, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(166, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(167, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(168, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(169, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(170, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(171, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(172, 7, 25, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04'),
-(173, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-29'),
-(174, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-30'),
-(175, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-10-31'),
-(176, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-01'),
-(177, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-02'),
-(178, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-03'),
-(179, 7, 27, '00:00:00', 0, '00:00:00', 0, '0.00', '2023-11-04');
+(250, 7, 1, NULL, 0, NULL, 0, NULL, '2023-10-29'),
+(251, 7, 1, NULL, 0, NULL, 0, NULL, '2023-10-30'),
+(252, 7, 1, NULL, 0, NULL, 0, NULL, '2023-10-31'),
+(253, 7, 1, NULL, 0, NULL, 0, NULL, '2023-11-01'),
+(254, 7, 1, '2023-11-02 09:15:16', 0, '2023-11-02 15:40:12', 0, '2023-11-02 06:24:56', '2023-11-02'),
+(255, 7, 1, NULL, 0, NULL, 0, NULL, '2023-11-03'),
+(256, 7, 1, NULL, 0, NULL, 0, NULL, '2023-11-04'),
+(257, 7, 2, NULL, 0, NULL, 0, NULL, '2023-10-29'),
+(258, 7, 2, NULL, 0, NULL, 0, NULL, '2023-10-30'),
+(259, 7, 2, NULL, 0, NULL, 0, NULL, '2023-10-31'),
+(260, 7, 2, NULL, 0, NULL, 0, NULL, '2023-11-01'),
+(261, 7, 2, '2023-11-02 20:01:41', 1, '2023-11-02 20:06:43', 1, '2023-11-02 00:05:02', '2023-11-02'),
+(262, 7, 2, NULL, 0, NULL, 0, NULL, '2023-11-03'),
+(263, 7, 2, NULL, 0, NULL, 0, NULL, '2023-11-04'),
+(264, 7, 3, NULL, 0, NULL, 0, NULL, '2023-10-29'),
+(265, 7, 3, NULL, 0, NULL, 0, NULL, '2023-10-30'),
+(266, 7, 3, NULL, 0, NULL, 0, NULL, '2023-10-31'),
+(267, 7, 3, NULL, 0, NULL, 0, NULL, '2023-11-01'),
+(268, 7, 3, '2023-11-02 20:17:53', 1, '2023-11-02 20:21:15', 1, '2023-11-02 00:03:22', '2023-11-02'),
+(269, 7, 3, NULL, 0, NULL, 0, NULL, '2023-11-03'),
+(270, 7, 3, NULL, 0, NULL, 0, NULL, '2023-11-04'),
+(271, 7, 5, NULL, 0, NULL, 0, NULL, '2023-10-29'),
+(272, 7, 5, NULL, 0, NULL, 0, NULL, '2023-10-30'),
+(273, 7, 5, NULL, 0, NULL, 0, NULL, '2023-10-31'),
+(274, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-01'),
+(275, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-02'),
+(276, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-03'),
+(277, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-04'),
+(278, 7, 7, NULL, 0, NULL, 0, NULL, '2023-10-29'),
+(279, 7, 7, NULL, 0, NULL, 0, NULL, '2023-10-30'),
+(280, 7, 7, NULL, 0, NULL, 0, NULL, '2023-10-31'),
+(281, 7, 7, NULL, 0, NULL, 0, NULL, '2023-11-01'),
+(282, 7, 7, '2023-11-02 20:10:40', 1, '2023-11-02 20:13:49', 1, '2023-11-02 00:03:09', '2023-11-02'),
+(283, 7, 7, NULL, 0, NULL, 0, NULL, '2023-11-03'),
+(284, 7, 7, NULL, 0, NULL, 0, NULL, '2023-11-04');
 
 -- --------------------------------------------------------
 
@@ -538,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventDateTime` datetime DEFAULT NULL,
   `eventDescription` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`logID`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `eventlog`
@@ -592,7 +439,21 @@ INSERT INTO `eventlog` (`logID`, `eventDateTime`, `eventDescription`) VALUES
 (45, '2023-11-01 22:13:32', 'Server Started'),
 (46, '2023-11-01 22:14:07', 'Server Terminated'),
 (47, '2023-11-01 22:15:42', 'Server Started'),
-(48, '2023-11-01 22:30:20', 'Server Terminated');
+(48, '2023-11-01 22:30:20', 'Server Terminated'),
+(49, '2023-11-01 22:37:24', 'Server Started'),
+(50, '2023-11-01 22:38:20', 'Server Terminated'),
+(51, '2023-11-02 09:49:03', 'Server Started'),
+(52, '2023-11-02 09:50:11', 'Server Terminated'),
+(53, '2023-11-02 10:04:48', 'Server Started'),
+(54, '2023-11-02 10:05:02', 'Server Terminated'),
+(55, '2023-11-02 10:53:05', 'Server Started'),
+(56, '2023-11-02 13:59:19', 'Server Terminated'),
+(57, '2023-11-02 14:01:31', 'Server Started'),
+(58, '2023-11-02 15:19:28', 'Server Terminated'),
+(59, '2023-11-02 15:19:30', 'Server Started'),
+(60, '2023-11-02 15:20:25', 'Server Terminated'),
+(61, '2023-11-02 15:20:44', 'Server Started'),
+(62, '2023-11-02 20:24:13', 'Server Terminated');
 
 -- --------------------------------------------------------
 
@@ -606,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `payslip` (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   PRIMARY KEY (`payslipID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `payslip`
@@ -635,37 +496,18 @@ CREATE TABLE IF NOT EXISTS `payslipdetail` (
   UNIQUE KEY `payslipID_Unique` (`payslipDetailID`) USING BTREE,
   UNIQUE KEY `unique_user_payslip` (`userID`,`payslipID`),
   KEY `payslipID_Index` (`payslipDetailID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=368 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=621 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `payslipdetail`
 --
 
 INSERT INTO `payslipdetail` (`payslipDetailID`, `payslipID`, `userID`, `totalHours`, `subtotal`, `allowance`, `deduction`, `totalSalary`) VALUES
-(56, 7, 1, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(57, 7, 2, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(58, 7, 3, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(59, 7, 5, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(60, 7, 7, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(61, 7, 8, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(62, 7, 9, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(63, 7, 10, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(64, 7, 11, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(65, 7, 12, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(66, 7, 13, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(67, 7, 14, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(68, 7, 15, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(69, 7, 16, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(70, 7, 17, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(71, 7, 18, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(72, 7, 19, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(73, 7, 20, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(74, 7, 21, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(75, 7, 22, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(76, 7, 23, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(77, 7, 24, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(78, 7, 25, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(79, 7, 27, '00:00:00', '0.00', '0.00', '0.00', 0.00);
+(601, 7, 1, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(602, 7, 2, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(603, 7, 3, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(604, 7, 5, '00:00:00', '0.00', '0.00', '0.00', 0.00),
+(605, 7, 7, '00:00:00', '0.00', '0.00', '0.00', 0.00);
 
 --
 -- Triggers `payslipdetail`
@@ -678,8 +520,8 @@ CREATE TRIGGER `after_insert_payslipdetail` AFTER INSERT ON `payslipdetail` FOR 
   SET @startDate = (SELECT startDate FROM payslip WHERE payslipID = NEW.payslipID);
 
   WHILE i < 7 DO
-    INSERT INTO dtr (payslipID, userID, clockintime, clockouttime, totalHours, dtrDate)
-    VALUES (NEW.payslipID, NEW.userID, '00:00:00', '00:00:00', 0, DATE_ADD(@startDate, INTERVAL i DAY));
+    INSERT INTO dtr (payslipID, userID, clockintime, clockedIn, clockouttime, clockedOut, totalHours, dtrDate)
+    VALUES (NEW.payslipID, NEW.userID, NULL, 0, NULL, 0, NULL, DATE_ADD(@startDate, INTERVAL i DAY));
     SET i = i + 1;
   END WHILE;
 END
@@ -725,7 +567,7 @@ CREATE TABLE IF NOT EXISTS `serverstatus` (
 --
 
 INSERT INTO `serverstatus` (`serverName`, `status`, `lastChecked`) VALUES
-('PS Server', 0, '2023-11-01 22:30:20');
+('PS Server', 0, '2023-11-02 20:24:13');
 
 -- --------------------------------------------------------
 
@@ -762,24 +604,6 @@ INSERT INTO `staff` (`staffID`, `firstName`, `lastName`, `sex`, `DOB`, `position
 (3, 'username', 'password', 'Female', '2023-10-26 16:23:27', 'Employee', '0.00', '0.00', ''),
 (5, 'Edit', 'Test', 'Male', '2023-09-28 00:00:00', 'New Manager', '1500.00', '500.00', ''),
 (7, 'john matheo', 'morillo', 'Male', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S002'),
-(8, 'Emily', 'Johnson', 'Male', '2023-08-22 00:00:00', 'Cashier', '500.00', '0.00', 'S001'),
-(9, 'Mike Jasper', 'Otero', 'Male', '2023-10-01 00:00:00', 'Guitarist', '1000.00', '500.00', 'S002'),
-(10, 'John Williard', 'San Juan', 'Male', '2023-10-01 00:00:00', 'Cashier', '1000.00', '500.00', 'S001'),
-(11, 'Walter Hartwel', 'White', 'Male', '1958-09-07 11:43:13', 'Cook', '5220.00', '5220.00', ''),
-(12, 'Jesse', 'Pinkman', 'Male', '1984-09-24 13:54:45', 'Sous Chef', '3000.00', '3000.00', ''),
-(13, 'Gus', 'Fring', 'Male', '1958-09-07 14:00:45', 'Manager', '4000.00', '4000.00', ''),
-(14, 'Saul', 'Goodman', 'Male', '1960-11-12 14:03:32', 'Lawyer', '2000.00', '2000.00', ''),
-(15, 'Mike', 'Ermantrauth', 'Male', '1963-10-01 14:05:40', 'Gunner', '12.00', '12.00', ''),
-(16, 'smurf', 'account', 'Female', '2023-02-22 14:07:40', 'smurf', '12.00', '12.00', ''),
-(17, 'Hank', 'Shrader', 'Male', '1960-09-19 14:26:26', 'DEA', '1500.00', '1500.00', ''),
-(18, 'Thomas', 'Shelby', 'Male', '2001-02-28 14:56:56', 'Leader', '10000.00', '10000.00', ''),
-(19, 'Normal', 'Abnormal', 'Prefer not to say', '2023-10-01 14:59:35', 'normal', '0.00', '0.00', ''),
-(20, 'asjd', 'ashflasd', 'Male', '2023-10-01 17:35:06', 'sad', '12.00', '12.00', 'S001'),
-(21, 'test20', 'test20', 'Male', '2023-10-01 17:40:29', 'test20', '20.00', '20.00', 'S001'),
-(22, 'aa', 'z', 'Male', '2023-10-01 17:42:19', 'as1', '1.00', '1.00', 'S001'),
-(23, 'aaa', 'a', 'Male', '2023-10-01 17:44:31', 'aa', '1.00', '1.00', ''),
-(24, 'a', 'a', 'Male', '2023-10-01 17:50:52', 'a', '1.00', '1.00', 'S001'),
-(25, 'John Mari', 'Giducos', 'Male', '2023-10-10 15:03:46', 'okems', '0.00', '0.00', ''),
 (27, 'Kontra', 'Dengue', 'Male', '2023-04-04 14:03:45', 'Dengue', '0.00', '0.00', 'S003');
 
 --
