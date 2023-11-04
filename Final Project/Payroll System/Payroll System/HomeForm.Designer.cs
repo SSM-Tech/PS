@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeForm));
             label1 = new Label();
             btnClockIn = new Button();
             btnClockOut = new Button();
@@ -77,6 +78,7 @@
             Controls.Add(label1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "HomeForm";
             StartPosition = FormStartPosition.CenterScreen;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 02, 2023 at 12:25 PM
+-- Generation Time: Nov 04, 2023 at 03:28 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -32,13 +32,11 @@ SET status = p_status,
 
 DROP PROCEDURE IF EXISTS `CheckAndGeneratePayslip`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckAndGeneratePayslip` ()   BEGIN
-    -- Check if the current date is inside any existing payslip
     IF NOT EXISTS (
         SELECT 1
         FROM payslip
         WHERE CURDATE() BETWEEN startDate AND endDate
     ) THEN
-        -- If the current date is not inside any existing payslip, generate a new row
         INSERT INTO payslip (startDate, endDate)
         VALUES (CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY));
     END IF;
@@ -52,6 +50,9 @@ WHERE a.userID = p_userID$$
 DROP PROCEDURE IF EXISTS `CheckServerStatus`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckServerStatus` ()   SELECT *
 FROM serverstatus$$
+
+DROP PROCEDURE IF EXISTS `checkUsername`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkUsername` (IN `usn` VARCHAR(50))   SELECT username FROM account WHERE username = usn$$
 
 DROP PROCEDURE IF EXISTS `ClockInOut`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ClockInOut` (IN `p_userID` INT, IN `p_clockintime` DATETIME, IN `p_clockedIn` INT, IN `p_clockouttime` DATETIME, IN `p_clockedOut` INT)   UPDATE dtr
@@ -68,16 +69,15 @@ WHERE account.userID = p_userID$$
 DROP PROCEDURE IF EXISTS `DTR`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DTR` (IN `pUserID` INT, IN `pNthPayslip` INT)   BEGIN
     DECLARE currentDate DATE;
-    DECLARE clockinTime TIME;
-    DECLARE clockoutTime TIME;
-    DECLARE totalHours DECIMAL(10, 2);
+    DECLARE clockinTime DATETIME;
+    DECLARE clockoutTime DATETIME;
+    DECLARE totalHours DECIMAL(10, 6);
     
     SET currentDate = CURDATE();
-    SET clockinTime = '00:00:00'; -- Default value
-    SET clockoutTime = '00:00:00'; -- Default value
-    SET totalHours = 0; -- Default value
+    SET clockinTime = NULL;
+    SET clockoutTime = NULL;
+    SET totalHours = 0;
 
-    -- Check if a corresponding DTR entry exists for the given user and payslip on the current date
     IF NOT EXISTS (
         SELECT 1
         FROM dtr
@@ -86,16 +86,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DTR` (IN `pUserID` INT, IN `pNthPay
           AND nthPayslip = pNthPayslip
     )
     THEN
-        -- If no entry exists, insert a new row
         INSERT INTO dtr (nthPayslip, userID, clockinTime, clockoutTime, totalHours, dtrDate)
         VALUES (pNthPayslip, pUserID, clockinTime, clockoutTime, totalHours, currentDate);
     END IF;
 END$$
-
-DROP PROCEDURE IF EXISTS `DTRTotalHour`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DTRTotalHour` (IN `p_userID` INT)   UPDATE dtr
-SET dtr.totalHours = TIMEDIFF(clockouttime, clockintime)
-WHERE userID = p_userID AND dtrDate = CURDATE()$$
 
 DROP PROCEDURE IF EXISTS `editUserAcc`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `editUserAcc` (IN `p_staffID` INT, IN `p_firstname` VARCHAR(50), IN `p_lastname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATETIME, IN `p_position` VARCHAR(50), IN `p_salary` DECIMAL, IN `p_allowance` DECIMAL, IN `p_stationNo` VARCHAR(50), IN `p_isEnabled` INT, IN `p_accountLevel` INT)   UPDATE staff s, account a
@@ -120,21 +114,18 @@ DROP PROCEDURE IF EXISTS `GeneratePayslipDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GeneratePayslipDetails` (IN `userID` INT)   BEGIN
     DECLARE retpayslipID INT;
 
-    START TRANSACTION;  -- Start a transaction
-
-    -- Get the payslipID from the payslip table for the current date
+    START TRANSACTION;
+    
     SELECT payslipID INTO retpayslipID
     FROM payslip
     WHERE CURDATE() BETWEEN startDate AND endDate;
 
-    -- Check if payslipID is found
     IF retpayslipID IS NOT NULL THEN
-        -- Insert a new row in payslipDetails with initial values set to 0
         INSERT IGNORE INTO payslipdetail (payslipID, userID, totalHours, subtotal, allowance, deduction, totalSalary)
         VALUES (retpayslipID, userID, 0, 0, 0, 0, 0);
     END IF;
 
-    COMMIT;  -- Commit the transaction
+    COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `getAccDetails`$$
@@ -180,6 +171,20 @@ LEFT JOIN
     payslip p
 ON p.userID = a.userID
 WHERE CURRENT_DATE BETWEEN p.startDate AND p.endDate$$
+
+DROP PROCEDURE IF EXISTS `GetPayslip`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPayslip` (IN `p_userID` INT)   SELECT 
+	ps.*,
+	psd.payslipDetailID,
+    psd.userID,
+    psd.totalHours,
+    psd.subtotal,
+    psd.allowance,
+    psd.deduction,
+    psd.totalSalary
+FROM payslip as ps
+INNER JOIN payslipdetail as psd on psd.payslipID = ps.payslipID
+WHERE CURDATE() > endDate AND psd.userID = p_userID$$
 
 DROP PROCEDURE IF EXISTS `getUserAcc`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserAcc` (IN `p_search` VARCHAR(50))   SELECT
@@ -230,15 +235,46 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `registerAccount` (IN `p_firstName` 
     VALUES (generatedStaffID, p_username, p_password, p_isEnabled, p_accountLevel);
 END$$
 
+DROP PROCEDURE IF EXISTS `updateAccountAndStaff`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAccountAndStaff` (IN `p_staffID` DOUBLE, IN `p_fname` VARCHAR(50), IN `p_lname` VARCHAR(50), IN `p_sex` VARCHAR(50), IN `p_dOB` DATETIME)   UPDATE staff
+SET firstName = p_fname,
+	lastName = p_lname,
+	sex = p_sex,
+	DOB = p_dOB
+WHERE staff.staffID = p_staffID$$
+
 DROP PROCEDURE IF EXISTS `updateAccountPassword`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateAccountPassword` (IN `p_password` VARCHAR(50), IN `p_staffID` DOUBLE)   UPDATE account
 SET account.password = p_password
 WHERE account.staffID = p_staffID$$
 
+DROP PROCEDURE IF EXISTS `UpdateDTRTotalHours`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateDTRTotalHours` ()   BEGIN
+    UPDATE dtr
+    SET totalHours = CalculateTotalHours(clockouttime, clockintime)
+    WHERE DATE(dtrDate) = CURDATE();
+END$$
+
 DROP PROCEDURE IF EXISTS `UpdateLoginStatus`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateLoginStatus` (IN `p_userID` INT)   UPDATE account
 SET isLoggedIn = 0
 WHERE userID = p_userID$$
+
+--
+-- Functions
+--
+DROP FUNCTION IF EXISTS `CalculateTotalHours`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `CalculateTotalHours` (`clockin_time` DATETIME, `clockout_time` DATETIME) RETURNS DECIMAL(10,6)  BEGIN
+    DECLARE total_seconds INT;
+    
+    DECLARE total_hours DECIMAL(10, 6); -- Increase precision
+    
+    SET total_seconds = TIMESTAMPDIFF(SECOND, clockout_time, clockin_time);
+    
+    SET total_hours = total_seconds / 3600.0;
+
+    RETURN COALESCE(total_hours, 0);
+END$$
 
 DELIMITER ;
 
@@ -261,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   UNIQUE KEY `userID_Unique` (`userID`) USING BTREE,
   KEY `username_Index` (`username`) USING BTREE,
   KEY `staffID` (`staffID`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `account`
@@ -272,7 +308,8 @@ INSERT INTO `account` (`userID`, `staffID`, `username`, `password`, `isEnabled`,
 (2, 2, 'laurence.silverio', 'laurence', 1, 2, 0),
 (3, 3, 'username.password', 'password', 1, 1, 0),
 (5, 5, 'test.test', 'test1234', 0, 1, 0),
-(7, 7, 'johnmatheow.morillo', 'cho12345', 1, 1, 0);
+(7, 7, 'johnmatheow.morillo', 'cho12345', 1, 1, 0),
+(28, 28, 'jesus.crist', 'jesus.crist', 1, 2, 0);
 
 --
 -- Triggers `account`
@@ -304,53 +341,60 @@ CREATE TABLE IF NOT EXISTS `dtr` (
   `clockedIn` tinyint NOT NULL DEFAULT '0',
   `clockouttime` datetime DEFAULT NULL,
   `clockedOut` tinyint NOT NULL DEFAULT '0',
-  `totalHours` datetime DEFAULT NULL,
+  `totalHours` decimal(10,6) DEFAULT NULL,
   `dtrDate` date NOT NULL,
   PRIMARY KEY (`dtrID`),
   UNIQUE KEY `dtrID_Unique` (`dtrID`) USING BTREE,
   KEY `dtrID_Index` (`dtrID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=292 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `dtr`
 --
 
 INSERT INTO `dtr` (`dtrID`, `payslipID`, `userID`, `clockintime`, `clockedIn`, `clockouttime`, `clockedOut`, `totalHours`, `dtrDate`) VALUES
-(250, 7, 1, NULL, 0, NULL, 0, NULL, '2023-10-29'),
-(251, 7, 1, NULL, 0, NULL, 0, NULL, '2023-10-30'),
-(252, 7, 1, NULL, 0, NULL, 0, NULL, '2023-10-31'),
-(253, 7, 1, NULL, 0, NULL, 0, NULL, '2023-11-01'),
-(254, 7, 1, '2023-11-02 09:15:16', 0, '2023-11-02 15:40:12', 0, '2023-11-02 06:24:56', '2023-11-02'),
-(255, 7, 1, NULL, 0, NULL, 0, NULL, '2023-11-03'),
-(256, 7, 1, NULL, 0, NULL, 0, NULL, '2023-11-04'),
-(257, 7, 2, NULL, 0, NULL, 0, NULL, '2023-10-29'),
-(258, 7, 2, NULL, 0, NULL, 0, NULL, '2023-10-30'),
-(259, 7, 2, NULL, 0, NULL, 0, NULL, '2023-10-31'),
-(260, 7, 2, NULL, 0, NULL, 0, NULL, '2023-11-01'),
-(261, 7, 2, '2023-11-02 20:01:41', 1, '2023-11-02 20:06:43', 1, '2023-11-02 00:05:02', '2023-11-02'),
-(262, 7, 2, NULL, 0, NULL, 0, NULL, '2023-11-03'),
-(263, 7, 2, NULL, 0, NULL, 0, NULL, '2023-11-04'),
-(264, 7, 3, NULL, 0, NULL, 0, NULL, '2023-10-29'),
-(265, 7, 3, NULL, 0, NULL, 0, NULL, '2023-10-30'),
-(266, 7, 3, NULL, 0, NULL, 0, NULL, '2023-10-31'),
-(267, 7, 3, NULL, 0, NULL, 0, NULL, '2023-11-01'),
-(268, 7, 3, '2023-11-02 20:17:53', 1, '2023-11-02 20:21:15', 1, '2023-11-02 00:03:22', '2023-11-02'),
-(269, 7, 3, NULL, 0, NULL, 0, NULL, '2023-11-03'),
-(270, 7, 3, NULL, 0, NULL, 0, NULL, '2023-11-04'),
-(271, 7, 5, NULL, 0, NULL, 0, NULL, '2023-10-29'),
-(272, 7, 5, NULL, 0, NULL, 0, NULL, '2023-10-30'),
-(273, 7, 5, NULL, 0, NULL, 0, NULL, '2023-10-31'),
-(274, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-01'),
-(275, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-02'),
-(276, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-03'),
-(277, 7, 5, NULL, 0, NULL, 0, NULL, '2023-11-04'),
-(278, 7, 7, NULL, 0, NULL, 0, NULL, '2023-10-29'),
-(279, 7, 7, NULL, 0, NULL, 0, NULL, '2023-10-30'),
-(280, 7, 7, NULL, 0, NULL, 0, NULL, '2023-10-31'),
-(281, 7, 7, NULL, 0, NULL, 0, NULL, '2023-11-01'),
-(282, 7, 7, '2023-11-02 20:10:40', 1, '2023-11-02 20:13:49', 1, '2023-11-02 00:03:09', '2023-11-02'),
-(283, 7, 7, NULL, 0, NULL, 0, NULL, '2023-11-03'),
-(284, 7, 7, NULL, 0, NULL, 0, NULL, '2023-11-04');
+(250, 7, 1, NULL, 0, NULL, 0, '0.000000', '2023-10-29'),
+(251, 7, 1, NULL, 0, NULL, 0, '0.000000', '2023-10-30'),
+(252, 7, 1, NULL, 0, NULL, 0, '0.000000', '2023-10-31'),
+(253, 7, 1, NULL, 0, NULL, 0, '0.000000', '2023-11-01'),
+(254, 7, 1, '2023-11-02 09:15:16', 1, '2023-11-02 15:40:12', 1, '6.400000', '2023-11-02'),
+(255, 7, 1, '2023-11-03 08:25:39', 1, '2023-11-03 22:51:38', 1, '9.999990', '2023-11-03'),
+(256, 7, 1, '2023-11-04 20:29:33', 1, '2023-11-04 22:16:28', 1, '1.781944', '2023-11-04'),
+(257, 7, 2, NULL, 0, NULL, 0, '0.000000', '2023-10-29'),
+(258, 7, 2, NULL, 0, NULL, 0, '0.000000', '2023-10-30'),
+(259, 7, 2, NULL, 0, NULL, 0, '0.000000', '2023-10-31'),
+(260, 7, 2, NULL, 0, NULL, 0, '0.000000', '2023-11-01'),
+(261, 7, 2, '2023-11-02 20:01:41', 1, '2023-11-02 20:06:43', 1, '0.080000', '2023-11-02'),
+(262, 7, 2, '2023-11-03 08:25:56', 1, '2023-11-03 22:51:59', 1, '9.999990', '2023-11-03'),
+(263, 7, 2, '2023-11-04 20:30:17', 1, '2023-11-04 22:34:48', 1, '2.075278', '2023-11-04'),
+(264, 7, 3, NULL, 0, NULL, 0, '0.000000', '2023-10-29'),
+(265, 7, 3, NULL, 0, NULL, 0, '0.000000', '2023-10-30'),
+(266, 7, 3, NULL, 0, NULL, 0, '0.000000', '2023-10-31'),
+(267, 7, 3, NULL, 0, NULL, 0, '0.000000', '2023-11-01'),
+(268, 7, 3, '2023-11-02 20:17:53', 1, '2023-11-02 20:21:15', 1, '0.050000', '2023-11-02'),
+(269, 7, 3, '2023-11-03 08:26:21', 1, '2023-11-03 22:52:16', 1, '9.999990', '2023-11-03'),
+(270, 7, 3, '2023-11-04 20:30:39', 1, '2023-11-04 22:35:01', 1, '2.072778', '2023-11-04'),
+(271, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-10-29'),
+(272, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-10-30'),
+(273, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-10-31'),
+(274, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-11-01'),
+(275, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-11-02'),
+(276, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-11-03'),
+(277, 7, 5, NULL, 0, NULL, 0, '0.000000', '2023-11-04'),
+(278, 7, 7, NULL, 0, NULL, 0, '0.000000', '2023-10-29'),
+(279, 7, 7, NULL, 0, NULL, 0, '0.000000', '2023-10-30'),
+(280, 7, 7, NULL, 0, NULL, 0, '0.000000', '2023-10-31'),
+(281, 7, 7, NULL, 0, NULL, 0, '0.000000', '2023-11-01'),
+(282, 7, 7, '2023-11-02 20:10:40', 1, '2023-11-02 20:13:49', 1, '0.050000', '2023-11-02'),
+(283, 7, 7, '2023-11-03 08:26:33', 1, '2023-11-03 22:52:41', 1, '9.999990', '2023-11-03'),
+(284, 7, 7, '2023-11-04 20:30:30', 1, '2023-11-04 22:27:51', 1, '1.955833', '2023-11-04'),
+(285, 7, 28, NULL, 0, NULL, 0, '0.000000', '2023-10-29'),
+(286, 7, 28, NULL, 0, NULL, 0, '0.000000', '2023-10-30'),
+(287, 7, 28, NULL, 0, NULL, 0, '0.000000', '2023-10-31'),
+(288, 7, 28, NULL, 0, NULL, 0, '0.000000', '2023-11-01'),
+(289, 7, 28, NULL, 0, NULL, 0, '0.000000', '2023-11-02'),
+(290, 7, 28, NULL, 0, NULL, 0, '0.000000', '2023-11-03'),
+(291, 7, 28, '2023-11-04 22:37:45', 1, '2023-11-04 22:37:50', 1, '0.001389', '2023-11-04');
 
 -- --------------------------------------------------------
 
@@ -385,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventDateTime` datetime DEFAULT NULL,
   `eventDescription` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`logID`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `eventlog`
@@ -453,7 +497,18 @@ INSERT INTO `eventlog` (`logID`, `eventDateTime`, `eventDescription`) VALUES
 (59, '2023-11-02 15:19:30', 'Server Started'),
 (60, '2023-11-02 15:20:25', 'Server Terminated'),
 (61, '2023-11-02 15:20:44', 'Server Started'),
-(62, '2023-11-02 20:24:13', 'Server Terminated');
+(62, '2023-11-02 20:24:13', 'Server Terminated'),
+(63, '2023-11-03 08:25:18', 'Server Started'),
+(64, '2023-11-03 09:46:45', 'Server Terminated'),
+(65, '2023-11-03 22:49:57', 'Server Started'),
+(66, '2023-11-03 22:52:49', 'Server Terminated'),
+(67, '2023-11-03 23:07:32', 'Server Started'),
+(68, '2023-11-03 23:08:32', 'Server Terminated'),
+(69, '2023-11-03 23:15:58', 'Server Started'),
+(70, '2023-11-03 23:17:47', 'Server Terminated'),
+(71, '2023-11-04 20:28:08', 'Server Started'),
+(72, '2023-11-04 20:31:13', 'Server Terminated'),
+(73, '2023-11-04 20:33:33', 'Server Started');
 
 -- --------------------------------------------------------
 
@@ -487,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `payslipdetail` (
   `payslipDetailID` double NOT NULL AUTO_INCREMENT,
   `payslipID` int NOT NULL,
   `userID` double NOT NULL,
-  `totalHours` time NOT NULL,
+  `totalHours` decimal(10,6) DEFAULT NULL,
   `subtotal` decimal(10,2) NOT NULL,
   `allowance` decimal(10,2) NOT NULL,
   `deduction` decimal(10,2) NOT NULL,
@@ -496,18 +551,19 @@ CREATE TABLE IF NOT EXISTS `payslipdetail` (
   UNIQUE KEY `payslipID_Unique` (`payslipDetailID`) USING BTREE,
   UNIQUE KEY `unique_user_payslip` (`userID`,`payslipID`),
   KEY `payslipID_Index` (`payslipDetailID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=621 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=745 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `payslipdetail`
 --
 
 INSERT INTO `payslipdetail` (`payslipDetailID`, `payslipID`, `userID`, `totalHours`, `subtotal`, `allowance`, `deduction`, `totalSalary`) VALUES
-(601, 7, 1, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(602, 7, 2, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(603, 7, 3, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(604, 7, 5, '00:00:00', '0.00', '0.00', '0.00', 0.00),
-(605, 7, 7, '00:00:00', '0.00', '0.00', '0.00', 0.00);
+(601, 7, 1, '0.000000', '0.00', '0.00', '0.00', 0.00),
+(602, 7, 2, '0.000000', '0.00', '0.00', '0.00', 0.00),
+(603, 7, 3, '0.000000', '0.00', '0.00', '0.00', 0.00),
+(604, 7, 5, '0.000000', '0.00', '0.00', '0.00', 0.00),
+(605, 7, 7, '0.000000', '0.00', '0.00', '0.00', 0.00),
+(726, 7, 28, '0.000000', '0.00', '0.00', '0.00', 0.00);
 
 --
 -- Triggers `payslipdetail`
@@ -521,7 +577,7 @@ CREATE TRIGGER `after_insert_payslipdetail` AFTER INSERT ON `payslipdetail` FOR 
 
   WHILE i < 7 DO
     INSERT INTO dtr (payslipID, userID, clockintime, clockedIn, clockouttime, clockedOut, totalHours, dtrDate)
-    VALUES (NEW.payslipID, NEW.userID, NULL, 0, NULL, 0, NULL, DATE_ADD(@startDate, INTERVAL i DAY));
+    VALUES (NEW.payslipID, NEW.userID, NULL, 0, NULL, 0, 0, DATE_ADD(@startDate, INTERVAL i DAY));
     SET i = i + 1;
   END WHILE;
 END
@@ -567,7 +623,7 @@ CREATE TABLE IF NOT EXISTS `serverstatus` (
 --
 
 INSERT INTO `serverstatus` (`serverName`, `status`, `lastChecked`) VALUES
-('PS Server', 0, '2023-11-02 20:24:13');
+('PS Server', 1, '2023-11-04 20:33:33');
 
 -- --------------------------------------------------------
 
@@ -592,7 +648,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   KEY `firstName_Index` (`firstName`) USING BTREE,
   KEY `lastName_Index` (`lastName`) USING BTREE,
   KEY `firstName` (`firstName`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff`
@@ -604,7 +660,8 @@ INSERT INTO `staff` (`staffID`, `firstName`, `lastName`, `sex`, `DOB`, `position
 (3, 'username', 'password', 'Female', '2023-10-26 16:23:27', 'Employee', '0.00', '0.00', ''),
 (5, 'Edit', 'Test', 'Male', '2023-09-28 00:00:00', 'New Manager', '1500.00', '500.00', ''),
 (7, 'john matheo', 'morillo', 'Male', '2023-09-28 00:00:00', 'Employee', '500.00', '0.00', 'S002'),
-(27, 'Kontra', 'Dengue', 'Male', '2023-04-04 14:03:45', 'Dengue', '0.00', '0.00', 'S003');
+(27, 'Kontra', 'Dengue', 'Male', '2023-04-04 14:03:45', 'Dengue', '0.00', '0.00', 'S003'),
+(28, 'jesus', 'crist', 'Male', '1753-12-25 22:35:14', 'Messiah', '10000.00', '10000.00', 'Jerusalem');
 
 --
 -- Constraints for dumped tables

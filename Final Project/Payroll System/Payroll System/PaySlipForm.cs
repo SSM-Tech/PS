@@ -16,5 +16,15 @@ namespace Payroll_System
         {
             InitializeComponent();
         }
+
+        private void btnView_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

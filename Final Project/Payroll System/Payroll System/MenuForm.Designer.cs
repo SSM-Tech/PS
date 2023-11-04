@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuForm));
             HeaderPanel = new Panel();
             UsernameLabel = new Label();
             SidePanel = new Panel();
@@ -184,6 +185,7 @@
             Controls.Add(HeaderPanel);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "MenuForm";
             StartPosition = FormStartPosition.CenterScreen;

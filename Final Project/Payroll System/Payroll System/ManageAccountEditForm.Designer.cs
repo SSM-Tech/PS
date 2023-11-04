@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageAccountEditForm));
             label12 = new Label();
             txtBAllowance = new TextBox();
             label11 = new Label();
@@ -344,6 +345,7 @@
             Controls.Add(panel1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "ManageAccountEditForm";
             StartPosition = FormStartPosition.CenterScreen;

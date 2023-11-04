@@ -225,6 +225,7 @@
             Controls.Add(pictureBox1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;

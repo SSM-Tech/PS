@@ -22,7 +22,6 @@ namespace Payroll_System
         private string updateLoginStatus = @"CALL `UpdateLoginStatus`(@p0)";
         private string deleteUser = @"CALL `DeleteUser`(@p0)";
         private string clockInOut = @"CALL `ClockInOut`(@p0, @p1, @p2, @p3, @p4)";
-        private string dtrTotalHour = @"CALL `DTRTotalHour`(@p0)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -74,10 +73,6 @@ namespace Payroll_System
         public string ClockInOut()
         {
             return clockInOut;
-        }
-        public string CalculateTotalHour()
-        {
-            return dtrTotalHour;
         }
     }
 }

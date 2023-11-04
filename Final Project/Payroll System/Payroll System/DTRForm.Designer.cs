@@ -30,6 +30,7 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DTRForm));
             ButtonEdit = new Button();
             button1 = new Button();
             dgvDTR = new DataGridView();
@@ -91,6 +92,7 @@
             dgvDTR.Size = new Size(1232, 593);
             dgvDTR.TabIndex = 6;
             dgvDTR.TabStop = false;
+            dgvDTR.CellFormatting += dgvDTR_CellFormatting;
             dgvDTR.CellToolTipTextNeeded += dgvDTR_CellToolTipTextNeeded;
             dgvDTR.ColumnHeaderMouseClick += dgvDTR_ColumnHeaderMouseClick;
             dgvDTR.ColumnHeaderMouseDoubleClick += dgvDTR_ColumnHeaderMouseDoubleClick;
@@ -107,6 +109,7 @@
             Controls.Add(ButtonEdit);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "DTRForm";
             StartPosition = FormStartPosition.WindowsDefaultBounds;

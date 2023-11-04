@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountRegisterForm));
             TxtPass = new TextBox();
             label1 = new Label();
             ConfirmButton = new Button();
             CancelButton = new Button();
             panel1 = new Panel();
+            txtBStationNo = new TextBox();
             txtBDOB = new TextBox();
             label12 = new Label();
             txtBAllowance = new TextBox();
@@ -51,7 +53,6 @@
             txtBLastname = new TextBox();
             label3 = new Label();
             label2 = new Label();
-            txtBStationNo = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -123,10 +124,18 @@
             panel1.Controls.Add(CancelButton);
             panel1.Controls.Add(ConfirmButton);
             panel1.Controls.Add(label1);
+            panel1.ForeColor = SystemColors.ControlText;
             panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(974, 529);
             panel1.TabIndex = 25;
+            // 
+            // txtBStationNo
+            // 
+            txtBStationNo.Location = new Point(519, 185);
+            txtBStationNo.Name = "txtBStationNo";
+            txtBStationNo.Size = new Size(452, 37);
+            txtBStationNo.TabIndex = 69;
             // 
             // txtBDOB
             // 
@@ -283,13 +292,6 @@
             label2.TabIndex = 39;
             label2.Text = "Firstname:";
             // 
-            // txtBStationNo
-            // 
-            txtBStationNo.Location = new Point(519, 185);
-            txtBStationNo.Name = "txtBStationNo";
-            txtBStationNo.Size = new Size(452, 37);
-            txtBStationNo.TabIndex = 69;
-            // 
             // AccountRegisterForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
@@ -299,6 +301,7 @@
             Controls.Add(panel1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "AccountRegisterForm";
             StartPosition = FormStartPosition.CenterParent;

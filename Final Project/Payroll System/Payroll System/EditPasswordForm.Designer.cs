@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditPasswordForm));
             CancelButton = new Button();
             panel1 = new Panel();
             TxtConfNewPass = new TextBox();
@@ -206,6 +207,7 @@
             Controls.Add(panel1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "EditPasswordForm";
             StartPosition = FormStartPosition.CenterScreen;

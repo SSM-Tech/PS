@@ -122,5 +122,23 @@ namespace Payroll_System
         {
             e.ToolTipText = "";
         }
+
+        private void dgvDTR_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex >= 0 && dgvDTR.Columns[e.ColumnIndex].Name == "totalHours")
+            {
+                if (e.Value != null && e.Value is decimal)
+                {
+                    decimal decimalValue = (decimal)e.Value;
+                    // Convert the decimal to a TimeSpan
+                    TimeSpan timeSpan = TimeSpan.FromHours((double)decimalValue);
+                    // Convert the TimeSpan to a DateTime (assuming today's date)
+                    DateTime dateTime = DateTime.Today.Add(timeSpan);
+                    // Format the DateTime as a 24-hour time string
+                    e.Value = dateTime.ToString("HH:mm:ss");
+                    e.FormattingApplied = true;
+                }
+            }
+        }
     }
 }

@@ -28,36 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaySlipForm));
+            dataGridView1 = new DataGridView();
+            btnRefresh = new Button();
+            btnView = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // dataGridView1
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Location = new Point(541, 265);
-            label1.Name = "label1";
-            label1.Size = new Size(133, 29);
-            label1.TabIndex = 0;
-            label1.Text = "PayslipForm";
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(12, 12);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(1232, 593);
+            dataGridView1.TabIndex = 0;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Anchor = AnchorStyles.None;
+            btnRefresh.Location = new Point(1024, 611);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(220, 37);
+            btnRefresh.TabIndex = 5;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // btnView
+            // 
+            btnView.Anchor = AnchorStyles.None;
+            btnView.Location = new Point(798, 611);
+            btnView.Name = "btnView";
+            btnView.Size = new Size(220, 37);
+            btnView.TabIndex = 6;
+            btnView.Text = "View";
+            btnView.UseVisualStyleBackColor = true;
+            btnView.Click += btnView_Click;
             // 
             // PaySlipForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1256, 660);
-            Controls.Add(label1);
+            Controls.Add(btnView);
+            Controls.Add(btnRefresh);
+            Controls.Add(dataGridView1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "PaySlipForm";
             Text = "PaySlipForm";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
+        private DataGridView dataGridView1;
+        private Button btnRefresh;
+        private Button btnView;
     }
 }

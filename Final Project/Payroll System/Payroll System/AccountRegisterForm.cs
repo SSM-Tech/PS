@@ -123,7 +123,7 @@ namespace Payroll_System
             {
                 ShowAlert("No Empty Fields Allowed");
             }
-            else if (txtBPosition.Text == "" || txtBSalary.Text == "" || txtBAllowance.Text == "" ||txtBStationNo.Text == "")
+            else if (txtBPosition.Text == "" || txtBSalary.Text == "" || txtBAllowance.Text == "" || txtBStationNo.Text == "")
             {
                 ShowAlert("No Empty Fields Allowed");
             }

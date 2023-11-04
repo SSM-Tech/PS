@@ -35,7 +35,7 @@ namespace Payroll_System
             DateTime clockIn = DateTime.Today.AddHours(1);
             DateTime clockOut = DateTime.Today.AddHours(24);
 
-            if(clockIn > currentTime && clockOut < currentTime && clockedIn == "0")
+            if (clockIn > currentTime && clockOut < currentTime && clockedIn == "0")
             {
                 ClockedOut();
             }
@@ -100,7 +100,7 @@ namespace Payroll_System
 
         private void btnClockOut_Click(object sender, EventArgs e)
         {
-            
+
             DateTime clockOutTime = DateTime.Today.AddHours(17);
 
             if (currentTime < clockOutTime)
@@ -113,14 +113,12 @@ namespace Payroll_System
                 {
                     ClockOut();
                     ClockedOut();
-                    DTRTotalHour();
                 }
             }
             else
             {
                 ClockOut();
                 ClockedOut();
-                DTRTotalHour();
             }
         }
         private void ClockOut()
@@ -138,16 +136,6 @@ namespace Payroll_System
             mscClockOut.Parameters.Add("@p3", MySqlDbType.DateTime).Value = DateTime.Now;
             mscClockOut.Parameters.Add("@p4", MySqlDbType.Int32).Value = 1;
             mscClockOut.ExecuteNonQuery();
-
-            dbConn.closeConnection();
-        }
-        private void DTRTotalHour()
-        {
-            dbConn.openConnection();
-
-            MySqlCommand mscCalculateTotalHour = new(dbQuery.CalculateTotalHour(), dbConn.getConnection());
-            mscCalculateTotalHour.Parameters.Add("@p0", MySqlDbType.Int32).Value = userID;
-            mscCalculateTotalHour.ExecuteNonQuery();
 
             dbConn.closeConnection();
         }
