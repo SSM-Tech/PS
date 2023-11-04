@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 04, 2023 at 03:28 PM
+-- Generation Time: Nov 04, 2023 at 03:31 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -429,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventDateTime` datetime DEFAULT NULL,
   `eventDescription` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`logID`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `eventlog`
@@ -508,7 +508,8 @@ INSERT INTO `eventlog` (`logID`, `eventDateTime`, `eventDescription`) VALUES
 (70, '2023-11-03 23:17:47', 'Server Terminated'),
 (71, '2023-11-04 20:28:08', 'Server Started'),
 (72, '2023-11-04 20:31:13', 'Server Terminated'),
-(73, '2023-11-04 20:33:33', 'Server Started');
+(73, '2023-11-04 20:33:33', 'Server Started'),
+(74, '2023-11-04 23:30:43', 'Server Terminated');
 
 -- --------------------------------------------------------
 
@@ -623,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `serverstatus` (
 --
 
 INSERT INTO `serverstatus` (`serverName`, `status`, `lastChecked`) VALUES
-('PS Server', 1, '2023-11-04 20:33:33');
+('PS Server', 0, '2023-11-04 23:30:43');
 
 -- --------------------------------------------------------
 
