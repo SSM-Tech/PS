@@ -81,6 +81,9 @@
             // 
             // LogoutButton
             // 
+            LogoutButton.BackColor = SystemColors.GrayText;
+            LogoutButton.FlatAppearance.BorderSize = 0;
+            LogoutButton.FlatStyle = FlatStyle.Flat;
             LogoutButton.Image = Properties.Resources.logout;
             LogoutButton.ImageAlign = ContentAlignment.MiddleLeft;
             LogoutButton.Location = new Point(3, 613);
@@ -88,81 +91,99 @@
             LogoutButton.Size = new Size(238, 35);
             LogoutButton.TabIndex = 6;
             LogoutButton.Text = "LOGOUT";
-            LogoutButton.UseVisualStyleBackColor = true;
+            LogoutButton.UseVisualStyleBackColor = false;
             LogoutButton.Click += LogoutButton_Click;
             // 
             // HomeFormButton
             // 
+            HomeFormButton.BackColor = SystemColors.ActiveCaption;
+            HomeFormButton.FlatAppearance.BorderSize = 0;
+            HomeFormButton.FlatStyle = FlatStyle.Flat;
             HomeFormButton.ForeColor = SystemColors.ControlText;
             HomeFormButton.Image = Properties.Resources.home;
             HomeFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            HomeFormButton.Location = new Point(3, 6);
+            HomeFormButton.Location = new Point(6, 0);
             HomeFormButton.Name = "HomeFormButton";
             HomeFormButton.Size = new Size(238, 35);
             HomeFormButton.TabIndex = 0;
             HomeFormButton.Text = "HOME";
-            HomeFormButton.UseVisualStyleBackColor = true;
+            HomeFormButton.UseVisualStyleBackColor = false;
             HomeFormButton.Click += HomeFormButton_Click;
             // 
             // AccountDetailsButton
             // 
+            AccountDetailsButton.BackColor = SystemColors.Control;
+            AccountDetailsButton.FlatAppearance.BorderSize = 0;
+            AccountDetailsButton.FlatStyle = FlatStyle.Flat;
             AccountDetailsButton.Image = Properties.Resources.profile;
             AccountDetailsButton.ImageAlign = ContentAlignment.MiddleLeft;
-            AccountDetailsButton.Location = new Point(3, 47);
+            AccountDetailsButton.Location = new Point(6, 35);
             AccountDetailsButton.Name = "AccountDetailsButton";
             AccountDetailsButton.Size = new Size(238, 35);
             AccountDetailsButton.TabIndex = 1;
             AccountDetailsButton.Text = "ACCOUNT DETAILS";
-            AccountDetailsButton.UseVisualStyleBackColor = true;
+            AccountDetailsButton.UseVisualStyleBackColor = false;
             AccountDetailsButton.Click += AccountDetailsButton_Click;
             // 
             // TicketsFormButton
             // 
+            TicketsFormButton.BackColor = SystemColors.Control;
+            TicketsFormButton.FlatAppearance.BorderSize = 0;
+            TicketsFormButton.FlatStyle = FlatStyle.Flat;
             TicketsFormButton.Image = Properties.Resources.tickets;
             TicketsFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            TicketsFormButton.Location = new Point(3, 211);
+            TicketsFormButton.Location = new Point(6, 175);
             TicketsFormButton.Name = "TicketsFormButton";
             TicketsFormButton.Size = new Size(238, 35);
             TicketsFormButton.TabIndex = 5;
             TicketsFormButton.Text = "TICKETS";
-            TicketsFormButton.UseVisualStyleBackColor = true;
+            TicketsFormButton.UseVisualStyleBackColor = false;
             TicketsFormButton.Visible = false;
             TicketsFormButton.Click += TicketsFormButton_Click;
             // 
             // DTRFormButton
             // 
+            DTRFormButton.BackColor = SystemColors.Control;
+            DTRFormButton.FlatAppearance.BorderSize = 0;
+            DTRFormButton.FlatStyle = FlatStyle.Flat;
             DTRFormButton.Image = Properties.Resources.dtr;
             DTRFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            DTRFormButton.Location = new Point(3, 88);
+            DTRFormButton.Location = new Point(6, 70);
             DTRFormButton.Name = "DTRFormButton";
             DTRFormButton.Size = new Size(238, 35);
             DTRFormButton.TabIndex = 2;
             DTRFormButton.Text = "DTR";
-            DTRFormButton.UseVisualStyleBackColor = true;
+            DTRFormButton.UseVisualStyleBackColor = false;
             DTRFormButton.Click += DTRFormButton_Click;
             // 
             // PayslipFormButton
             // 
+            PayslipFormButton.BackColor = SystemColors.Control;
+            PayslipFormButton.FlatAppearance.BorderSize = 0;
+            PayslipFormButton.FlatStyle = FlatStyle.Flat;
             PayslipFormButton.Image = Properties.Resources.payslip;
             PayslipFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            PayslipFormButton.Location = new Point(3, 129);
+            PayslipFormButton.Location = new Point(6, 105);
             PayslipFormButton.Name = "PayslipFormButton";
             PayslipFormButton.Size = new Size(238, 35);
             PayslipFormButton.TabIndex = 3;
             PayslipFormButton.Text = "PAY SLIP";
-            PayslipFormButton.UseVisualStyleBackColor = true;
+            PayslipFormButton.UseVisualStyleBackColor = false;
             PayslipFormButton.Click += PayslipFormButton_Click;
             // 
             // ManageAccoountFormButton
             // 
+            ManageAccoountFormButton.BackColor = SystemColors.Control;
+            ManageAccoountFormButton.FlatAppearance.BorderSize = 0;
+            ManageAccoountFormButton.FlatStyle = FlatStyle.Flat;
             ManageAccoountFormButton.Image = Properties.Resources.Manage_Accounts;
             ManageAccoountFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            ManageAccoountFormButton.Location = new Point(3, 170);
+            ManageAccoountFormButton.Location = new Point(6, 140);
             ManageAccoountFormButton.Name = "ManageAccoountFormButton";
             ManageAccoountFormButton.Size = new Size(238, 35);
             ManageAccoountFormButton.TabIndex = 4;
             ManageAccoountFormButton.Text = "MANAGE ACCOUNT";
-            ManageAccoountFormButton.UseVisualStyleBackColor = true;
+            ManageAccoountFormButton.UseVisualStyleBackColor = false;
             ManageAccoountFormButton.Visible = false;
             ManageAccoountFormButton.Click += ManageAccoountFormButton_Click;
             // 

@@ -70,7 +70,7 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(CancelButton);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(368, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(501, 573);
             panel1.TabIndex = 25;
@@ -202,8 +202,8 @@
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(525, 597);
+            BackColor = SystemColors.Control;
+            ClientSize = new Size(1232, 599);
             Controls.Add(panel1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;

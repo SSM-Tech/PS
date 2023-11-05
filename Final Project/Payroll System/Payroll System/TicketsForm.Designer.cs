@@ -29,37 +29,118 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TicketsForm));
-            label1 = new Label();
+            btnDTR = new Button();
+            btnPayslip = new Button();
+            panel1 = new Panel();
+            MainPanel = new Panel();
+            panel2 = new Panel();
+            panel3 = new Panel();
+            panel4 = new Panel();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // btnDTR
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Location = new Point(521, 278);
-            label1.Name = "label1";
-            label1.Size = new Size(134, 29);
-            label1.TabIndex = 0;
-            label1.Text = "TicketsFOrm";
+            btnDTR.Anchor = AnchorStyles.None;
+            btnDTR.BackColor = SystemColors.ButtonFace;
+            btnDTR.FlatAppearance.BorderSize = 0;
+            btnDTR.FlatStyle = FlatStyle.Flat;
+            btnDTR.Location = new Point(0, 12);
+            btnDTR.Name = "btnDTR";
+            btnDTR.Size = new Size(100, 37);
+            btnDTR.TabIndex = 8;
+            btnDTR.Text = "DTR";
+            btnDTR.UseVisualStyleBackColor = false;
+            btnDTR.Click += btnDTR_Click;
+            // 
+            // btnPayslip
+            // 
+            btnPayslip.Anchor = AnchorStyles.None;
+            btnPayslip.BackColor = SystemColors.ButtonFace;
+            btnPayslip.FlatAppearance.BorderSize = 0;
+            btnPayslip.FlatStyle = FlatStyle.Flat;
+            btnPayslip.Location = new Point(100, 12);
+            btnPayslip.Name = "btnPayslip";
+            btnPayslip.Size = new Size(100, 37);
+            btnPayslip.TabIndex = 9;
+            btnPayslip.Text = "Payslip";
+            btnPayslip.UseVisualStyleBackColor = false;
+            btnPayslip.Click += btnPayslip_Click;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = SystemColors.ActiveBorder;
+            panel1.Controls.Add(btnDTR);
+            panel1.Controls.Add(btnPayslip);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(12, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1244, 49);
+            panel1.TabIndex = 10;
+            // 
+            // MainPanel
+            // 
+            MainPanel.Dock = DockStyle.Fill;
+            MainPanel.Location = new Point(0, 0);
+            MainPanel.Name = "MainPanel";
+            MainPanel.Size = new Size(1256, 660);
+            MainPanel.TabIndex = 11;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = SystemColors.ActiveBorder;
+            panel2.Dock = DockStyle.Left;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(12, 660);
+            panel2.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = SystemColors.ActiveBorder;
+            panel3.Dock = DockStyle.Bottom;
+            panel3.Location = new Point(12, 648);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1244, 12);
+            panel3.TabIndex = 1;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = SystemColors.ActiveBorder;
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(1244, 49);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(12, 599);
+            panel4.TabIndex = 1;
             // 
             // TicketsForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1256, 660);
-            Controls.Add(label1);
+            Controls.Add(panel4);
+            Controls.Add(panel3);
+            Controls.Add(panel1);
+            Controls.Add(panel2);
+            Controls.Add(MainPanel);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
             Name = "TicketsForm";
             Text = "TicketsForm";
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
+        private Button btnDTR;
+        private Button btnPayslip;
+        private Panel panel1;
+        private Panel MainPanel;
+        private Panel panel2;
+        private Panel panel3;
+        private Panel panel4;
     }
 }

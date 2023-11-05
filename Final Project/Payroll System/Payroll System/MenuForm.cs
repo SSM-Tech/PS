@@ -48,6 +48,8 @@ namespace Payroll_System
             }
             UsernameLabel.Text = "Welcome " + username;
             LoadForm(new HomeForm());
+            BtnDefaultColors();
+            HomeFormButton.BackColor = SystemColors.ActiveBorder;
         }
         private void ServerTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -193,33 +195,55 @@ namespace Payroll_System
             }
         }
 
+        private void BtnDefaultColors()
+        {
+            HomeFormButton.BackColor = SystemColors.ActiveCaption;
+            AccountDetailsButton.BackColor = SystemColors.ActiveCaption;
+            DTRFormButton.BackColor = SystemColors.ActiveCaption;
+            PayslipFormButton.BackColor = SystemColors.ActiveCaption;
+            ManageAccoountFormButton.BackColor = SystemColors.ActiveCaption;
+            TicketsFormButton.BackColor = SystemColors.ActiveCaption;
+        }
+
         private void HomeFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new HomeForm());
+            BtnDefaultColors();
+            HomeFormButton.BackColor = SystemColors.ActiveBorder;
         }
         private void AccountDetailsButton_Click(object sender, EventArgs e)
         {
             LoadForm(new AccountDetailsForm());
+            BtnDefaultColors();
+            AccountDetailsButton.BackColor = SystemColors.ActiveBorder;
         }
 
         private void DTRFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new DTRForm());
+            BtnDefaultColors();
+            DTRFormButton.BackColor = SystemColors.ActiveBorder;
         }
 
         private void PayslipFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new PaySlipForm());
+            BtnDefaultColors();
+            PayslipFormButton.BackColor = SystemColors.ActiveBorder;
         }
 
         private void ManageAccoountFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new ManageAccountForm());
+            BtnDefaultColors();
+            ManageAccoountFormButton.BackColor = SystemColors.ActiveBorder;
         }
 
         private void TicketsFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new TicketsForm());
+            BtnDefaultColors();
+            TicketsFormButton.BackColor = SystemColors.ActiveBorder;
         }
 
         private void MenuForm_Enter(object sender, EventArgs e)

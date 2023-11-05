@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,96 +21,38 @@ namespace Payroll_System
             InitializeComponent();
             ShowAccDetails();
         }
-
-        public void ShowAccDetails()
+        public void LoadForm(object Form)
         {
-            string username = retrievedTable.Rows[0][columnName: "username"].ToString();
-            string firstName = retrievedTable.Rows[0][columnName: "firstName"].ToString();
-            string lastName = retrievedTable.Rows[0][columnName: "lastName"].ToString();
-            string sex = retrievedTable.Rows[0][columnName: "sex"].ToString();
-            string staffID = retrievedTable.Rows[0][columnName: "staffID"].ToString();
-            DateTime dOB = (DateTime)retrievedTable.Rows[0][columnName: "DOB"];
-            string formattedDate = dOB.ToString("MM/dd/yyyy");
-            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
-            string stationNum = retrievedTable.Rows[0][columnName: "stationNo"].ToString();
-            string salary = retrievedTable.Rows[0][columnName: "salary"].ToString();
-            string allowance = retrievedTable.Rows[0][columnName: "allowance"].ToString();
-            TxtFullName.Text = firstName + " " + lastName;
-            TxtUsername.Text = username;
-            TxtSex.Text = sex;
-            TxtDOB.Text = formattedDate;
-            TxtStaffID.Text = staffID;
-            TxtUserID.Text = userID;
-            TxtStationNum.Text = stationNum;
-            TxtSalary.Text = salary;
-            TxtAllowance.Text = allowance;
+            if (this.MainPanel.Controls.Count > 0)
+                this.MainPanel.Controls.RemoveAt(0);
+            Form f = Form as Form;
+            f.TopLevel = false;
+            f.Dock = DockStyle.Fill;
+            this.MainPanel.Controls.Add(f);
+            this.MainPanel.Tag = f;
+            f.Show();
         }
 
-        private void StaffIDHideIcon_Click(object sender, EventArgs e)
+        private void ShowAccDetails()
         {
-            TxtStaffID.UseSystemPasswordChar = false;
-            StaffIDHideIcon.Hide();
-            StaffIDShowIcon.Show();
+            btnShowDetails.BackColor = SystemColors.Control;
+            btnChangePass.BackColor = SystemColors.ActiveBorder;
+            LoadForm(new AccountDetailsShowForm());
         }
-        private void StaffIDShowIcon_Click(object sender, EventArgs e)
+        private void ChangePassword()
         {
-            TxtStaffID.UseSystemPasswordChar = true;
-            StaffIDHideIcon.Show();
-            StaffIDShowIcon.Hide();
-        }
-        private void SalaryHideIcon_Click(object sender, EventArgs e)
-        {
-            TxtSalary.UseSystemPasswordChar = false;
-            SalaryHideIcon.Hide();
-            SalaryShowIcon.Show();
-        }
-        private void SalaryShowIcon_Click(object sender, EventArgs e)
-        {
-            TxtSalary.UseSystemPasswordChar = true;
-            SalaryHideIcon.Show();
-            SalaryShowIcon.Hide();
-
-        }
-        private void UserIDHideIcon_Click(object sender, EventArgs e)
-        {
-            TxtUserID.UseSystemPasswordChar = false;
-            UserIDHideIcon.Hide();
-            UserIDShowIcon.Show();
-        }
-        private void UserIDShowIcon_Click(object sender, EventArgs e)
-        {
-            TxtUserID.UseSystemPasswordChar = true;
-            UserIDHideIcon.Show();
-            UserIDShowIcon.Hide();
-        }
-        private void StaNumHideIcon_Click(object sender, EventArgs e)
-        {
-            TxtStationNum.UseSystemPasswordChar = false;
-            StaNumHideIcon.Hide();
-            StaNumShowIcon.Show();
-        }
-        private void StaNumShowIcon_Click(object sender, EventArgs e)
-        {
-            TxtStationNum.UseSystemPasswordChar = true;
-            StaNumHideIcon.Show();
-            StaNumShowIcon.Hide();
-        }
-        private void AllowanceHideIcon_Click(object sender, EventArgs e)
-        {
-            TxtAllowance.UseSystemPasswordChar = false;
-            AllowanceHideIcon.Hide();
-            AllowanceShowIcon.Show();
-        }
-        private void AllowanceShowIcon_Click(object sender, EventArgs e)
-        {
-            TxtAllowance.UseSystemPasswordChar = true;
-            AllowanceHideIcon.Show();
-            AllowanceShowIcon.Hide();
+            btnShowDetails.BackColor = SystemColors.ActiveBorder;
+            btnChangePass.BackColor = SystemColors.Control;
+            LoadForm(new EditPasswordForm());
         }
         private void ChangePasswordButton_Click(object sender, EventArgs e)
         {
-            EditPasswordForm editPasswordForm = new EditPasswordForm();
-            editPasswordForm.ShowDialog();
+            ChangePassword();
+        }
+
+        private void btnShowDetails_Click(object sender, EventArgs e)
+        {
+            ShowAccDetails();
         }
     }
 }

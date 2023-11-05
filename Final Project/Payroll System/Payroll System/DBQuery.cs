@@ -14,7 +14,7 @@ namespace Payroll_System
         private string updateAccountPassword = @"CALL `updateAccountPassword`(@p0, @p1)";
         private string registerAccount = @"CALL `registerAccount`(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)";
         private string getUserAcc = @"CALL `getUserAcc`(@p0)";
-        private string editUserAcc = @"CALL `editUserAcc`(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)";
+        private string editUserAcc = @"CALL `editUserAcc`(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13)";
         private string loginStatus = @"CALL `loginStatus`(@p0, @p1)";
         private string checkIsEnabled = @"CALL `checkIsEnabled`(@p0)";
         private string checkServerStatus = @"CALL `CheckServerStatus`()";
@@ -22,6 +22,7 @@ namespace Payroll_System
         private string updateLoginStatus = @"CALL `UpdateLoginStatus`(@p0)";
         private string deleteUser = @"CALL `DeleteUser`(@p0)";
         private string clockInOut = @"CALL `ClockInOut`(@p0, @p1, @p2, @p3, @p4)";
+        private string getPayslip = @"CALL `GetPayslip`(@p0)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -73,6 +74,10 @@ namespace Payroll_System
         public string ClockInOut()
         {
             return clockInOut;
+        }
+        public string GetPayslip()
+        {
+            return getPayslip;
         }
     }
 }

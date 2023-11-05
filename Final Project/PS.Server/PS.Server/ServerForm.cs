@@ -57,7 +57,8 @@ namespace PS.Server
             PayslipGenerator();
             GetAllUserID();
             GeneratePayslipDetails();
-            UpdateDTRTotalHours();
+            GenerateDTRTotalHours();
+            FillPayrollDetail();
             EventLog();
         }
         private void ServerForm_Load(object sender, EventArgs e)
@@ -67,10 +68,12 @@ namespace PS.Server
         }
         private void ServerTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            
             PayslipGenerator();
             GetAllUserID();
             GeneratePayslipDetails();
-            UpdateDTRTotalHours();
+            GenerateDTRTotalHours(); 
+            FillPayrollDetail();
         }
         private void LogsTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -224,35 +227,60 @@ namespace PS.Server
                 return;
             }
 
-            dtEventLogs.Rows.Clear();
-            dbConn.openConnection();
-            MySqlDataAdapter? msdEventLog = new();
+            int maxRetries = 3;
+            int retryCount = 0;
 
-            MySqlCommand? mscEventLog;
-            mscEventLog = new(dbQuery.CallEventLog(), dbConn.getConnection());
-            msdEventLog.SelectCommand = mscEventLog;
-            msdEventLog.Fill(dtEventLogs);
-            dbConn.closeConnection();
-
-            richTextBox1.Invoke((MethodInvoker)delegate
+            while (retryCount < maxRetries)
             {
-                richTextBox1.Clear();
-                foreach (DataRow row in dtEventLogs.Rows)
+                try
                 {
-                    string dateTime = Convert.ToString(row["eventDateTime"]);
-                    if (DateTime.TryParse(dateTime, out DateTime parsedDateTime))
+                    dtEventLogs.Rows.Clear();
+                    dbConn.openConnection();
+                    MySqlDataAdapter? msdEventLog = new();
+                    MySqlCommand? mscEventLog;
+                    mscEventLog = new(dbQuery.CallEventLog(), dbConn.getConnection());
+                    msdEventLog.SelectCommand = mscEventLog;
+                    msdEventLog.Fill(dtEventLogs);
+                    dbConn.closeConnection();
+
+                    richTextBox1.Invoke((MethodInvoker)delegate
                     {
-                        string formattedDate = parsedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt");
-                        string eventDescription = Convert.ToString(row["eventDescription"]);
-                        richTextBox1.AppendText($"> {formattedDate}\t: {eventDescription}" + Environment.NewLine);
-                    }
+                        richTextBox1.Clear();
+                        foreach (DataRow row in dtEventLogs.Rows)
+                        {
+                            string dateTime = Convert.ToString(row["eventDateTime"]);
+                            if (DateTime.TryParse(dateTime, out DateTime parsedDateTime))
+                            {
+                                string formattedDate = parsedDateTime.ToString("MM/dd/yyyy hh:mm:ss tt");
+                                string eventDescription = Convert.ToString(row["eventDescription"]);
+                                richTextBox1.AppendText($"> {formattedDate}\t: {eventDescription}" + Environment.NewLine);
+                            }
+                        }
+                    });
+
+                    break;
                 }
-            });
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred on attempt {retryCount + 1}: {ex.Message}");
+                    
+                    MessageBox.Show($"An error occurred on attempt {retryCount + 1}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    retryCount++;
+                    Thread.Sleep(1000);
+                }
+            }
+
+            if (retryCount == maxRetries)
+            {
+                Console.WriteLine("All retry attempts failed.");
+                MessageBox.Show("All retry attempts failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void UpdateDTRTotalHours()
+        private void GenerateDTRTotalHours()
         {
-            MySqlCommand mscUpdateDTRTotalHours = new(dbQuery.UpdateDTRTotalHours(), dbConn.getConnection());
+            MySqlCommand mscUpdateDTRTotalHours = new(dbQuery.GenerateDTRTotalHours(), dbConn.getConnection());
             dbConn.openConnection();
             try
             {
@@ -274,13 +302,58 @@ namespace PS.Server
             }
         }
 
+        private void FillPayrollDetail()
+        {
+            DateTime currentDate = DateTime.Now;
+            string formattedDate = currentDate.ToString("yyyy-MM-dd");
+            try
+            {
+                dbConn.openConnection();
+
+                foreach (DataRow row in dtUserID.Rows)
+                {
+                    int userID = Convert.ToInt32(row["userID"]);
+                    MySqlCommand mscGeneratePayslipDet = new MySqlCommand(dbQuery.FillPayrollDetail(), dbConn.getConnection());
+                    mscGeneratePayslipDet.Parameters.Clear();
+                    mscGeneratePayslipDet.Parameters.AddWithValue("@p0", userID);
+                    mscGeneratePayslipDet.Parameters.AddWithValue("@p1", formattedDate);
+
+                    try
+                    {
+                        int rowsAffected = mscGeneratePayslipDet.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                        }
+                        else
+                        {
+                        }
+                    }
+                    catch (MySqlException ex)
+                    {
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                dbConn.closeConnection();
+            }
+        }
+
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             PayslipGenerator();
             GetAllUserID();
             GeneratePayslipDetails();
             EventLog();
-            UpdateDTRTotalHours();
+            GenerateDTRTotalHours();
+            FillPayrollDetail();
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)

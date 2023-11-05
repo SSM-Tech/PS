@@ -4,6 +4,9 @@
     <Compile Update="AccountDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="AccountDetailsShowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="AccountRegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -31,7 +34,16 @@
     <Compile Update="PaySlipForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="TicketsDTRForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TicketsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TicketsPayslipForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ViewPayslipForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

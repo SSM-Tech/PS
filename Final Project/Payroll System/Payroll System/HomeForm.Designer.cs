@@ -72,6 +72,7 @@
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1256, 660);
             Controls.Add(btnClockOut);
             Controls.Add(btnClockIn);

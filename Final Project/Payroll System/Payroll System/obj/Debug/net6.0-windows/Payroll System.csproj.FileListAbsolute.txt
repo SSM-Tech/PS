@@ -225,3 +225,7 @@ C:\Users\laure\OneDrive\Desktop\Final Project\Payroll System\Payroll System\obj\
 C:\Users\laure\OneDrive\Desktop\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.pdb
 C:\Users\laure\OneDrive\Desktop\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll System.genruntimeconfig.cache
 C:\Users\laure\OneDrive\Desktop\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\ref\Payroll System.dll
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.TicketsDTRForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.TicketsPayslipForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.AccountDetailsShowForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.ViewPayslipForm.resources

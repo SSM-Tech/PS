@@ -42,7 +42,14 @@ namespace Payroll_System
                     {
                         retrievedTable.Rows[0][columnName: "password"] = TxtNewPass.Text;
                         MessageBox.Show("Successfully changed Password", "Password Changed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Hide();
+
+                        TxtOldPass.Text = "";
+                        TxtConfOldPass.Text = "";
+                        TxtNewPass.Text = "";
+                        TxtConfNewPass.Text = "";
+
+                        oldPass = retrievedTable.Rows[0][columnName: "password"].ToString();
+
                     }
                     else
                     {

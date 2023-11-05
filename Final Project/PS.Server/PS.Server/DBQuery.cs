@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,8 @@ namespace PS.Server
         private string changeServerStatus = @"CALL `ChangeServerStatus`(@p0)";
         private string eventLog = @"CALL `EventLog`(@p0)";
         private string callEventLog = @"CALL `GetEventLogs`()";
-        private string updateDTRTotalHours = @"CALL `UpdateDTRTotalHours`()";
+        private string generateDTRTotalHours = @"CALL `GenerateDTRTotalHours`()";
+        private string fillPayrollDetail = @"CALL `FillPayslipDetail`(@p0, @p1)";
 
         public string PayslipGenerator()
         {
@@ -45,9 +47,13 @@ namespace PS.Server
         {
             return callEventLog;
         }
-        public string UpdateDTRTotalHours()
+        public string GenerateDTRTotalHours()
         {
-            return updateDTRTotalHours;
+            return generateDTRTotalHours;
+        }
+        public string FillPayrollDetail()
+        {
+            return fillPayrollDetail;
         }
     }
 }

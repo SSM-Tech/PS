@@ -15,6 +15,42 @@ namespace Payroll_System
         public TicketsForm()
         {
             InitializeComponent();
+            ShowDTRTickets();
+        }
+        public void LoadForm(object Form)
+        {
+            if (this.MainPanel.Controls.Count > 0)
+                this.MainPanel.Controls.RemoveAt(0);
+            Form f = Form as Form;
+            f.TopLevel = false;
+            f.Dock = DockStyle.Fill;
+            this.MainPanel.Controls.Add(f);
+            this.MainPanel.Tag = f;
+            f.Show();
+        }
+        private void btnDTR_Click(object sender, EventArgs e)
+        {
+            ShowDTRTickets();
+        }
+
+        private void btnPayslip_Click(object sender, EventArgs e)
+        {
+            ShowPayslipTickets();
+        }
+
+
+
+        private void ShowDTRTickets()
+        {
+            btnDTR.BackColor = SystemColors.Control;
+            btnPayslip.BackColor = SystemColors.ActiveBorder;
+            LoadForm(new TicketsDTRForm());
+        }
+        private void ShowPayslipTickets()
+        {
+            btnDTR.BackColor = BackColor = SystemColors.ActiveBorder;
+            btnPayslip.BackColor = BackColor = SystemColors.Control;
+            LoadForm(new TicketsPayslipForm());
         }
     }
 }

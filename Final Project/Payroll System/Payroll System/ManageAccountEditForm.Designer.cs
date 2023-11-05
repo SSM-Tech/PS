@@ -50,6 +50,12 @@
             ConfirmButton = new Button();
             label1 = new Label();
             panel1 = new Panel();
+            txtPhilHealth = new TextBox();
+            label15 = new Label();
+            txtPagIbig = new TextBox();
+            label8 = new Label();
+            txtSSS = new TextBox();
+            label13 = new Label();
             txtBStationNo = new TextBox();
             txtBDOB = new TextBox();
             btnResetPassword = new Button();
@@ -70,7 +76,7 @@
             // 
             // txtBAllowance
             // 
-            txtBAllowance.Location = new Point(519, 329);
+            txtBAllowance.Location = new Point(18, 475);
             txtBAllowance.Name = "txtBAllowance";
             txtBAllowance.Size = new Size(452, 37);
             txtBAllowance.TabIndex = 8;
@@ -80,7 +86,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(500, 297);
+            label11.Location = new Point(-1, 443);
             label11.Name = "label11";
             label11.Size = new Size(118, 29);
             label11.TabIndex = 60;
@@ -88,7 +94,7 @@
             // 
             // txtBSalary
             // 
-            txtBSalary.Location = new Point(20, 329);
+            txtBSalary.Location = new Point(518, 401);
             txtBSalary.Name = "txtBSalary";
             txtBSalary.Size = new Size(452, 37);
             txtBSalary.TabIndex = 7;
@@ -98,7 +104,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(5, 297);
+            label10.Location = new Point(503, 369);
             label10.Name = "label10";
             label10.Size = new Size(80, 29);
             label10.TabIndex = 58;
@@ -215,7 +221,7 @@
             // 
             // CancelButton
             // 
-            CancelButton.Location = new Point(502, 472);
+            CancelButton.Location = new Point(501, 619);
             CancelButton.Name = "CancelButton";
             CancelButton.Size = new Size(469, 54);
             CancelButton.TabIndex = 10;
@@ -225,12 +231,13 @@
             // 
             // ConfirmButton
             // 
-            ConfirmButton.Location = new Point(3, 472);
+            ConfirmButton.BackColor = Color.Lime;
+            ConfirmButton.Location = new Point(2, 619);
             ConfirmButton.Name = "ConfirmButton";
             ConfirmButton.Size = new Size(470, 54);
             ConfirmButton.TabIndex = 9;
             ConfirmButton.Text = "CONFIRM";
-            ConfirmButton.UseVisualStyleBackColor = true;
+            ConfirmButton.UseVisualStyleBackColor = false;
             ConfirmButton.Click += ConfirmButton_Click;
             // 
             // label1
@@ -238,7 +245,7 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = SystemColors.Control;
-            label1.Location = new Point(777, 880);
+            label1.Location = new Point(777, 954);
             label1.Name = "label1";
             label1.Size = new Size(168, 29);
             label1.TabIndex = 38;
@@ -247,6 +254,12 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(txtPhilHealth);
+            panel1.Controls.Add(label15);
+            panel1.Controls.Add(txtPagIbig);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(txtSSS);
+            panel1.Controls.Add(label13);
             panel1.Controls.Add(txtBStationNo);
             panel1.Controls.Add(txtBDOB);
             panel1.Controls.Add(btnResetPassword);
@@ -275,8 +288,62 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
-            panel1.Size = new Size(974, 529);
+            panel1.Size = new Size(974, 676);
             panel1.TabIndex = 26;
+            // 
+            // txtPhilHealth
+            // 
+            txtPhilHealth.Location = new Point(19, 401);
+            txtPhilHealth.Name = "txtPhilHealth";
+            txtPhilHealth.Size = new Size(452, 37);
+            txtPhilHealth.TabIndex = 73;
+            txtPhilHealth.TextChanged += txtPhilHealth_TextChanged;
+            txtPhilHealth.KeyPress += txtPhilHealth_KeyPress;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(4, 369);
+            label15.Name = "label15";
+            label15.Size = new Size(106, 29);
+            label15.TabIndex = 75;
+            label15.Text = "PillHealth";
+            // 
+            // txtPagIbig
+            // 
+            txtPagIbig.Location = new Point(518, 329);
+            txtPagIbig.Name = "txtPagIbig";
+            txtPagIbig.Size = new Size(452, 37);
+            txtPagIbig.TabIndex = 70;
+            txtPagIbig.TextChanged += txtPagIbig_TextChanged;
+            txtPagIbig.KeyPress += txtPhilHealth_KeyPress;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(499, 297);
+            label8.Name = "label8";
+            label8.Size = new Size(93, 29);
+            label8.TabIndex = 72;
+            label8.Text = "Pag-Ibig";
+            // 
+            // txtSSS
+            // 
+            txtSSS.Location = new Point(19, 329);
+            txtSSS.Name = "txtSSS";
+            txtSSS.Size = new Size(452, 37);
+            txtSSS.TabIndex = 69;
+            txtSSS.TextChanged += txtSSS_TextChanged;
+            txtSSS.KeyPress += txtPhilHealth_KeyPress;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(4, 297);
+            label13.Name = "label13";
+            label13.Size = new Size(54, 29);
+            label13.TabIndex = 71;
+            label13.Text = "SSS:";
             // 
             // txtBStationNo
             // 
@@ -297,12 +364,13 @@
             // 
             // btnResetPassword
             // 
-            btnResetPassword.Location = new Point(502, 372);
+            btnResetPassword.BackColor = Color.Red;
+            btnResetPassword.Location = new Point(501, 465);
             btnResetPassword.Name = "btnResetPassword";
             btnResetPassword.Size = new Size(470, 54);
             btnResetPassword.TabIndex = 66;
             btnResetPassword.Text = "Reset Password";
-            btnResetPassword.UseVisualStyleBackColor = true;
+            btnResetPassword.UseVisualStyleBackColor = false;
             btnResetPassword.Click += btnResetPassword_Click;
             // 
             // cBLockAcc
@@ -330,7 +398,7 @@
             TxtPass.Anchor = AnchorStyles.None;
             TxtPass.BorderStyle = BorderStyle.FixedSingle;
             TxtPass.Font = new Font("Impact", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            TxtPass.Location = new Point(796, 912);
+            TxtPass.Location = new Point(796, 986);
             TxtPass.Name = "TxtPass";
             TxtPass.Size = new Size(459, 56);
             TxtPass.TabIndex = 7;
@@ -341,7 +409,7 @@
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(998, 553);
+            ClientSize = new Size(998, 700);
             Controls.Add(panel1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
@@ -384,5 +452,11 @@
         private Button btnResetPassword;
         private TextBox txtBDOB;
         private TextBox txtBStationNo;
+        private TextBox txtPhilHealth;
+        private Label label15;
+        private TextBox txtPagIbig;
+        private Label label8;
+        private TextBox txtSSS;
+        private Label label13;
     }
 }

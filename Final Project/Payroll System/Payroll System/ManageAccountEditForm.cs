@@ -36,6 +36,9 @@ namespace Payroll_System
         string position;
         decimal salary;
         decimal allowance;
+        string sss;
+        string philhealth;
+        string pagibig;
 
         public ManageAccountEditForm()
         {
@@ -58,6 +61,9 @@ namespace Payroll_System
             position = dtSelectedUser.Rows[0][columnName: "position"].ToString();
             salary = (decimal)dtSelectedUser.Rows[0][columnName: "salary"];
             allowance = (decimal)dtSelectedUser.Rows[0][columnName: "allowance"];
+            sss = dtSelectedUser.Rows[0][columnName: "SSS"].ToString();
+            philhealth = dtSelectedUser.Rows[0][columnName: "PagIbig"].ToString();
+            pagibig = dtSelectedUser.Rows[0][columnName: "PhilHealth"].ToString();
 
             switch (accountLvl)
             {
@@ -101,6 +107,9 @@ namespace Payroll_System
             txtBPosition.Text = position;
             txtBSalary.Text = salary.ToString();
             txtBAllowance.Text = allowance.ToString();
+            txtSSS.Text = sss;
+            txtPhilHealth.Text = philhealth;
+            txtPagIbig.Text = pagibig;
 
             genderIndex = cBGender.SelectedIndex;
             accLvlIndex = cBAccResLVL.SelectedIndex;
@@ -162,6 +171,9 @@ namespace Payroll_System
                     acommand.Parameters.AddWithValue("@p8", txtBStationNo.Text);
                     acommand.Parameters.AddWithValue("@p9", cBLockAcc.SelectedIndex);
                     acommand.Parameters.AddWithValue("@p10", accLvl);
+                    acommand.Parameters.AddWithValue("@p11", txtSSS.Text);
+                    acommand.Parameters.AddWithValue("@p12", txtPhilHealth.Text);
+                    acommand.Parameters.AddWithValue("@p13", txtPagIbig.Text);
 
                     int rowsAffected = acommand.ExecuteNonQuery();
 
@@ -398,6 +410,50 @@ namespace Payroll_System
         private void txtBDOB_Click(object sender, EventArgs e)
         {
             dTPBOD.Show();
+        }
+
+        private void txtPagIbig_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPagIbig.Text != pagibig.ToString() && txtPagIbig.Text != "")
+            {
+                ConfirmButton.Enabled = true;
+            }
+            else
+            {
+                ConfirmButton.Enabled = false;
+            }
+        }
+
+        private void txtSSS_TextChanged(object sender, EventArgs e)
+        {
+            if (txtSSS.Text != sss.ToString() && txtSSS.Text != "")
+            {
+                ConfirmButton.Enabled = true;
+            }
+            else
+            {
+                ConfirmButton.Enabled = false;
+            }
+        }
+
+        private void txtPhilHealth_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPhilHealth.Text != philhealth.ToString() && txtPhilHealth.Text != "")
+            {
+                ConfirmButton.Enabled = true;
+            }
+            else
+            {
+                ConfirmButton.Enabled = false;
+            }
+        }
+
+        private void txtPhilHealth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '-')
+            {
+                e.Handled = true;
+            }
         }
     }
 }
