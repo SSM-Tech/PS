@@ -46,8 +46,8 @@
             txtBLastname = new TextBox();
             label3 = new Label();
             label2 = new Label();
-            CancelButton = new Button();
-            ConfirmButton = new Button();
+            btnCancel = new Button();
+            btnConfirm = new Button();
             label1 = new Label();
             panel1 = new Panel();
             txtPhilHealth = new TextBox();
@@ -219,26 +219,26 @@
             label2.TabIndex = 39;
             label2.Text = "Firstname:";
             // 
-            // CancelButton
+            // btnCancel
             // 
-            CancelButton.Location = new Point(501, 619);
-            CancelButton.Name = "CancelButton";
-            CancelButton.Size = new Size(469, 54);
-            CancelButton.TabIndex = 10;
-            CancelButton.Text = "CANCEL";
-            CancelButton.UseVisualStyleBackColor = true;
-            CancelButton.Click += CancelButton_Click;
+            btnCancel.Location = new Point(501, 619);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(469, 54);
+            btnCancel.TabIndex = 10;
+            btnCancel.Text = "CANCEL";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
-            // ConfirmButton
+            // btnConfirm
             // 
-            ConfirmButton.BackColor = Color.Lime;
-            ConfirmButton.Location = new Point(2, 619);
-            ConfirmButton.Name = "ConfirmButton";
-            ConfirmButton.Size = new Size(470, 54);
-            ConfirmButton.TabIndex = 9;
-            ConfirmButton.Text = "CONFIRM";
-            ConfirmButton.UseVisualStyleBackColor = false;
-            ConfirmButton.Click += ConfirmButton_Click;
+            btnConfirm.BackColor = Color.Lime;
+            btnConfirm.Location = new Point(2, 619);
+            btnConfirm.Name = "btnConfirm";
+            btnConfirm.Size = new Size(470, 54);
+            btnConfirm.TabIndex = 9;
+            btnConfirm.Text = "CONFIRM";
+            btnConfirm.UseVisualStyleBackColor = false;
+            btnConfirm.Click += btnConfirm_Click;
             // 
             // label1
             // 
@@ -283,8 +283,8 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(TxtPass);
-            panel1.Controls.Add(CancelButton);
-            panel1.Controls.Add(ConfirmButton);
+            panel1.Controls.Add(btnCancel);
+            panel1.Controls.Add(btnConfirm);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
@@ -442,8 +442,8 @@
         private TextBox txtBLastname;
         private Label label3;
         private Label label2;
-        private Button CancelButton;
-        private Button ConfirmButton;
+        private Button btnCancel;
+        private Button btnConfirm;
         private Label label1;
         private Panel panel1;
         private ComboBox cBLockAcc;

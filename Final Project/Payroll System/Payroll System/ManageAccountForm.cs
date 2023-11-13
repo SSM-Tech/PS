@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Payroll_System
 {
@@ -21,11 +23,16 @@ namespace Payroll_System
         DBConn dbConn = new();
         DBQuery dbQuery = new DBQuery();
         private string cellValue;
+        private int userID;
+        private string username;
+        private string cellUsername;
 
         public ManageAccountForm()
         {
             InitializeComponent();
             ShowAccounts();
+            userID = Convert.ToInt32(retrievedTable.Rows[0]["userID"]);
+            username = retrievedTable.Rows[0][columnName: "username"].ToString();
         }
 
         private void ShowAccounts()
@@ -73,6 +80,13 @@ namespace Payroll_System
                     UserDetails.SelectedStaffID = selectedStaffID;
                 }
                 else
+                {
+                    MessageBox.Show("Invalid or empty cell value.", "Error");
+                }
+
+                cellUsername = selectedRow.Cells[3].Value?.ToString();
+
+                if (string.IsNullOrEmpty(cellUsername))
                 {
                     MessageBox.Show("Invalid or empty cell value.", "Error");
                 }
@@ -164,6 +178,14 @@ namespace Payroll_System
                         mscDeleteUser.ExecuteNonQuery();
                         dbConn.closeConnection();
                         ShowAccounts();
+
+                        dbConn.openConnection();
+                        MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                        mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has deleted " + cellUsername;
+                        mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                        mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                        mscEventLog.ExecuteNonQuery();
+                        dbConn.closeConnection();
                     }
                     else
                     {

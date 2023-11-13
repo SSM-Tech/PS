@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,15 @@ namespace Payroll_System
 {
     public partial class AccountRegisterForm : Form
     {
-        bool registerWasSuccessful;
         public event EventHandler Success;
 
         DBConn dbConn = new();
         DBQuery dbQuery = new DBQuery();
         DataTable? retrievedTable = UserDetails.UserDetail;
-        DataTable? managerNames = new DataTable();
         MySqlDataAdapter? adapter = new();
         static Random random = new Random();
+        private int? userID;
+        private string? username;
 
         public AccountRegisterForm()
         {
@@ -32,6 +33,12 @@ namespace Payroll_System
             cBGender.SelectedIndex = 0;
             cBAccResLVL.SelectedIndex = 0;
             txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
+            if(retrievedTable != null)
+            {
+                userID = Convert.ToInt32(retrievedTable.Rows[0]["userID"]);
+                username = retrievedTable.Rows[0][columnName: "username"].ToString();
+            }
+            Success += (sender, e) => {};
         }
         static string GenerateRandomPassword(int minLength, int maxLength)
         {
@@ -47,7 +54,7 @@ namespace Payroll_System
 
             return sb.ToString();
         }
-        public string AccountLevel(string selectedItem)
+        public string AccountLevel(string? selectedItem)
         {
             switch (selectedItem)
             {
@@ -65,10 +72,10 @@ namespace Payroll_System
             string stationNo = txtBStationNo.Text;
             string firstname = txtBFirstname.Text;
             string lastname = txtBLastname.Text;
-            string username = $"{firstname.Replace(" ", "").ToLower()}.{lastname.Replace(" ", "").ToLower()}";
+            string generatedUsername = $"{firstname.Replace(" ", "").ToLower()}.{lastname.Replace(" ", "").ToLower()}";
             string password = GenerateRandomPassword(5, 5);
-            string gender = cBGender.SelectedItem.ToString();
-            string accountLevel = AccountLevel(cBAccResLVL.SelectedItem.ToString());
+            string? gender = cBGender.SelectedItem.ToString();
+            string? accountLevel = AccountLevel(cBAccResLVL.SelectedItem.ToString());
             DateTime dob = dTPBOD.Value;
             string position = txtBPosition.Text;
             decimal salary = decimal.Parse(txtBSalary.Text);
@@ -87,7 +94,7 @@ namespace Payroll_System
                     regCommand.Parameters.Add("@p5", MySqlDbType.Decimal).Value = salary;
                     regCommand.Parameters.Add("@p6", MySqlDbType.Decimal).Value = allowance;
                     regCommand.Parameters.Add("@p7", MySqlDbType.VarChar).Value = stationNo;
-                    regCommand.Parameters.Add("@p8", MySqlDbType.VarChar).Value = username;
+                    regCommand.Parameters.Add("@p8", MySqlDbType.VarChar).Value = generatedUsername;
                     regCommand.Parameters.Add("@p9", MySqlDbType.VarChar).Value = password;
                     regCommand.Parameters.Add("@p10", MySqlDbType.VarChar).Value = "1";
                     regCommand.Parameters.Add("@p11", MySqlDbType.VarChar).Value = accountLevel;
@@ -96,10 +103,25 @@ namespace Payroll_System
 
                     if (rowsAffected > 0)
                     {
-                        MessageBox.Show("Username: " + username + "\nPassword: " + password, "Successfully Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        registerWasSuccessful = true;
-                        OnRegistrationSuccess(EventArgs.Empty);
-                        this.Hide();
+                        if (username != null)
+                        {
+                            MessageBox.Show("Username: " + generatedUsername + "\nPassword: " + password, "Successfully Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            OnRegistrationSuccess(EventArgs.Empty);
+
+                            dbConn.openConnection();
+                            MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " registered " + generatedUsername;
+                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                            mscEventLog.ExecuteNonQuery();
+                            dbConn.closeConnection();
+
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to Register.", "Register", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
@@ -112,9 +134,8 @@ namespace Payroll_System
         {
             Success?.Invoke(this, e);
         }
-        private void ConfirmButton_Click(object sender, EventArgs e)
+        private void btnRegister_Click(object sender, EventArgs e)
         {
-            registerWasSuccessful = false;
             if (txtBFirstname.Text == "" || txtBLastname.Text == "")
             {
                 ShowAlert("No Empty Fields Allowed");
@@ -130,18 +151,19 @@ namespace Payroll_System
             else
             {
                 Register();
+
             }
         }
         void ShowAlert(string message)
         {
             MessageBox.Show(message, "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void txtBSalary_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtBSalary_KeyPress(object? sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar)
                 && !char.IsDigit(e.KeyChar)
@@ -149,8 +171,10 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' &&
+                sender is System.Windows.Forms.TextBox textBox &&
+                textBox.Text != null &&
+                textBox.Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
@@ -168,8 +192,10 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' &&
+                sender is System.Windows.Forms.TextBox textBox &&
+                textBox.Text != null &&
+                textBox.Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }

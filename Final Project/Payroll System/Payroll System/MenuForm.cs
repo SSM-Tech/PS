@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.DataFormats;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Payroll_System
 {
@@ -22,14 +23,21 @@ namespace Payroll_System
         DataTable? retrievedTable = UserDetails.UserDetail;
         private System.Timers.Timer serverTimer;
         private bool isProgrammaticClose = false;
-        private string userID;
+        private string? userID;
+        private bool isServerDown = false;
+        private string? username;
+        private string? accLevel;
 
         public MenuForm()
         {
             InitializeComponent();
 
-            userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
-
+            if (retrievedTable != null && retrievedTable.Rows.Count > 0)
+            {
+                userID = retrievedTable.Rows[0][columnName: "userID"]?.ToString();
+                username = retrievedTable.Rows[0][columnName: "username"]?.ToString();
+                accLevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
+            }
             serverTimer = new System.Timers.Timer(60000);
             serverTimer.Elapsed += ServerTimerElapsed;
             serverTimer.AutoReset = true;
@@ -38,23 +46,29 @@ namespace Payroll_System
             serverTimer.Start();
 
             FormClosing += new FormClosingEventHandler(OnFormClosing);
-            string username = retrievedTable.Rows[0][columnName: "username"].ToString().ToUpper();
-            string acclevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
-            if (acclevel != "1")
+            
+            if (accLevel != "1")
             {
                 ManageAccoountFormButton.Visible = true;
-                TicketsFormButton.Visible = true;
                 Application.DoEvents();
             }
-            UsernameLabel.Text = "Welcome " + username;
+            if(username != null)
+            {
+                UsernameLabel.Text = "Welcome " + username.ToUpper();
+            }
             LoadForm(new HomeForm());
             BtnDefaultColors();
             HomeFormButton.BackColor = SystemColors.ActiveBorder;
         }
-        private void ServerTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void ServerTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             CheckServerStatus();
-            CheckAccountStatus();
+            if(isServerDown != true)
+            {
+                CheckAccountStatus();
+                CheckLoginStatus();
+            }
+            
         }
         private void CheckServerStatus()
         {
@@ -73,6 +87,7 @@ namespace Payroll_System
             {
                 this.Invoke(new Action(() =>
                 {
+                    isServerDown = true;
                     serverTimer.Stop();
                     Logout();
                     MessageBox.Show("Server Stopped, Please login later", "Server Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -110,6 +125,38 @@ namespace Payroll_System
 
             table.Rows.Clear();
         }
+
+        private void CheckLoginStatus()
+        {
+            DataTable? table = new();
+
+            MySqlDataAdapter adapter = new();
+            MySqlCommand command = new(dbQuery.CheckLoginStatus(), dbConn.getConnection());
+
+            command.Parameters.AddWithValue("@p0", userID);
+
+            adapter.SelectCommand = command;
+
+            adapter.Fill(table);
+
+            var isEnabled = table.Rows[0][columnName: "isLoggedIn"].ToString();
+
+            if (isEnabled == "0")
+            {
+                if (this.IsHandleCreated)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        serverTimer.Stop();
+                        Logout();
+                        MessageBox.Show("Your account has been Logged Out, Please Login again.", "Account Locked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }));
+                }
+                UpdateLoginStatus();
+            }
+            table.Rows.Clear();
+        }
+
         private void UpdateLoginStatus()
         {
             dbConn.openConnection();
@@ -128,7 +175,7 @@ namespace Payroll_System
 
         }
 
-        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        private void OnFormClosing(object? sender, FormClosingEventArgs e)
         {
             if (!isProgrammaticClose && e.CloseReason == CloseReason.UserClosing)
             {
@@ -147,22 +194,38 @@ namespace Payroll_System
             {
             }
         }
-        public void LoadForm(object Form)
+        public void LoadForm(object? Form)
         {
             if (this.MainPanel.Controls.Count > 0)
                 this.MainPanel.Controls.RemoveAt(0);
-            Form f = Form as Form;
-            f.TopLevel = false;
-            f.Dock = DockStyle.Fill;
-            this.MainPanel.Controls.Add(f);
-            this.MainPanel.Tag = f;
-            f.Show();
+            if (Form != null)
+            {
+                Form f = (Form)Form;
+                if (f != null)
+                {
+                    f.TopLevel = false;
+                    f.Dock = DockStyle.Fill;
+                    this.MainPanel.Controls.Add(f);
+                    this.MainPanel.Tag = f;
+                    f.Show();
+                }
+            }
         }
 
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to Logout?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
+                if (username != null && userID != null)
+                {
+                    dbConn.openConnection();
+                    MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                    mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has logged out";
+                    mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                    mscEventLog.ExecuteNonQuery();
+                    dbConn.closeConnection();
+                }
                 Logout();
             }
         }
@@ -176,21 +239,27 @@ namespace Payroll_System
         }
         private void LoginStatus()
         {
-            DBConn dbConn = new();
-
-            DBQuery dbQuery = new DBQuery();
-
-            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
-            using (MySqlConnection dbConnection = dbConn.getConnection())
+            if (retrievedTable != null && retrievedTable.Rows.Count > 0)
             {
-                dbConnection.Open();
+                string userID = retrievedTable.Rows[0][columnName: "userID"]?.ToString()!;
 
-                using (MySqlCommand acommand = new MySqlCommand(dbQuery.LoginStatus(), dbConnection))
+                if (userID != null)
                 {
-                    acommand.Parameters.AddWithValue("@p0", 0);
-                    acommand.Parameters.AddWithValue("@p1", userID);
+                    DBConn dbConn = new();
+                    DBQuery dbQuery = new DBQuery();
 
-                    acommand.ExecuteNonQuery();
+                    using (MySqlConnection dbConnection = dbConn.getConnection())
+                    {
+                        dbConnection.Open();
+
+                        using (MySqlCommand acommand = new MySqlCommand(dbQuery.LoginStatus(), dbConnection))
+                        {
+                            acommand.Parameters.AddWithValue("@p0", 0);
+                            acommand.Parameters.AddWithValue("@p1", userID);
+
+                            acommand.ExecuteNonQuery();
+                        }
+                    }
                 }
             }
         }
@@ -203,6 +272,7 @@ namespace Payroll_System
             PayslipFormButton.BackColor = SystemColors.ActiveCaption;
             ManageAccoountFormButton.BackColor = SystemColors.ActiveCaption;
             TicketsFormButton.BackColor = SystemColors.ActiveCaption;
+            HolidaysButton.BackColor = SystemColors.ActiveCaption;
         }
 
         private void HomeFormButton_Click(object sender, EventArgs e)
@@ -241,7 +311,7 @@ namespace Payroll_System
 
         private void TicketsFormButton_Click(object sender, EventArgs e)
         {
-            LoadForm(new TicketsForm());
+            LoadForm(new TicketsDTRForm());
             BtnDefaultColors();
             TicketsFormButton.BackColor = SystemColors.ActiveBorder;
         }
@@ -249,6 +319,13 @@ namespace Payroll_System
         private void MenuForm_Enter(object sender, EventArgs e)
         {
             LoadForm(new HomeForm());
+        }
+
+        private void HolidaysButton_Click(object sender, EventArgs e)
+        {
+            LoadForm(new HolidaysForm());
+            BtnDefaultColors();
+            HolidaysButton.BackColor = SystemColors.ActiveBorder;
         }
     }
 }

@@ -55,3 +55,4 @@ C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PS.Server\PS.Server\obj\Debu
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PS.Server\PS.Server\obj\Debug\net6.0-windows\PS.Server.pdb
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PS.Server\PS.Server\obj\Debug\net6.0-windows\PS.Server.genruntimeconfig.cache
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PS.Server\PS.Server\obj\Debug\net6.0-windows\ref\PS.Server.dll
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\PS.Server\PS.Server\obj\Debug\net6.0-windows\PS.Server.Properties.Resources.resources

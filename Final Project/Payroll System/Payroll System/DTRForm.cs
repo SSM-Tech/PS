@@ -16,14 +16,20 @@ namespace Payroll_System
     {
         DataTable? retrievedTable = UserDetails.UserDetail;
         DataTable? dtDTR = new();
+        DataTable? dtSelectedDTR = new();
         DBConn dbConn = new();
         DBQuery dbQuery = new();
         private bool formLoaded = false;
+        private string cellValue;
         public DTRForm()
         {
             InitializeComponent();
             formLoaded = true;
             ShowDTR();
+            foreach (DataGridViewColumn column in dgvDTR.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
         }
 
@@ -51,6 +57,7 @@ namespace Payroll_System
         {
             dgvDTR.DataSource = dtDTR;
 
+            dgvDTR.Columns["dtrID"].Visible = false;
             dgvDTR.Columns["clockedIn"].Visible = false;
             dgvDTR.Columns["clockedOut"].Visible = false;
 
@@ -78,27 +85,6 @@ namespace Payroll_System
             dgvDTR.ClearSelection();
         }
 
-        private void ButtonEdit_Click(object sender, EventArgs e)
-        {
-            ShowDTR();
-        }
-
-        private void dgvDTR_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1 && e.ColumnIndex >= 0)
-            {
-                dgvDTR.Columns[e.ColumnIndex].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-        }
-
-        private void dgvDTR_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1 && e.ColumnIndex >= 0)
-            {
-                dgvDTR.Columns[e.ColumnIndex].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-        }
-
         private void dgvDTR_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -118,11 +104,6 @@ namespace Payroll_System
             }
         }
 
-        private void dgvDTR_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
-        {
-            e.ToolTipText = "";
-        }
-
         private void dgvDTR_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex >= 0 && dgvDTR.Columns[e.ColumnIndex].Name == "totalHours")
@@ -130,13 +111,45 @@ namespace Payroll_System
                 if (e.Value != null && e.Value is decimal)
                 {
                     decimal decimalValue = (decimal)e.Value;
-                    // Convert the decimal to a TimeSpan
                     TimeSpan timeSpan = TimeSpan.FromHours((double)decimalValue);
-                    // Convert the TimeSpan to a DateTime (assuming today's date)
                     DateTime dateTime = DateTime.Today.Add(timeSpan);
-                    // Format the DateTime as a 24-hour time string
                     e.Value = dateTime.ToString("HH:mm:ss");
                     e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            ShowDTR();
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            if (cellValue != null)
+            {
+                ReportDTRForm reportDTRForm = new ReportDTRForm();
+                reportDTRForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Select a row first");
+            }
+        }
+
+        private void dgvDTR_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dgvDTR.Rows[e.RowIndex];
+                cellValue = selectedRow.Cells[0].Value?.ToString();
+                if (!string.IsNullOrEmpty(cellValue) && int.TryParse(cellValue, out int selectedDTRID))
+                {
+                    UserDetails.SelectedDTRID = selectedDTRID;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid or empty cell value.", "Error");
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,16 @@ namespace Payroll_System
         DBConn dbConn = new();
         DBQuery dbQuery = new();
         private bool formLoaded = false;
+        private string cellValue;
         public PaySlipForm()
         {
             InitializeComponent();
             formLoaded = true;
             ShowPayslip();
+            foreach (DataGridViewColumn column in dgvPayslip.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
         private void ShowPayslip()
         {
@@ -74,19 +80,27 @@ namespace Payroll_System
             payslipTotalHours.Width = 200;
 
             var payslipTotalSalary = dgvPayslip.Columns["totalSalary"];
-            payslipTotalSalary.HeaderText = "Total Salary in Peso";
+            payslipTotalSalary.HeaderText = "Total Salary in Php";
             payslipTotalSalary.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void btnView_Click(object sender, EventArgs e)
         {
-            ViewPayslipForm viewPayslipForm = new ViewPayslipForm();
-            viewPayslipForm.ShowDialog();
+            if (cellValue != null)
+            {
+                ViewPayslipForm viewPayslipForm = new ViewPayslipForm();
+                viewPayslipForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Select a row first");
+            }
+            
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-
+            ShowPayslip();
         }
 
         private void dgvPayslip_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -96,14 +110,30 @@ namespace Payroll_System
                 if (e.Value != null && e.Value is decimal)
                 {
                     decimal decimalValue = (decimal)e.Value;
-                    int hours = (int)decimalValue; // Extract whole hours
-                    decimal minutesDecimal = (decimalValue - hours) * 60; // Convert decimal part to minutes
+                    int hours = (int)decimalValue;
+                    decimal minutesDecimal = (decimalValue - hours) * 60;
                     int minutes = (int)minutesDecimal;
-                    int seconds = (int)((minutesDecimal - minutes) * 60); // Convert remaining decimal to seconds
+                    int seconds = (int)((minutesDecimal - minutes) * 60);
 
-                    // Format as hh:mm:ss
                     e.Value = $"{hours:D2}:{minutes:D2}:{seconds:D2}";
                     e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void dgvPayslip_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dgvPayslip.Rows[e.RowIndex];
+                cellValue = selectedRow.Cells[1].Value?.ToString();
+                if (!string.IsNullOrEmpty(cellValue) && int.TryParse(cellValue, out int selectedPayslipID))
+                {
+                    UserDetails.SelectedPayslipID = selectedPayslipID;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid or empty cell value.", "Error");
                 }
             }
         }

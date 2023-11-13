@@ -13,7 +13,6 @@ namespace Payroll_System
 {
     public partial class AccountDetailsForm : Form
     {
-        public event EventHandler UpdateSuccessfulEvent;
         DataTable? retrievedTable = UserDetails.UserDetail;
 
         public AccountDetailsForm()
@@ -21,16 +20,22 @@ namespace Payroll_System
             InitializeComponent();
             ShowAccDetails();
         }
-        public void LoadForm(object Form)
+        public void LoadForm(object? Form)
         {
             if (this.MainPanel.Controls.Count > 0)
                 this.MainPanel.Controls.RemoveAt(0);
-            Form f = Form as Form;
-            f.TopLevel = false;
-            f.Dock = DockStyle.Fill;
-            this.MainPanel.Controls.Add(f);
-            this.MainPanel.Tag = f;
-            f.Show();
+            if (Form != null)
+            {
+                Form f = (Form)Form;
+                if (f != null)
+                {
+                    f.TopLevel = false;
+                    f.Dock = DockStyle.Fill;
+                    this.MainPanel.Controls.Add(f);
+                    this.MainPanel.Tag = f;
+                    f.Show();
+                }
+            }
         }
 
         private void ShowAccDetails()

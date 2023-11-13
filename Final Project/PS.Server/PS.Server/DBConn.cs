@@ -12,16 +12,28 @@ namespace PS.Server
         private MySqlConnection mySqlConnection = new MySqlConnection("server= 127.0.0.1; user = root; database=payroll; password=");
         public void openConnection()
         {
-            if (mySqlConnection.State == System.Data.ConnectionState.Closed)
+            try
+            {
+                if (mySqlConnection.State == System.Data.ConnectionState.Closed)
             {
                 mySqlConnection.Open();
+            }
+            }
+            catch
+            {
             }
         }
         public void closeConnection()
         {
-            if (mySqlConnection.State == System.Data.ConnectionState.Open)
+            try
             {
-                mySqlConnection.Close();
+                if (mySqlConnection.State == System.Data.ConnectionState.Open)
+                {
+                    mySqlConnection.Close();
+                }
+            }
+            catch
+            {
             }
         }
         public MySqlConnection getConnection()

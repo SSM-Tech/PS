@@ -66,6 +66,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             userDatasGrid.DefaultCellStyle = dataGridViewCellStyle2;
             userDatasGrid.Location = new Point(12, 55);
+            userDatasGrid.MultiSelect = false;
             userDatasGrid.Name = "userDatasGrid";
             userDatasGrid.ReadOnly = true;
             userDatasGrid.RowHeadersVisible = false;

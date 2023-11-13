@@ -32,6 +32,7 @@
             HeaderPanel = new Panel();
             UsernameLabel = new Label();
             SidePanel = new Panel();
+            HolidaysButton = new Button();
             LogoutButton = new Button();
             HomeFormButton = new Button();
             AccountDetailsButton = new Button();
@@ -66,6 +67,7 @@
             // SidePanel
             // 
             SidePanel.BackColor = SystemColors.ActiveCaption;
+            SidePanel.Controls.Add(HolidaysButton);
             SidePanel.Controls.Add(LogoutButton);
             SidePanel.Controls.Add(HomeFormButton);
             SidePanel.Controls.Add(AccountDetailsButton);
@@ -78,6 +80,21 @@
             SidePanel.Name = "SidePanel";
             SidePanel.Size = new Size(244, 660);
             SidePanel.TabIndex = 14;
+            // 
+            // HolidaysButton
+            // 
+            HolidaysButton.BackColor = SystemColors.Control;
+            HolidaysButton.FlatAppearance.BorderSize = 0;
+            HolidaysButton.FlatStyle = FlatStyle.Flat;
+            HolidaysButton.Image = Properties.Resources.holiday;
+            HolidaysButton.ImageAlign = ContentAlignment.MiddleLeft;
+            HolidaysButton.Location = new Point(6, 175);
+            HolidaysButton.Name = "HolidaysButton";
+            HolidaysButton.Size = new Size(238, 35);
+            HolidaysButton.TabIndex = 7;
+            HolidaysButton.Text = "HOLIDAYS";
+            HolidaysButton.UseVisualStyleBackColor = false;
+            HolidaysButton.Click += HolidaysButton_Click;
             // 
             // LogoutButton
             // 
@@ -132,13 +149,12 @@
             TicketsFormButton.FlatStyle = FlatStyle.Flat;
             TicketsFormButton.Image = Properties.Resources.tickets;
             TicketsFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            TicketsFormButton.Location = new Point(6, 175);
+            TicketsFormButton.Location = new Point(6, 140);
             TicketsFormButton.Name = "TicketsFormButton";
             TicketsFormButton.Size = new Size(238, 35);
             TicketsFormButton.TabIndex = 5;
             TicketsFormButton.Text = "TICKETS";
             TicketsFormButton.UseVisualStyleBackColor = false;
-            TicketsFormButton.Visible = false;
             TicketsFormButton.Click += TicketsFormButton_Click;
             // 
             // DTRFormButton
@@ -178,7 +194,7 @@
             ManageAccoountFormButton.FlatStyle = FlatStyle.Flat;
             ManageAccoountFormButton.Image = Properties.Resources.Manage_Accounts;
             ManageAccoountFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            ManageAccoountFormButton.Location = new Point(6, 140);
+            ManageAccoountFormButton.Location = new Point(6, 210);
             ManageAccoountFormButton.Name = "ManageAccoountFormButton";
             ManageAccoountFormButton.Size = new Size(238, 35);
             ManageAccoountFormButton.TabIndex = 4;
@@ -232,5 +248,6 @@
         private Button PayslipFormButton;
         private Button ManageAccoountFormButton;
         private Panel MainPanel;
+        private Button HolidaysButton;
     }
 }

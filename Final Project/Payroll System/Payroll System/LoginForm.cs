@@ -62,7 +62,7 @@ namespace Payroll_System
                         var isLoggedIn = table.Rows[rowCheck][columnName: "isLoggedIn"].ToString();
                         if (isLoggedIn != "1")
                         {
-                            string staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
+                            string? staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
 
                             MySqlDataAdapter mscAdapter = new();
 
@@ -72,11 +72,23 @@ namespace Payroll_System
 
                             mscAdapter.SelectCommand = mscUserDetail;
 
-                            mscAdapter.Fill(userDataTable);
+                            if (userDataTable != null)
+                            {
+                                mscAdapter.Fill(userDataTable);
+                            }
 
                             UserDetails.UserDetail = userDataTable;
 
                             LoginStatus();
+
+                            dbConn.openConnection();
+                            MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has logged in";
+                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = staffID;
+                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                            mscEventLog.ExecuteNonQuery();
+                            dbConn.closeConnection();
+
                             MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Hide();
                             new MenuForm().Show();
@@ -106,17 +118,24 @@ namespace Payroll_System
 
         private void LoginStatus()
         {
-            string userID = userDataTable.Rows[0][columnName: "userID"].ToString();
-            using (MySqlConnection dbConnection = dbConn.getConnection())
+            if (userDataTable != null && userDataTable.Rows.Count > 0)
             {
-                dbConnection.Open();
+                string? userID = userDataTable.Rows[0][columnName: "userID"]?.ToString();
 
-                using (MySqlCommand acommand = new MySqlCommand(dbQuery.LoginStatus(), dbConnection))
+                if (userID != null)
                 {
-                    acommand.Parameters.AddWithValue("@p0", 1);
-                    acommand.Parameters.AddWithValue("@p1", userID);
+                    using (MySqlConnection dbConnection = dbConn.getConnection())
+                    {
+                        dbConnection.Open();
 
-                    acommand.ExecuteNonQuery();
+                        using (MySqlCommand acommand = new MySqlCommand(dbQuery.LoginStatus(), dbConnection))
+                        {
+                            acommand.Parameters.AddWithValue("@p0", 1);
+                            acommand.Parameters.AddWithValue("@p1", userID);
+
+                            acommand.ExecuteNonQuery();
+                        }
+                    }
                 }
             }
         }

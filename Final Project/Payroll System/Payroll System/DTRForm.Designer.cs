@@ -31,32 +31,33 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DTRForm));
-            ButtonEdit = new Button();
-            button1 = new Button();
+            btnRefresh = new Button();
+            btnReport = new Button();
             dgvDTR = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dgvDTR).BeginInit();
             SuspendLayout();
             // 
-            // ButtonEdit
+            // btnRefresh
             // 
-            ButtonEdit.Anchor = AnchorStyles.None;
-            ButtonEdit.Location = new Point(798, 611);
-            ButtonEdit.Name = "ButtonEdit";
-            ButtonEdit.Size = new Size(220, 37);
-            ButtonEdit.TabIndex = 4;
-            ButtonEdit.Text = "Refresh";
-            ButtonEdit.UseVisualStyleBackColor = true;
-            ButtonEdit.Click += ButtonEdit_Click;
+            btnRefresh.Anchor = AnchorStyles.None;
+            btnRefresh.Location = new Point(798, 611);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(220, 37);
+            btnRefresh.TabIndex = 4;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
             // 
-            // button1
+            // btnReport
             // 
-            button1.Anchor = AnchorStyles.None;
-            button1.Location = new Point(1024, 611);
-            button1.Name = "button1";
-            button1.Size = new Size(220, 37);
-            button1.TabIndex = 5;
-            button1.Text = "Report";
-            button1.UseVisualStyleBackColor = true;
+            btnReport.Anchor = AnchorStyles.None;
+            btnReport.Location = new Point(1024, 611);
+            btnReport.Name = "btnReport";
+            btnReport.Size = new Size(220, 37);
+            btnReport.TabIndex = 5;
+            btnReport.Text = "Report";
+            btnReport.UseVisualStyleBackColor = true;
+            btnReport.Click += btnReport_Click;
             // 
             // dgvDTR
             // 
@@ -92,10 +93,8 @@
             dgvDTR.Size = new Size(1232, 593);
             dgvDTR.TabIndex = 6;
             dgvDTR.TabStop = false;
+            dgvDTR.CellClick += dgvDTR_CellClick;
             dgvDTR.CellFormatting += dgvDTR_CellFormatting;
-            dgvDTR.CellToolTipTextNeeded += dgvDTR_CellToolTipTextNeeded;
-            dgvDTR.ColumnHeaderMouseClick += dgvDTR_ColumnHeaderMouseClick;
-            dgvDTR.ColumnHeaderMouseDoubleClick += dgvDTR_ColumnHeaderMouseDoubleClick;
             dgvDTR.RowPrePaint += dgvDTR_RowPrePaint;
             // 
             // DTRForm
@@ -105,8 +104,8 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1256, 660);
             Controls.Add(dgvDTR);
-            Controls.Add(button1);
-            Controls.Add(ButtonEdit);
+            Controls.Add(btnReport);
+            Controls.Add(btnRefresh);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -119,8 +118,8 @@
         }
 
         #endregion
-        private Button ButtonEdit;
-        private Button button1;
+        private Button btnRefresh;
+        private Button btnReport;
         private DataGridView dgvDTR;
     }
 }

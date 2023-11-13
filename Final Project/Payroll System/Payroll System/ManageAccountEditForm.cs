@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Payroll_System
 {
@@ -24,25 +26,33 @@ namespace Payroll_System
         DBQuery dbQuery = new DBQuery();
         MySqlDataAdapter adapter = new();
         static Random random = new Random();
-        string firstname;
-        string lastname;
-        string stationNo;
+        string? firstname;
+        string? lastname;
+        string? stationNo;
         int genderIndex;
         DateTime dob;
-        int accLvlIndex;
-        int managerID;
-        int managerIndex;
-        int lockAcc;
-        string position;
-        decimal salary;
-        decimal allowance;
-        string sss;
-        string philhealth;
-        string pagibig;
+        int? accLvlIndex;
+        int? lockAcc;
+        string? position;
+        decimal? salary;
+        decimal? allowance;
+        string? sss;
+        string? philhealth;
+        string? pagibig;
+        private int userID;
+        private string? username;
+        string? selectedUsername;
+
 
         public ManageAccountEditForm()
         {
+
             InitializeComponent();
+            if (retrievedTable != null)
+            {
+                userID = Convert.ToInt32(retrievedTable.Rows[0]["userID"]);
+                username = retrievedTable.Rows[0][columnName: "username"].ToString();
+            }
 
             MySqlCommand mscGetUserDetails = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
             mscGetUserDetails.Parameters.Add("@p0", MySqlDbType.Int32).Value = selectedStaffID;
@@ -50,20 +60,26 @@ namespace Payroll_System
             adapter.SelectCommand = mscGetUserDetails;
 
             adapter.Fill(dtSelectedUser);
+            string? gender = "Male";
+            int accountLvl = 0;
+            if (dtSelectedUser != null)
+            {
+                selectedUsername = dtSelectedUser.Rows[0][columnName: "username"].ToString();
+                firstname = dtSelectedUser.Rows[0][columnName: "firstName"].ToString();
+                lastname = dtSelectedUser.Rows[0][columnName: "lastName"].ToString();
+                gender = dtSelectedUser.Rows[0][columnName: "sex"].ToString();
+                dob = (DateTime)dtSelectedUser.Rows[0][columnName: "DOB"];
+                accountLvl = (int)dtSelectedUser.Rows[0][columnName: "accountLevel"];
+                stationNo = dtSelectedUser.Rows[0][columnName: "StationNo"].ToString();
+                lockAcc = (int)dtSelectedUser.Rows[0][columnName: "isEnabled"];
+                position = dtSelectedUser.Rows[0][columnName: "position"].ToString();
+                salary = (decimal)dtSelectedUser.Rows[0][columnName: "salary"];
+                allowance = (decimal)dtSelectedUser.Rows[0][columnName: "allowance"];
+                sss = dtSelectedUser.Rows[0][columnName: "SSS"].ToString();
+                philhealth = dtSelectedUser.Rows[0][columnName: "PagIbig"].ToString();
+                pagibig = dtSelectedUser.Rows[0][columnName: "PhilHealth"].ToString();
+            }
 
-            firstname = dtSelectedUser.Rows[0][columnName: "firstName"].ToString();
-            lastname = dtSelectedUser.Rows[0][columnName: "lastName"].ToString();
-            string gender = dtSelectedUser.Rows[0][columnName: "sex"].ToString();
-            dob = (DateTime)dtSelectedUser.Rows[0][columnName: "DOB"];
-            int accountLvl = (int)dtSelectedUser.Rows[0][columnName: "accountLevel"];
-            stationNo = dtSelectedUser.Rows[0][columnName: "StationNo"].ToString();
-            lockAcc = (int)dtSelectedUser.Rows[0][columnName: "isEnabled"];
-            position = dtSelectedUser.Rows[0][columnName: "position"].ToString();
-            salary = (decimal)dtSelectedUser.Rows[0][columnName: "salary"];
-            allowance = (decimal)dtSelectedUser.Rows[0][columnName: "allowance"];
-            sss = dtSelectedUser.Rows[0][columnName: "SSS"].ToString();
-            philhealth = dtSelectedUser.Rows[0][columnName: "PagIbig"].ToString();
-            pagibig = dtSelectedUser.Rows[0][columnName: "PhilHealth"].ToString();
 
             switch (accountLvl)
             {
@@ -114,10 +130,11 @@ namespace Payroll_System
             genderIndex = cBGender.SelectedIndex;
             accLvlIndex = cBAccResLVL.SelectedIndex;
 
-            ConfirmButton.Enabled = false;
+            btnConfirm.Enabled = false;
+            Success += (sender, e) => { };
         }
 
-        private void ConfirmButton_Click(object sender, EventArgs e)
+        private void btnConfirm_Click(object sender, EventArgs e)
         {
             genderIndex = cBGender.SelectedIndex;
             accLvlIndex = cBAccResLVL.SelectedIndex;
@@ -179,10 +196,19 @@ namespace Payroll_System
 
                     if (rowsAffected > 0)
                     {
+
                         MessageBox.Show("Accoun Detail Successfully Changed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         editWasSuccessful = true;
                         OnEditSuccess(EventArgs.Empty);
+                        dbConn.openConnection();
+                        MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                        mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = (username?.ToLower() ?? string.Empty) + " has updated " + (selectedUsername?.ToLower() ?? string.Empty) + " account";
+                        mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                        mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                        mscEventLog.ExecuteNonQuery();
+                        dbConn.closeConnection();
                         this.Hide();
+
                     }
                     else
                     {
@@ -196,7 +222,7 @@ namespace Payroll_System
             Success?.Invoke(this, e);
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -224,6 +250,13 @@ namespace Payroll_System
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("The Account's new password is " + password, "Successfully changed Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            dbConn.openConnection();
+                            MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = (username?.ToLower() ?? string.Empty) + " has updated " + (selectedUsername?.ToLower() ?? string.Empty) + " account";
+                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                            mscEventLog.ExecuteNonQuery();
+                            dbConn.closeConnection();
                             this.Hide();
                         }
                         else
@@ -253,11 +286,11 @@ namespace Payroll_System
         {
             if (txtBFirstname.Text != firstname && txtBFirstname.Text != "")
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -265,11 +298,11 @@ namespace Payroll_System
         {
             if (txtBLastname.Text != lastname && txtBLastname.Text != "")
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -277,11 +310,11 @@ namespace Payroll_System
         {
             if (cBGender.SelectedIndex != genderIndex)
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -290,11 +323,11 @@ namespace Payroll_System
             txtBDOB.Text = dTPBOD.Value.ToString("MM/dd/yyyy");
             if (dTPBOD.Value != dob)
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -302,11 +335,11 @@ namespace Payroll_System
         {
             if (cBAccResLVL.SelectedIndex != accLvlIndex)
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -314,11 +347,11 @@ namespace Payroll_System
         {
             if (cBLockAcc.SelectedIndex != lockAcc)
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -326,11 +359,11 @@ namespace Payroll_System
         {
             if (txtBPosition.Text != position && txtBPosition.Text != "")
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -338,11 +371,11 @@ namespace Payroll_System
         {
             if (txtBSalary.Text != salary.ToString() && txtBSalary.Text != "")
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -350,11 +383,11 @@ namespace Payroll_System
         {
             if (txtBAllowance.Text != allowance.ToString() && txtBAllowance.Text != "")
             {
-                ConfirmButton.Enabled = true;
+                btnConfirm.Enabled = true;
             }
             else
             {
-                ConfirmButton.Enabled = false;
+                btnConfirm.Enabled = false;
             }
         }
 
@@ -366,8 +399,10 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' &&
+                sender is System.Windows.Forms.TextBox textBox &&
+                textBox.Text != null &&
+                textBox.Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
@@ -385,8 +420,10 @@ namespace Payroll_System
             {
                 e.Handled = true;
             }
-            if (e.KeyChar == '.'
-                && (sender as System.Windows.Forms.TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' &&
+                sender is System.Windows.Forms.TextBox textBox &&
+                textBox.Text != null &&
+                textBox.Text.IndexOf('.') > -1)
             {
                 e.Handled = true;
             }
@@ -398,13 +435,16 @@ namespace Payroll_System
 
         private void txtBStationNo_TextChanged(object sender, EventArgs e)
         {
-            if (txtBStationNo.Text != stationNo.ToString() && txtBStationNo.Text != "")
+            if(stationNo != null)
             {
-                ConfirmButton.Enabled = true;
-            }
-            else
-            {
-                ConfirmButton.Enabled = false;
+                if (txtBStationNo.Text != stationNo.ToString() && txtBStationNo.Text != "")
+                {
+                    btnConfirm.Enabled = true;
+                }
+                else
+                {
+                    btnConfirm.Enabled = false;
+                }
             }
         }
         private void txtBDOB_Click(object sender, EventArgs e)
@@ -414,38 +454,49 @@ namespace Payroll_System
 
         private void txtPagIbig_TextChanged(object sender, EventArgs e)
         {
-            if (txtPagIbig.Text != pagibig.ToString() && txtPagIbig.Text != "")
+            if (pagibig != null)
             {
-                ConfirmButton.Enabled = true;
-            }
-            else
-            {
-                ConfirmButton.Enabled = false;
+                if (txtPagIbig.Text != pagibig.ToString() && txtPagIbig.Text != "")
+                {
+                    btnConfirm.Enabled = true;
+                }
+                else
+                {
+                    btnConfirm.Enabled = false;
+                }
             }
         }
 
         private void txtSSS_TextChanged(object sender, EventArgs e)
         {
-            if (txtSSS.Text != sss.ToString() && txtSSS.Text != "")
+            if(sss != null)
             {
-                ConfirmButton.Enabled = true;
+                if (txtSSS.Text != sss.ToString() && txtSSS.Text != "")
+                {
+                    btnConfirm.Enabled = true;
+                }
+                else
+                {
+                    btnConfirm.Enabled = false;
+                }
             }
-            else
-            {
-                ConfirmButton.Enabled = false;
-            }
+            
         }
 
         private void txtPhilHealth_TextChanged(object sender, EventArgs e)
         {
-            if (txtPhilHealth.Text != philhealth.ToString() && txtPhilHealth.Text != "")
+            if(philhealth != null)
             {
-                ConfirmButton.Enabled = true;
+                if (txtPhilHealth.Text != philhealth.ToString() && txtPhilHealth.Text != "")
+                {
+                    btnConfirm.Enabled = true;
+                }
+                else
+                {
+                    btnConfirm.Enabled = false;
+                }
             }
-            else
-            {
-                ConfirmButton.Enabled = false;
-            }
+            
         }
 
         private void txtPhilHealth_KeyPress(object sender, KeyPressEventArgs e)

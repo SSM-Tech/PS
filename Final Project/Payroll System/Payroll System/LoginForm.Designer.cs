@@ -68,7 +68,7 @@
             // 
             HidePasswordIcon.BackColor = SystemColors.Window;
             HidePasswordIcon.Image = (Image)resources.GetObject("HidePasswordIcon.Image");
-            HidePasswordIcon.Location = new Point(390, 205);
+            HidePasswordIcon.Location = new Point(344, 205);
             HidePasswordIcon.Name = "HidePasswordIcon";
             HidePasswordIcon.Size = new Size(25, 25);
             HidePasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;

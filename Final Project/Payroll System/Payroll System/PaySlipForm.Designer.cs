@@ -70,6 +70,7 @@
             dgvPayslip.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPayslip.Size = new Size(1232, 593);
             dgvPayslip.TabIndex = 0;
+            dgvPayslip.CellClick += dgvPayslip_CellClick;
             dgvPayslip.CellFormatting += dgvPayslip_CellFormatting;
             // 
             // btnRefresh

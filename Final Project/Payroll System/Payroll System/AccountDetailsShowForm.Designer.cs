@@ -67,6 +67,7 @@
             // 
             txtFullname.Location = new Point(52, 41);
             txtFullname.Name = "txtFullname";
+            txtFullname.ReadOnly = true;
             txtFullname.Size = new Size(525, 37);
             txtFullname.TabIndex = 1;
             // 
@@ -74,6 +75,7 @@
             // 
             txtGender.Location = new Point(52, 113);
             txtGender.Name = "txtGender";
+            txtGender.ReadOnly = true;
             txtGender.Size = new Size(525, 37);
             txtGender.TabIndex = 3;
             // 
@@ -90,6 +92,7 @@
             // 
             txtDOB.Location = new Point(52, 185);
             txtDOB.Name = "txtDOB";
+            txtDOB.ReadOnly = true;
             txtDOB.Size = new Size(525, 37);
             txtDOB.TabIndex = 5;
             // 
@@ -106,6 +109,7 @@
             // 
             txtStation.Location = new Point(695, 257);
             txtStation.Name = "txtStation";
+            txtStation.ReadOnly = true;
             txtStation.Size = new Size(525, 37);
             txtStation.TabIndex = 15;
             // 
@@ -122,6 +126,7 @@
             // 
             txtUserID.Location = new Point(695, 185);
             txtUserID.Name = "txtUserID";
+            txtUserID.ReadOnly = true;
             txtUserID.Size = new Size(525, 37);
             txtUserID.TabIndex = 13;
             // 
@@ -138,6 +143,7 @@
             // 
             txtStaffID.Location = new Point(695, 113);
             txtStaffID.Name = "txtStaffID";
+            txtStaffID.ReadOnly = true;
             txtStaffID.Size = new Size(525, 37);
             txtStaffID.TabIndex = 11;
             // 
@@ -154,6 +160,7 @@
             // 
             txtUsername.Location = new Point(695, 41);
             txtUsername.Name = "txtUsername";
+            txtUsername.ReadOnly = true;
             txtUsername.Size = new Size(525, 37);
             txtUsername.TabIndex = 9;
             // 
@@ -170,6 +177,7 @@
             // 
             txtSalary.Location = new Point(695, 329);
             txtSalary.Name = "txtSalary";
+            txtSalary.ReadOnly = true;
             txtSalary.Size = new Size(525, 37);
             txtSalary.TabIndex = 17;
             // 
@@ -186,6 +194,7 @@
             // 
             txtAllowance.Location = new Point(695, 401);
             txtAllowance.Name = "txtAllowance";
+            txtAllowance.ReadOnly = true;
             txtAllowance.Size = new Size(525, 37);
             txtAllowance.TabIndex = 19;
             // 
@@ -202,6 +211,7 @@
             // 
             txtSSS.Location = new Point(52, 257);
             txtSSS.Name = "txtSSS";
+            txtSSS.ReadOnly = true;
             txtSSS.Size = new Size(525, 37);
             txtSSS.TabIndex = 21;
             // 
@@ -218,6 +228,7 @@
             // 
             txtPagIbig.Location = new Point(52, 329);
             txtPagIbig.Name = "txtPagIbig";
+            txtPagIbig.ReadOnly = true;
             txtPagIbig.Size = new Size(525, 37);
             txtPagIbig.TabIndex = 23;
             // 
@@ -234,6 +245,7 @@
             // 
             txtPhilHealth.Location = new Point(52, 401);
             txtPhilHealth.Name = "txtPhilHealth";
+            txtPhilHealth.ReadOnly = true;
             txtPhilHealth.Size = new Size(525, 37);
             txtPhilHealth.TabIndex = 25;
             // 
@@ -280,7 +292,6 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "AccountDetailsShowForm";
             Text = "AccountDetailsShowForm";
-            Load += AccountDetailsShowForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -294,8 +305,6 @@
         private TextBox txtDOB;
         private Label label3;
         private TextBox txtStation;
-        private Label label4;
-        private TextBox textBox5;
         private Label label5;
         private TextBox txtUserID;
         private Label label6;

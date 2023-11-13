@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountRegisterForm));
             TxtPass = new TextBox();
             label1 = new Label();
-            ConfirmButton = new Button();
-            CancelButton = new Button();
+            btnRegister = new Button();
+            bntCancel = new Button();
             panel1 = new Panel();
             txtBStationNo = new TextBox();
             txtBDOB = new TextBox();
@@ -78,25 +78,25 @@
             label1.TabIndex = 38;
             label1.Text = "Input Password:";
             // 
-            // ConfirmButton
+            // btnRegister
             // 
-            ConfirmButton.Location = new Point(3, 472);
-            ConfirmButton.Name = "ConfirmButton";
-            ConfirmButton.Size = new Size(470, 54);
-            ConfirmButton.TabIndex = 9;
-            ConfirmButton.Text = "REGISTER";
-            ConfirmButton.UseVisualStyleBackColor = true;
-            ConfirmButton.Click += ConfirmButton_Click;
+            btnRegister.Location = new Point(3, 472);
+            btnRegister.Name = "btnRegister";
+            btnRegister.Size = new Size(470, 54);
+            btnRegister.TabIndex = 9;
+            btnRegister.Text = "REGISTER";
+            btnRegister.UseVisualStyleBackColor = true;
+            btnRegister.Click += btnRegister_Click;
             // 
-            // CancelButton
+            // bntCancel
             // 
-            CancelButton.Location = new Point(502, 472);
-            CancelButton.Name = "CancelButton";
-            CancelButton.Size = new Size(469, 54);
-            CancelButton.TabIndex = 10;
-            CancelButton.Text = "CANCEL";
-            CancelButton.UseVisualStyleBackColor = true;
-            CancelButton.Click += CancelButton_Click;
+            bntCancel.Location = new Point(502, 472);
+            bntCancel.Name = "bntCancel";
+            bntCancel.Size = new Size(469, 54);
+            bntCancel.TabIndex = 10;
+            bntCancel.Text = "CANCEL";
+            bntCancel.UseVisualStyleBackColor = true;
+            bntCancel.Click += btnCancel_Click;
             // 
             // panel1
             // 
@@ -121,8 +121,8 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(TxtPass);
-            panel1.Controls.Add(CancelButton);
-            panel1.Controls.Add(ConfirmButton);
+            panel1.Controls.Add(bntCancel);
+            panel1.Controls.Add(btnRegister);
             panel1.Controls.Add(label1);
             panel1.ForeColor = SystemColors.ControlText;
             panel1.Location = new Point(12, 12);
@@ -315,8 +315,8 @@
 
         private TextBox TxtPass;
         private Label label1;
-        private Button ConfirmButton;
-        private Button CancelButton;
+        private Button btnRegister;
+        private Button bntCancel;
         private Panel panel1;
         private Label label2;
         private Label label5;

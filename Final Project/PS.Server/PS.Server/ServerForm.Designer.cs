@@ -37,6 +37,7 @@
             btnStop = new Button();
             btnStart = new Button();
             richTextBox1 = new RichTextBox();
+            btnLogoffAll = new Button();
             SuspendLayout();
             // 
             // txtStatus
@@ -45,9 +46,9 @@
             txtStatus.Font = new Font("Impact", 20F, FontStyle.Regular, GraphicsUnit.Point);
             txtStatus.Location = new Point(181, 11);
             txtStatus.Name = "txtStatus";
-            txtStatus.Size = new Size(245, 34);
+            txtStatus.Size = new Size(102, 34);
             txtStatus.TabIndex = 15;
-            txtStatus.Text = "Running/Terminated";
+            txtStatus.Text = "Loading";
             // 
             // label1
             // 
@@ -61,7 +62,8 @@
             // 
             // btnRefresh
             // 
-            btnRefresh.BackColor = Color.Yellow;
+            btnRefresh.BackColor = Color.Gray;
+            btnRefresh.Enabled = false;
             btnRefresh.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             btnRefresh.Location = new Point(312, 491);
             btnRefresh.Margin = new Padding(4, 5, 4, 5);
@@ -89,7 +91,7 @@
             // 
             btnMinimize.BackColor = Color.Yellow;
             btnMinimize.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            btnMinimize.Location = new Point(691, 491);
+            btnMinimize.Location = new Point(839, 5);
             btnMinimize.Margin = new Padding(4, 5, 4, 5);
             btnMinimize.Name = "btnMinimize";
             btnMinimize.Size = new Size(140, 40);
@@ -100,7 +102,8 @@
             // 
             // btnStop
             // 
-            btnStop.BackColor = Color.Red;
+            btnStop.BackColor = Color.Gray;
+            btnStop.Enabled = false;
             btnStop.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             btnStop.Location = new Point(164, 491);
             btnStop.Margin = new Padding(4, 5, 4, 5);
@@ -113,7 +116,8 @@
             // 
             // btnStart
             // 
-            btnStart.BackColor = Color.Lime;
+            btnStart.BackColor = Color.Gray;
+            btnStart.Enabled = false;
             btnStart.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             btnStart.Location = new Point(16, 491);
             btnStart.Margin = new Padding(4, 5, 4, 5);
@@ -135,7 +139,21 @@
             richTextBox1.ReadOnly = true;
             richTextBox1.Size = new Size(963, 431);
             richTextBox1.TabIndex = 8;
-            richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            richTextBox1.Text = "PS Server> Please Wait, Loading...";
+            // 
+            // btnLogoffAll
+            // 
+            btnLogoffAll.BackColor = Color.Gray;
+            btnLogoffAll.Enabled = false;
+            btnLogoffAll.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            btnLogoffAll.Location = new Point(691, 491);
+            btnLogoffAll.Margin = new Padding(4, 5, 4, 5);
+            btnLogoffAll.Name = "btnLogoffAll";
+            btnLogoffAll.Size = new Size(140, 40);
+            btnLogoffAll.TabIndex = 16;
+            btnLogoffAll.Text = "Logout All";
+            btnLogoffAll.UseVisualStyleBackColor = false;
+            btnLogoffAll.Click += btnLogoffAll_Click;
             // 
             // ServerForm
             // 
@@ -143,6 +161,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(994, 543);
+            Controls.Add(btnLogoffAll);
             Controls.Add(txtStatus);
             Controls.Add(label1);
             Controls.Add(btnRefresh);
@@ -157,6 +176,7 @@
             Margin = new Padding(4, 5, 4, 5);
             Name = "ServerForm";
             StartPosition = FormStartPosition.CenterScreen;
+            FormClosing += ServerForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -171,5 +191,6 @@
         private Button btnStop;
         private Button btnStart;
         private RichTextBox richTextBox1;
+        private Button btnLogoffAll;
     }
 }

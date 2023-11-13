@@ -23,6 +23,21 @@ namespace Payroll_System
         private string deleteUser = @"CALL `DeleteUser`(@p0)";
         private string clockInOut = @"CALL `ClockInOut`(@p0, @p1, @p2, @p3, @p4)";
         private string getPayslip = @"CALL `GetPayslip`(@p0)";
+        private string getPayslipDTR = @"CALL `GetPayslipDTR`(@p0, @p1)";
+        private string getPayslipInfo = @"CALL `GetPayslipInfo`(@p0, @p1)";
+        private string getDates = @"CALL `GetDates`()";
+        private string updateDTRHoliday = @"CALL `UpdateDTRHoliday`(@p0, @p1)";
+        private string getAllUserID = @"CALL `getAllUserID`()";
+        private string fillPayrollDetail = @"CALL `FillPayslipDetail`(@p0, @p1)";
+        private string generateDTRTicket = @"CALL `GenerateDTRTicket`(@p0, @p1, @p2)";
+        private string getSpecificDTR = @"CALL `GetSpecificDTR`(@p0)";
+        private string showDTRTickets = @"CALL `ShowDTRTickets`(@p0, @p1)";
+        private string getDTRFromDTRTickets = @"CALL `GetDTRFromDTRTickets`(@p0)";
+        private string resetDTRClockIn = @"CALL `ResetDTRClockIn`(@p0)";
+        private string resetDTRClockOut = @"CALL `ResetDTRClockOut`(@p0)";
+        private string updateDTRTickets = @"CALL `UpdateDTRTickets`(@p0, @p1, @p2, @p3)";
+        private string checkLoginStatus = @"CALL `CheckUserLoginStatus`(@p0)";
+        private string eventLog = @"CALL `EventLog`(@p0, @p1, @p2)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -79,5 +94,66 @@ namespace Payroll_System
         {
             return getPayslip;
         }
+        public string GetPayslipDTR()
+        {
+            return getPayslipDTR;
+        }
+        public string GetPayslipInfo()
+        {
+            return getPayslipInfo;
+        }
+        public string GetDates()
+        {
+            return getDates;
+        }
+        public string UpdateDTRHoliday()
+        {
+            return updateDTRHoliday;
+        }
+        public string GetAllUserID()
+        {
+            return getAllUserID;
+        }
+        public string FillPayrollDetail()
+        {
+            return fillPayrollDetail;
+        }
+        public string GenerateDTRTicket()
+        {
+            return generateDTRTicket;
+        }
+        public string GetSpecificDTR()
+        {
+            return getSpecificDTR;
+        }
+        public string ShowDTRTickets()
+        {
+            return showDTRTickets;
+        }
+        public string GetDTRFromDTRTickets()
+        {
+            return getDTRFromDTRTickets;
+        }
+        public string ResetDTRClockIn()
+        {
+            return resetDTRClockIn;
+        }
+        public string ResetDTRClockOut()
+        {
+            return resetDTRClockOut;
+        }
+        public string UpdateDTRTickets()
+        {
+            return updateDTRTickets;
+        }
+        public string CheckLoginStatus()
+        {
+            return checkLoginStatus;
+        }
+        public string EventLog()
+        {
+            return eventLog;
+        }
+        
     }
 }

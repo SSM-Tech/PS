@@ -21,20 +21,55 @@ namespace Payroll_System
 
         private void ShowDetails()
         {
-            string username = retrievedTable.Rows[0][columnName: "username"].ToString();
-            string firstName = retrievedTable.Rows[0][columnName: "firstName"].ToString();
-            string lastName = retrievedTable.Rows[0][columnName: "lastName"].ToString();
-            string sex = retrievedTable.Rows[0][columnName: "sex"].ToString();
-            string staffID = retrievedTable.Rows[0][columnName: "staffID"].ToString();
-            DateTime dOB = (DateTime)retrievedTable.Rows[0][columnName: "DOB"];
-            string formattedDate = dOB.ToString("MM/dd/yyyy");
-            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
-            string stationNum = retrievedTable.Rows[0][columnName: "stationNo"].ToString();
-            string salary = retrievedTable.Rows[0][columnName: "salary"].ToString();
-            string allowance = retrievedTable.Rows[0][columnName: "allowance"].ToString();
-            string sss = retrievedTable.Rows[0][columnName: "SSS"].ToString();
-            string pagibig = retrievedTable.Rows[0][columnName: "PagIbig"].ToString();
-            string philhealth = retrievedTable.Rows[0][columnName: "PhilHealth"].ToString();
+            string username = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "username"]?.ToString() ?? string.Empty
+                : string.Empty;
+            string firstName = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "firstName"]?.ToString() ?? string.Empty
+                : string.Empty;
+            string lastName = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "lastName"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string sex = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "sex"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string staffID = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "staffID"]?.ToString() ?? string.Empty
+                : string.Empty;
+            DateTime? dOB = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "DOB"] as DateTime?
+                : null;
+            string formattedDate = dOB?.ToString("MM/dd/yyyy") ?? string.Empty;
+
+            string userID = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "userID"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string stationNum = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "stationNo"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string salary = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "salary"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string allowance = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "allowance"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string sss = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "SSS"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string pagibig = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "PagIbig"]?.ToString() ?? string.Empty
+                : string.Empty;
+
+            string philhealth = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "PhilHealth"]?.ToString() ?? string.Empty
+                : string.Empty;
             txtFullname.Text = firstName + " " + lastName;
             txtUsername.Text = username;
             txtGender.Text = sex;
@@ -47,11 +82,6 @@ namespace Payroll_System
             txtSSS.Text = sss;
             txtPagIbig.Text = pagibig;
             txtPhilHealth.Text = philhealth;
-        }
-
-        private void AccountDetailsShowForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

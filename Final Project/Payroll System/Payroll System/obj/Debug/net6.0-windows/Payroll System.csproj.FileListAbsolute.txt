@@ -229,3 +229,6 @@ C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll Syste
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.TicketsPayslipForm.resources
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.AccountDetailsShowForm.resources
 C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.ViewPayslipForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.HolidaysForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.ReportDTRForm.resources
+C:\Users\laure\OneDrive\Desktop\IM101\Final Project\Payroll System\Payroll System\obj\Debug\net6.0-windows\Payroll_System.TicketsDTRView.resources

@@ -144,6 +144,5 @@
         private Panel panel4;
         private Panel MainPanel;
         private Button btnShowDetails;
-        private Panel j;
     }
 }

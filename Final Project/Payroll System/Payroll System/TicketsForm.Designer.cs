@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TicketsForm));
             btnDTR = new Button();
-            btnPayslip = new Button();
             panel1 = new Panel();
             MainPanel = new Panel();
             panel2 = new Panel();
@@ -53,25 +52,10 @@
             btnDTR.UseVisualStyleBackColor = false;
             btnDTR.Click += btnDTR_Click;
             // 
-            // btnPayslip
-            // 
-            btnPayslip.Anchor = AnchorStyles.None;
-            btnPayslip.BackColor = SystemColors.ButtonFace;
-            btnPayslip.FlatAppearance.BorderSize = 0;
-            btnPayslip.FlatStyle = FlatStyle.Flat;
-            btnPayslip.Location = new Point(100, 12);
-            btnPayslip.Name = "btnPayslip";
-            btnPayslip.Size = new Size(100, 37);
-            btnPayslip.TabIndex = 9;
-            btnPayslip.Text = "Payslip";
-            btnPayslip.UseVisualStyleBackColor = false;
-            btnPayslip.Click += btnPayslip_Click;
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveBorder;
             panel1.Controls.Add(btnDTR);
-            panel1.Controls.Add(btnPayslip);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(12, 0);
             panel1.Name = "panel1";
@@ -81,9 +65,9 @@
             // MainPanel
             // 
             MainPanel.Dock = DockStyle.Fill;
-            MainPanel.Location = new Point(0, 0);
+            MainPanel.Location = new Point(12, 49);
             MainPanel.Name = "MainPanel";
-            MainPanel.Size = new Size(1256, 660);
+            MainPanel.Size = new Size(1232, 599);
             MainPanel.TabIndex = 11;
             // 
             // panel2
@@ -119,11 +103,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1256, 660);
+            Controls.Add(MainPanel);
             Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(panel2);
-            Controls.Add(MainPanel);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -136,7 +120,6 @@
 
         #endregion
         private Button btnDTR;
-        private Button btnPayslip;
         private Panel panel1;
         private Panel MainPanel;
         private Panel panel2;

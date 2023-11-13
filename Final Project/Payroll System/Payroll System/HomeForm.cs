@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Payroll_System
 {
@@ -20,17 +21,26 @@ namespace Payroll_System
         DBQuery dbQuery = new DBQuery();
         DateTime currentTime = DateTime.Now;
         private int userID;
+        private string? username;
         public HomeForm()
         {
             InitializeComponent();
-            userID = Convert.ToInt32(retrievedTable.Rows[0]["userID"]);
+            if (retrievedTable != null && retrievedTable.Rows.Count > 0)
+            {
+                userID = Convert.ToInt32(retrievedTable.Rows[0]["userID"]);
+                username = retrievedTable.Rows[0][columnName: "username"].ToString();
+            }
             SetHomeForm();
         }
 
         private void SetHomeForm()
         {
-            string clockedIn = retrievedTable.Rows[0][columnName: "clockedIn"].ToString();
-            string clockedOut = retrievedTable.Rows[0][columnName: "clockedOut"].ToString();
+            string? clockedIn = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "clockedIn"]?.ToString()
+                : null;
+            string? clockedOut = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "clockedOut"]?.ToString()
+                : null;
 
             DateTime clockIn = DateTime.Today.AddHours(1);
             DateTime clockOut = DateTime.Today.AddHours(24);
@@ -79,65 +89,95 @@ namespace Payroll_System
 
         private void btnClockIn_Click(object sender, EventArgs e)
         {
-            UserDetails.UserDetail.Rows[0]["clockintime"] = DateTime.Now;
-            UserDetails.UserDetail.Rows[0]["clockedIn"] = 1;
+            if (UserDetails.UserDetail != null && UserDetails.UserDetail.Rows.Count > 0)
+            {
+
+                UserDetails.UserDetail.Rows[0]["clockintime"] = DateTime.Now;
+                UserDetails.UserDetail.Rows[0]["clockedIn"] = 1;
+            }
+
+            if (username != null)
+            {
+                dbConn.openConnection();
+
+                MySqlCommand mscClockIn = new(dbQuery.ClockInOut(), dbConn.getConnection());
+                mscClockIn.Parameters.Add("@p0", MySqlDbType.Int32).Value = userID;
+                mscClockIn.Parameters.Add("@p1", MySqlDbType.DateTime).Value = DateTime.Now;
+                mscClockIn.Parameters.Add("@p2", MySqlDbType.Int32).Value = 1;
+                mscClockIn.Parameters.Add("@p3", MySqlDbType.DateTime).Value = null;
+                mscClockIn.Parameters.Add("@p4", MySqlDbType.Int32).Value = 0;
+                mscClockIn.ExecuteNonQuery();
+
+                MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has clocked in";
+                mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                mscEventLog.ExecuteNonQuery();
 
 
-            dbConn.openConnection();
-
-            MySqlCommand mscClockIn = new(dbQuery.ClockInOut(), dbConn.getConnection());
-            mscClockIn.Parameters.Add("@p0", MySqlDbType.Int32).Value = userID;
-            mscClockIn.Parameters.Add("@p1", MySqlDbType.DateTime).Value = DateTime.Now;
-            mscClockIn.Parameters.Add("@p2", MySqlDbType.Int32).Value = 1;
-            mscClockIn.Parameters.Add("@p3", MySqlDbType.DateTime).Value = null;
-            mscClockIn.Parameters.Add("@p4", MySqlDbType.Int32).Value = 0;
-            mscClockIn.ExecuteNonQuery();
-
-            dbConn.closeConnection();
-
+                dbConn.closeConnection();
+            }
             ClockedIn();
         }
 
         private void btnClockOut_Click(object sender, EventArgs e)
         {
-
-            DateTime clockOutTime = DateTime.Today.AddHours(17);
-
-            if (currentTime < clockOutTime)
+            if (username != null)
             {
-                string currentTimeString = currentTime.ToString("h:mm tt");
-                string message = $"Are you sure you want to Clock Out? It's still {currentTimeString}";
-                DialogResult result = MessageBox.Show(message, "Clock Out Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DateTime clockOutTime = DateTime.Today.AddHours(17);
 
-                if (result == DialogResult.Yes)
+                if (currentTime < clockOutTime)
+                {
+                    string currentTimeString = currentTime.ToString("h:mm tt");
+                    string message = $"Are you sure you want to Clock Out? It's still {currentTimeString}";
+                    DialogResult result = MessageBox.Show(message, "Clock Out Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        ClockOut();
+                        ClockedOut();
+                    }
+                }
+                else
                 {
                     ClockOut();
                     ClockedOut();
                 }
+                dbConn.openConnection();
+                MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has clocked out";
+                mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                mscEventLog.ExecuteNonQuery();
+                dbConn.closeConnection();
             }
-            else
-            {
-                ClockOut();
-                ClockedOut();
-            }
+
         }
         private void ClockOut()
         {
-            DateTime clockInTime = Convert.ToDateTime(UserDetails.UserDetail.Rows[0]["clockintime"]);
-            UserDetails.UserDetail.Rows[0]["clockouttime"] = DateTime.Now;
-            UserDetails.UserDetail.Rows[0]["clockedOut"] = 1;
+            if (UserDetails.UserDetail != null && UserDetails.UserDetail.Rows.Count > 0)
+            {
+                DateTime clockInTime = Convert.ToDateTime(UserDetails.UserDetail.Rows[0]["clockintime"]);
+                UserDetails.UserDetail.Rows[0]["clockouttime"] = DateTime.Now;
+                UserDetails.UserDetail.Rows[0]["clockedOut"] = 1;
 
-            dbConn.openConnection();
+                dbConn.openConnection();
 
-            MySqlCommand mscClockOut = new(dbQuery.ClockInOut(), dbConn.getConnection());
-            mscClockOut.Parameters.Add("@p0", MySqlDbType.Int32).Value = userID;
-            mscClockOut.Parameters.Add("@p1", MySqlDbType.DateTime).Value = clockInTime;
-            mscClockOut.Parameters.Add("@p2", MySqlDbType.Int32).Value = 1;
-            mscClockOut.Parameters.Add("@p3", MySqlDbType.DateTime).Value = DateTime.Now;
-            mscClockOut.Parameters.Add("@p4", MySqlDbType.Int32).Value = 1;
-            mscClockOut.ExecuteNonQuery();
+                MySqlCommand mscClockOut = new(dbQuery.ClockInOut(), dbConn.getConnection());
+                mscClockOut.Parameters.Add("@p0", MySqlDbType.Int32).Value = userID;
+                mscClockOut.Parameters.Add("@p1", MySqlDbType.DateTime).Value = clockInTime;
+                mscClockOut.Parameters.Add("@p2", MySqlDbType.Int32).Value = 1;
+                mscClockOut.Parameters.Add("@p3", MySqlDbType.DateTime).Value = DateTime.Now;
+                mscClockOut.Parameters.Add("@p4", MySqlDbType.Int32).Value = 1;
+                mscClockOut.ExecuteNonQuery();
 
-            dbConn.closeConnection();
+                dbConn.closeConnection();
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

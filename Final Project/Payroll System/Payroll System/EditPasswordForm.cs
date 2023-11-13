@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,39 +9,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Payroll_System
 {
     public partial class EditPasswordForm : Form
     {
+
+        DBConn dbConn = new();
+
+        DBQuery dbQuery = new DBQuery();
         DataTable? retrievedTable = UserDetails.UserDetail;
-        String oldPass;
+        private string? oldPass;
+        private string? userID;
+        private string? username;
         public EditPasswordForm()
         {
             InitializeComponent();
-            oldPass = retrievedTable.Rows[0][columnName: "password"].ToString();
+            oldPass = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "password"]?.ToString() ?? string.Empty
+                : string.Empty;
+            username = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "username"]?.ToString() ?? string.Empty
+                : string.Empty;
+            userID = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "userID"]?.ToString() ?? string.Empty
+                : string.Empty;
         }
         private void ChangePassword()
         {
-            DBConn dbConn = new();
 
-            DBQuery dbQuery = new DBQuery();
-
-            string staffID = retrievedTable.Rows[0][columnName: "staffID"].ToString();
+            string staffID = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "staffID"]?.ToString() ?? string.Empty
+                : string.Empty;
+            string? txtNewPass = TxtNewPass.Text;
             using (MySqlConnection dbConnection = dbConn.getConnection())
             {
                 dbConnection.Open();
 
                 using (MySqlCommand acommand = new MySqlCommand(dbQuery.UpdateAccountPassword(), dbConnection))
                 {
-                    acommand.Parameters.Add("@p0", MySqlDbType.VarChar).Value = TxtNewPass.Text;
+                    acommand.Parameters.Add("@p0", MySqlDbType.VarChar).Value = txtNewPass;
                     acommand.Parameters.Add("@p1", MySqlDbType.VarChar).Value = staffID;
 
                     int rowsAffected = acommand.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
-                        retrievedTable.Rows[0][columnName: "password"] = TxtNewPass.Text;
+                        if (retrievedTable != null && txtNewPass != null)
+                        {
+                            retrievedTable.Rows[0][columnName: "password"] = txtNewPass;
+                        }
                         MessageBox.Show("Successfully changed Password", "Password Changed", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         TxtOldPass.Text = "";
@@ -48,7 +67,11 @@ namespace Payroll_System
                         TxtNewPass.Text = "";
                         TxtConfNewPass.Text = "";
 
-                        oldPass = retrievedTable.Rows[0][columnName: "password"].ToString();
+                        if (retrievedTable != null)
+                        {
+
+                            oldPass = retrievedTable.Rows[0][columnName: "password"].ToString();
+                        }
 
                     }
                     else
@@ -91,16 +114,55 @@ namespace Payroll_System
             else if (MessageBox.Show("Are you sure you want to Change Password?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 ChangePassword();
+                if(username != null)
+                {
+                    dbConn.openConnection();
+                    MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                    mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has changed password";
+                    mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                    mscEventLog.ExecuteNonQuery();
+                    dbConn.closeConnection();
+                }
             }
         }
-        private void CancelButton_Click(object sender, EventArgs e)
+
+        private void TxtNewPass_Enter(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to Cancel Change Password?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            lbNewPass.Hide();
+            TxtNewPass.SelectAll();
+        }
+
+        private void TxtNewPass_Leave(object sender, EventArgs e)
+        {
+            if (TxtNewPass.Text == "")
             {
-                this.Close();
+                lbNewPass.Show();
             }
         }
 
+        private void TxtConfNewPass_Enter(object sender, EventArgs e)
+        {
+            lbConfNewPass.Hide();
+            TxtConfNewPass.SelectAll();
+        }
 
+        private void TxtConfNewPass_Leave(object sender, EventArgs e)
+        {
+            if (TxtConfNewPass.Text == "")
+            {
+                lbConfNewPass.Show();
+            }
+        }
+
+        private void lbNewPass_Click(object sender, EventArgs e)
+        {
+            TxtNewPass.Focus();
+        }
+
+        private void lbConfNewPass_Click(object sender, EventArgs e)
+        {
+            TxtConfNewPass.Focus();
+        }
     }
 }

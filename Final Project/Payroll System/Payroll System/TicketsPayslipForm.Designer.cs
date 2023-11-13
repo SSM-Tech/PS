@@ -41,17 +41,17 @@
             label1.TabIndex = 0;
             label1.Text = "Payroll Ticket";
             // 
-            // TicketsPayrollForm
+            // TicketsPayslipForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1256, 660);
+            ClientSize = new Size(1232, 599);
             Controls.Add(label1);
             Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 6, 5, 6);
-            Name = "TicketsPayrollForm";
+            Name = "TicketsPayslipForm";
             Text = "TicketsPayrollForm";
             ResumeLayout(false);
             PerformLayout();

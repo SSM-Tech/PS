@@ -33,24 +33,12 @@ namespace Payroll_System
             ShowDTRTickets();
         }
 
-        private void btnPayslip_Click(object sender, EventArgs e)
-        {
-            ShowPayslipTickets();
-        }
-
 
 
         private void ShowDTRTickets()
         {
             btnDTR.BackColor = SystemColors.Control;
-            btnPayslip.BackColor = SystemColors.ActiveBorder;
             LoadForm(new TicketsDTRForm());
-        }
-        private void ShowPayslipTickets()
-        {
-            btnDTR.BackColor = BackColor = SystemColors.ActiveBorder;
-            btnPayslip.BackColor = BackColor = SystemColors.Control;
-            LoadForm(new TicketsPayslipForm());
         }
     }
 }
