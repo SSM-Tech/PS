@@ -38,7 +38,7 @@ namespace Payroll_System
                 username = retrievedTable.Rows[0][columnName: "username"]?.ToString();
                 accLevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
             }
-            serverTimer = new System.Timers.Timer(60000);
+            serverTimer = new System.Timers.Timer(30000);
             serverTimer.Elapsed += ServerTimerElapsed;
             serverTimer.AutoReset = true;
             serverTimer.Enabled = true;
@@ -46,29 +46,30 @@ namespace Payroll_System
             serverTimer.Start();
 
             FormClosing += new FormClosingEventHandler(OnFormClosing);
-            
+
             if (accLevel != "1")
             {
+                btnDeductions.Visible = true;
                 ManageAccoountFormButton.Visible = true;
                 Application.DoEvents();
             }
-            if(username != null)
+            if (username != null)
             {
                 UsernameLabel.Text = "Welcome " + username.ToUpper();
             }
             LoadForm(new HomeForm());
             BtnDefaultColors();
-            HomeFormButton.BackColor = SystemColors.ActiveBorder;
+            HomeFormButton.Enabled = false;
+            HomeFormButton.BackColor = Color.FromArgb(178, 190, 195);
         }
         private void ServerTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             CheckServerStatus();
-            if(isServerDown != true)
+            if (isServerDown != true)
             {
                 CheckAccountStatus();
                 CheckLoginStatus();
             }
-            
         }
         private void CheckServerStatus()
         {
@@ -222,7 +223,7 @@ namespace Payroll_System
                     MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
                     mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has logged out";
                     mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
                     mscEventLog.ExecuteNonQuery();
                     dbConn.closeConnection();
                 }
@@ -266,54 +267,71 @@ namespace Payroll_System
 
         private void BtnDefaultColors()
         {
-            HomeFormButton.BackColor = SystemColors.ActiveCaption;
-            AccountDetailsButton.BackColor = SystemColors.ActiveCaption;
-            DTRFormButton.BackColor = SystemColors.ActiveCaption;
-            PayslipFormButton.BackColor = SystemColors.ActiveCaption;
-            ManageAccoountFormButton.BackColor = SystemColors.ActiveCaption;
-            TicketsFormButton.BackColor = SystemColors.ActiveCaption;
-            HolidaysButton.BackColor = SystemColors.ActiveCaption;
+            HomeFormButton.BackColor = Color.FromArgb(99, 110, 114);
+            AccountDetailsButton.BackColor = Color.FromArgb(99, 110, 114);
+            DTRFormButton.BackColor = Color.FromArgb(99, 110, 114);
+            PayslipFormButton.BackColor = Color.FromArgb(99, 110, 114);
+            ManageAccoountFormButton.BackColor = Color.FromArgb(99, 110, 114);
+            TicketsFormButton.BackColor = Color.FromArgb(99, 110, 114);
+            HolidaysButton.BackColor = Color.FromArgb(99, 110, 114);
+            LogoutButton.BackColor = Color.FromArgb(99, 110, 114);
+            btnDeductions.BackColor = Color.FromArgb(99, 110, 114);
+            HomeFormButton.Enabled = true;
+            AccountDetailsButton.Enabled = true;
+            DTRFormButton.Enabled = true;
+            PayslipFormButton.Enabled = true;
+            ManageAccoountFormButton.Enabled = true;
+            TicketsFormButton.Enabled = true;
+            HolidaysButton.Enabled = true;
+            LogoutButton.Enabled = true;
+            btnDeductions.Enabled = true;
         }
 
         private void HomeFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new HomeForm());
             BtnDefaultColors();
-            HomeFormButton.BackColor = SystemColors.ActiveBorder;
+            HomeFormButton.Enabled = false;
+            HomeFormButton.BackColor = Color.FromArgb(178, 190, 195);
         }
         private void AccountDetailsButton_Click(object sender, EventArgs e)
         {
             LoadForm(new AccountDetailsForm());
             BtnDefaultColors();
-            AccountDetailsButton.BackColor = SystemColors.ActiveBorder;
+            AccountDetailsButton.Enabled = false;
+            AccountDetailsButton.BackColor = Color.FromArgb(178, 190, 195);
         }
 
         private void DTRFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new DTRForm());
             BtnDefaultColors();
-            DTRFormButton.BackColor = SystemColors.ActiveBorder;
+            DTRFormButton.Enabled = false;
+            DTRFormButton.BackColor = Color.FromArgb(178, 190, 195);
         }
 
         private void PayslipFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new PaySlipForm());
             BtnDefaultColors();
-            PayslipFormButton.BackColor = SystemColors.ActiveBorder;
+            PayslipFormButton.Enabled = false;
+            PayslipFormButton.BackColor = Color.FromArgb(178, 190, 195);
         }
 
         private void ManageAccoountFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new ManageAccountForm());
             BtnDefaultColors();
-            ManageAccoountFormButton.BackColor = SystemColors.ActiveBorder;
+            ManageAccoountFormButton.Enabled = false;
+            ManageAccoountFormButton.BackColor = Color.FromArgb(178, 190, 195);
         }
 
         private void TicketsFormButton_Click(object sender, EventArgs e)
         {
             LoadForm(new TicketsDTRForm());
             BtnDefaultColors();
-            TicketsFormButton.BackColor = SystemColors.ActiveBorder;
+            TicketsFormButton.Enabled = false;
+            TicketsFormButton.BackColor = Color.FromArgb(178, 190, 195);
         }
 
         private void MenuForm_Enter(object sender, EventArgs e)
@@ -325,7 +343,15 @@ namespace Payroll_System
         {
             LoadForm(new HolidaysForm());
             BtnDefaultColors();
-            HolidaysButton.BackColor = SystemColors.ActiveBorder;
+            HolidaysButton.Enabled = false;
+            HolidaysButton.BackColor = Color.FromArgb(178, 190, 195);
+        }
+
+        private void btnDeductions_Click(object sender, EventArgs e)
+        {
+            BtnDefaultColors();
+            btnDeductions.Enabled = false;
+            btnDeductions.BackColor = Color.FromArgb(178, 190, 195);
         }
     }
 }

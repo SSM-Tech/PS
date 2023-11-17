@@ -103,7 +103,7 @@ namespace Payroll_System
                 MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
                 mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has submitted a ticket";
                 mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
                 mscEventLog.ExecuteNonQuery();
                 dbConn.closeConnection();
                 this.Close();

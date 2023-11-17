@@ -42,20 +42,21 @@ namespace Payroll_System
                 ? retrievedTable.Rows[0][columnName: "clockedOut"]?.ToString()
                 : null;
 
-            DateTime clockIn = DateTime.Today.AddHours(1);
-            DateTime clockOut = DateTime.Today.AddHours(24);
+            DateTime clockIn = DateTime.Today.AddHours(6);
+            DateTime clockOut = DateTime.Today.AddHours(18);
 
-            if (clockIn > currentTime && clockOut < currentTime && clockedIn == "0")
+
+            if (clockIn < currentTime && clockedIn == "0" || clockIn > currentTime)
             {
                 ClockedOut();
             }
+            else if (clockedIn == "0" && clockedOut == "0")
+            {
+                ClockDefault();
+            }
             else
             {
-                if (clockedIn == "0" && clockedOut == "0")
-                {
-                    ClockDefault();
-                }
-                else if (clockedIn == "1" && clockedOut == "0")
+                if (clockedIn == "1" && clockedOut == "0")
                 {
                     ClockedIn();
                 }
@@ -111,7 +112,7 @@ namespace Payroll_System
                 MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
                 mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has clocked in";
                 mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
                 mscEventLog.ExecuteNonQuery();
 
 
@@ -147,7 +148,7 @@ namespace Payroll_System
                 MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
                 mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has clocked out";
                 mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
+                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
                 mscEventLog.ExecuteNonQuery();
                 dbConn.closeConnection();
             }
@@ -173,11 +174,6 @@ namespace Payroll_System
 
                 dbConn.closeConnection();
             }
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

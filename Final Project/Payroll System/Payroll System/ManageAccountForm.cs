@@ -172,20 +172,27 @@ namespace Payroll_System
 
                     if (cellValue != null)
                     {
-                        dbConn.openConnection();
-                        MySqlCommand mscDeleteUser = new(dbQuery.DeleteUser(), dbConn.getConnection());
-                        mscDeleteUser.Parameters.Add("@p0", MySqlDbType.Int32).Value = cellValue;
-                        mscDeleteUser.ExecuteNonQuery();
-                        dbConn.closeConnection();
-                        ShowAccounts();
+                        using (MySqlConnection connection = dbConn.getConnection())
+                        {
+                            connection.Open();
 
-                        dbConn.openConnection();
-                        MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                        mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has deleted " + cellUsername;
-                        mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                        mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
-                        mscEventLog.ExecuteNonQuery();
-                        dbConn.closeConnection();
+                            using (MySqlCommand mscDeleteUser = new MySqlCommand(dbQuery.DeleteUser(), connection))
+                            {
+                                mscDeleteUser.Parameters.Add("@p0", MySqlDbType.Int32).Value = cellValue;
+                                mscDeleteUser.ExecuteNonQuery();
+                            }
+                            using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), connection))
+                            {
+                                mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = $"{username.ToLower()} has deleted {cellUsername}";
+                                mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
+
+                                mscEventLog.ExecuteNonQuery();
+                            }
+                            
+                        }
+
+                        ShowAccounts();
                     }
                     else
                     {

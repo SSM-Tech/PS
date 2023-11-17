@@ -665,7 +665,7 @@
             Margin = new Padding(3, 6, 3, 6);
             Name = "ViewPayslipForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ViewPayslipForm";
+            Text = "jo";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel4.ResumeLayout(false);

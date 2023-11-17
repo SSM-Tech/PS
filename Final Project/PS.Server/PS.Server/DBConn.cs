@@ -14,26 +14,34 @@ namespace PS.Server
         {
             try
             {
-                if (mySqlConnection.State == System.Data.ConnectionState.Closed)
-            {
-                mySqlConnection.Open();
+                if (mySqlConnection != null)
+                {
+                    if (mySqlConnection.State == System.Data.ConnectionState.Closed)
+                    {
+                        mySqlConnection.Open();
+                    }
+                }
             }
-            }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show("Open> " + e.Message);
             }
         }
         public void closeConnection()
         {
             try
             {
-                if (mySqlConnection.State == System.Data.ConnectionState.Open)
+                if (mySqlConnection != null)
                 {
-                    mySqlConnection.Close();
+                    if (mySqlConnection.State == System.Data.ConnectionState.Open)
+                    {
+                        mySqlConnection.Close();
+                    }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show("Close> " + e.Message);
             }
         }
         public MySqlConnection getConnection()

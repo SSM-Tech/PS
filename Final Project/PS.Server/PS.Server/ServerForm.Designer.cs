@@ -159,7 +159,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlDarkDark;
+            BackColor = Color.FromArgb(99, 110, 114);
             ClientSize = new Size(994, 543);
             Controls.Add(btnLogoffAll);
             Controls.Add(txtStatus);

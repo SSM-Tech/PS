@@ -32,7 +32,7 @@ namespace PS.Server
             serverTimer = new System.Timers.Timer(3600000);
             serverTimer.Elapsed += ServerTimerElapsed;
             serverTimer.AutoReset = true;
-            serverTimer.Start();
+
 
             logsTimer = new System.Timers.Timer(10000);
             logsTimer.Elapsed += LogsTimerElapsed;
@@ -42,7 +42,6 @@ namespace PS.Server
             loadingTimer.Elapsed += LoadingTimerElapsed;
             loadingTimer.Start();
 
-            dbConn.openConnection();
             MySqlDataAdapter? mscAdapter = new();
 
             MySqlCommand? mscSearchAcc;
@@ -50,7 +49,6 @@ namespace PS.Server
             mscAdapter.SelectCommand = mscSearchAcc;
             mscAdapter.Fill(dtServerStatus);
 
-            dbConn.closeConnection();
         }
         private void ServerForm_Load(object? sender, EventArgs e)
         {
@@ -59,9 +57,7 @@ namespace PS.Server
         }
         private void ServerTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-
             PayslipGenerator();
-            GetAllUserID();
             GeneratePayslipDetails();
             GenerateDTRTotalHours();
             FillPayrollDetail();
@@ -77,7 +73,7 @@ namespace PS.Server
         }
         private void LoadingTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            if(dtServerStatus != null)
+            if (dtServerStatus != null)
             {
                 int serverStatus = (int)dtServerStatus.Rows[0][columnName: "status"];
 
@@ -92,7 +88,6 @@ namespace PS.Server
             }
 
             PayslipGenerator();
-            GetAllUserID();
             GeneratePayslipDetails();
             GenerateDTRTotalHours();
             FillPayrollDetail();
@@ -108,74 +103,46 @@ namespace PS.Server
                 EventLog();
                 storedTotalLog = newTotalLog;
             }
+            serverTimer.Start();
             logsTimer.Start();
             loadingTimer.Stop();
         }
         private void PayslipGenerator()
         {
-
-            dbConn.openConnection();
             try
             {
-                MySqlCommand mscServerCheck = new(dbQuery.PayslipGenerator(), dbConn.getConnection());
-                int rowsAffected = mscServerCheck.ExecuteNonQuery();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                dbConn.closeConnection();
-            }
-        }
-        private void GetAllUserID()
-        {
-            if(dtUserID != null)
-            { 
-                dtUserID.Rows.Clear();
-            }
-
-            MySqlDataAdapter? mscAdapter = new();
-
-            MySqlCommand? mscSearchAcc;
-            mscSearchAcc = new(dbQuery.GetAllUserID(), dbConn.getConnection());
-            if (mscAdapter != null && mscSearchAcc != null)
-            {
-                mscAdapter.SelectCommand = mscSearchAcc;
-                if (dtUserID != null)
+                using (MySqlConnection connection = dbConn.getConnection())
                 {
-                    mscAdapter.SelectCommand = mscSearchAcc;
-                    if (dtUserID.Rows != null)
+                    connection.Open();
+
+                    using (MySqlCommand mscPayslipGenerator = new(dbQuery.PayslipGenerator(), connection))
                     {
-                        mscAdapter.Fill(dtUserID);
+                        mscPayslipGenerator.ExecuteNonQuery();
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("GeneratePayslipDetails> " + ex.Message);
+            }
         }
         private void GeneratePayslipDetails()
         {
             try
             {
-                dbConn.openConnection();
-                if (dtUserID != null)
+                using (MySqlConnection connection = dbConn.getConnection())
                 {
-                    foreach (DataRow row in dtUserID.Rows)
+                    connection.Open();
+
+                    using (MySqlCommand mscGeneratePayslipDet = new MySqlCommand(dbQuery.GeneratePayslipDetails(), connection))
                     {
-                        int userID = Convert.ToInt32(row["userID"]);
-                        MySqlCommand mscGeneratePayslipDet = new MySqlCommand(dbQuery.GeneratePayslipDetails(), dbConn.getConnection());
-                        mscGeneratePayslipDet.Parameters.Clear();
-                        mscGeneratePayslipDet.Parameters.Add("@p0", MySqlDbType.Int32).Value = userID;
-                        int rowsAffected = mscGeneratePayslipDet.ExecuteNonQuery();
+                        mscGeneratePayslipDet.ExecuteNonQuery();
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-            }
-            finally
-            {
-                dbConn.closeConnection();
+                MessageBox.Show("GeneratePayslipDetails> " + ex.Message);
             }
         }
         private void btnStart_Click(object sender, EventArgs e)
@@ -186,7 +153,6 @@ namespace PS.Server
                 ServerStarted();
                 GetTotalNumberOfLogs();
                 storedTotalLog = newTotalLog;
-                
             }
             ScrollToBottom();
         }
@@ -204,30 +170,23 @@ namespace PS.Server
         }
         private void StartServer()
         {
-            try
+            using (MySqlConnection connection = dbConn.getConnection())
             {
-                dbConn.openConnection();
+                connection.Open();
 
-                MySqlCommand mscChangeServerStats = new MySqlCommand(dbQuery.ChangeServerStatus(), dbConn.getConnection());
-                mscChangeServerStats.Parameters.Add("@p0", MySqlDbType.Int32).Value = 1;
-                mscChangeServerStats.ExecuteNonQuery();
-
-                dbConn.closeConnection();
-
-                dbConn.openConnection();
-
-                MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = "Server Started";
-                mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = null;
-                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
-                mscEventLog.ExecuteNonQuery();
-
-                dbConn.closeConnection();
+                using (MySqlCommand mscChangeServerStats = new MySqlCommand(dbQuery.ChangeServerStatus(), connection))
+                {
+                    mscChangeServerStats.Parameters.Add("@p0", MySqlDbType.Int32).Value = 1;
+                    mscChangeServerStats.ExecuteNonQuery();
+                }
+                using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), connection))
+                {
+                    mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = "Server Started";
+                    mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = 0;
+                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
+                    mscEventLog.ExecuteNonQuery();
+                }
             }
-            catch
-            {
-            }
-
             EventLog();
         }
         private void ServerStarted()
@@ -245,30 +204,24 @@ namespace PS.Server
         }
         private void TerminateServer()
         {
-            try
+            using (MySqlConnection connection = dbConn.getConnection())
             {
-                dbConn.openConnection();
+                connection.Open();
 
-                MySqlCommand mscChangeServerStats = new MySqlCommand(dbQuery.ChangeServerStatus(), dbConn.getConnection());
-                mscChangeServerStats.Parameters.Add("@p0", MySqlDbType.Int32).Value = 0;
-                mscChangeServerStats.ExecuteNonQuery();
+                using (MySqlCommand mscChangeServerStats = new MySqlCommand(dbQuery.ChangeServerStatus(), connection))
+                {
+                    mscChangeServerStats.Parameters.Add("@p0", MySqlDbType.Int32).Value = 0;
+                    mscChangeServerStats.ExecuteNonQuery();
+                }
 
-                dbConn.closeConnection();
-
-                dbConn.openConnection();
-
-                MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = "Server Terminated";
-                mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = null;
-                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
-                mscEventLog.ExecuteNonQuery();
-
-                dbConn.closeConnection();
+                using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), connection))
+                {
+                    mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = "Server Terminated";
+                    mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = 0;
+                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
+                    mscEventLog.ExecuteNonQuery();
+                }
             }
-            catch
-            {
-            }
-
             EventLog();
         }
         private void ServerTerminated()
@@ -288,19 +241,19 @@ namespace PS.Server
         {
             try
             {
-                dbConn.openConnection();
+                using (MySqlConnection connection = dbConn.getConnection())
+                {
+                    connection.Open();
 
-                MySqlCommand mscChangeServerStats = new MySqlCommand(dbQuery.GetTotalNumberOfLogs(), dbConn.getConnection());
-                newTotalLog = Convert.ToInt32(mscChangeServerStats.ExecuteScalar());
-
+                    using (MySqlCommand command = new MySqlCommand(dbQuery.GetTotalNumberOfLogs(), connection))
+                    {
+                        newTotalLog = Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-            finally
-            {
-                dbConn.closeConnection();
+                MessageBox.Show($"Error in GetTotalNumberOfLogs(): {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void EventLog()
@@ -320,13 +273,20 @@ namespace PS.Server
                     try
                     {
                         dtEventLogs.Rows.Clear();
-                        dbConn.openConnection();
+
                         MySqlDataAdapter? msdEventLog = new();
-                        MySqlCommand? mscEventLog;
-                        mscEventLog = new(dbQuery.CallEventLogs(), dbConn.getConnection());
-                        msdEventLog.SelectCommand = mscEventLog;
-                        msdEventLog.Fill(dtEventLogs);
-                        dbConn.closeConnection();
+                        MySqlCommand? mscEventLog = new();
+
+                        using (MySqlConnection connection = dbConn.getConnection())
+                        {
+                            connection.Open();
+
+                            using (mscEventLog = new(dbQuery.CallEventLogs(), connection))
+                            {
+                                msdEventLog.SelectCommand = mscEventLog;
+                                msdEventLog.Fill(dtEventLogs);
+                            }
+                        }
 
                         richTextBox1.Invoke((MethodInvoker)delegate
                         {
@@ -345,8 +305,10 @@ namespace PS.Server
 
                         break;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Console.WriteLine("EventLog> " + ex.Message);
+
                         retryCount++;
                         Thread.Sleep(1000);
                     }
@@ -360,19 +322,24 @@ namespace PS.Server
 
         private void GenerateDTRTotalHours()
         {
-            MySqlCommand mscUpdateDTRTotalHours = new(dbQuery.GenerateDTRTotalHours(), dbConn.getConnection());
-            dbConn.openConnection();
             try
             {
-                int rowsAffected = mscUpdateDTRTotalHours.ExecuteNonQuery();
+                using(MySqlConnection connection = dbConn.getConnection())
+                {
+                    connection.Open();
+
+                    using (MySqlCommand mscUpdateDTRTotalHours = new(dbQuery.GenerateDTRTotalHours(), connection))
+                    {
+                        mscUpdateDTRTotalHours.ExecuteNonQuery();
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error executing the query: " + ex.Message);
+                Console.WriteLine("GenerateDTRTotalHours>" + ex.Message);
             }
             finally
             {
-                dbConn.closeConnection();
             }
         }
 
@@ -380,49 +347,50 @@ namespace PS.Server
         {
             DateTime currentDate = DateTime.Now;
             string formattedDate = currentDate.ToString("yyyy-MM-dd");
-            try
+            if (dtUserID != null)
             {
-                dbConn.openConnection();
-                if (dtUserID != null)
+                foreach (DataRow row in dtUserID.Rows)
                 {
-
-                    foreach (DataRow row in dtUserID.Rows)
+                    if (int.TryParse(row["userID"].ToString(), out int userID))
                     {
-                        int userID = Convert.ToInt32(row["userID"]);
-                        MySqlCommand mscGeneratePayslipDet = new MySqlCommand(dbQuery.FillPayrollDetail(), dbConn.getConnection());
-                        mscGeneratePayslipDet.Parameters.Clear();
-                        mscGeneratePayslipDet.Parameters.AddWithValue("@p0", userID);
-                        mscGeneratePayslipDet.Parameters.AddWithValue("@p1", formattedDate);
-
                         try
                         {
-                            int rowsAffected = mscGeneratePayslipDet.ExecuteNonQuery();
+                            using (MySqlCommand mscGeneratePayslipDet = new MySqlCommand(dbQuery.FillPayrollDetail(), dbConn.getConnection()))
+                            {
+                                mscGeneratePayslipDet.Parameters.Clear();
+                                mscGeneratePayslipDet.Parameters.AddWithValue("@p0", userID);
+                                mscGeneratePayslipDet.Parameters.AddWithValue("@p1", formattedDate);
+
+                                mscGeneratePayslipDet.ExecuteNonQuery();
+                            }
                         }
-                        catch
+                        catch (Exception ex)
                         {
+                            MessageBox.Show($"Error processing userID {userID}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show($"Invalid userID format: {row["userID"]}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                dbConn.closeConnection();
-            }
-            catch
-            {
             }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             PayslipGenerator();
-            GetAllUserID();
             GeneratePayslipDetails();
+            GenerateDTRTotalHours();
+            FillPayrollDetail();
+
             GetTotalNumberOfLogs();
             if (newTotalLog > storedTotalLog)
             {
                 EventLog();
                 storedTotalLog = newTotalLog;
             }
-            GenerateDTRTotalHours();
-            FillPayrollDetail();
+
             ScrollToBottom();
         }
 
@@ -436,17 +404,11 @@ namespace PS.Server
         {
             if (MessageBox.Show("Are you sure you want to Exit the Server?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                if (txtStatus.Text == "RUNNING")
-                {
-                    if (MessageBox.Show("Do you want to Terminate the Server first?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                    {
-                        TerminateServer();
-                    }
-                }
                 isServerTerminated = true;
-                Application.Exit();
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
+                this.Close();
             }
-            ScrollToBottom();
         }
 
         private void ServerForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -468,21 +430,31 @@ namespace PS.Server
         {
             if (MessageBox.Show("Are you sure you want to Logout all users?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                dbConn.openConnection();
-                MySqlCommand mscClockIn = new(dbQuery.LogoutAll(), dbConn.getConnection());
-                mscClockIn.ExecuteNonQuery();
 
-                MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = "Logging out all users";
-                mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = null;
-                mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
-                mscEventLog.ExecuteNonQuery();
+                using (MySqlConnection connection = dbConn.getConnection())
+                {
+                    connection.Open();
+
+                    using (MySqlCommand mscClockIn = new MySqlCommand(dbQuery.LogoutAll(), connection))
+                    {
+                        mscClockIn.ExecuteNonQuery();
+                    }
+
+                    using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), connection))
+                    {
+                        mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = "Logging out all users";
+                        mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = 0;
+                        mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
+                        mscEventLog.ExecuteNonQuery();
+                    }
+                }
+
 
                 EventLog();
                 GetTotalNumberOfLogs();
                 storedTotalLog = newTotalLog;
-                dbConn.closeConnection();
             }
+
             ScrollToBottom();
         }
         private void ScrollToBottom()

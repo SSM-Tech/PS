@@ -19,6 +19,8 @@ namespace Payroll_System
         {
             InitializeComponent();
             ShowAccDetails();
+            btnShowDetails.UseVisualStyleBackColor = false;
+            btnChangePass.UseVisualStyleBackColor = false;
         }
         public void LoadForm(object? Form)
         {
@@ -40,13 +42,17 @@ namespace Payroll_System
 
         private void ShowAccDetails()
         {
+            btnShowDetails.Enabled = false;
+            btnChangePass.Enabled = true;
             btnShowDetails.BackColor = SystemColors.Control;
-            btnChangePass.BackColor = SystemColors.ActiveBorder;
+            btnChangePass.BackColor = Color.FromArgb(178, 190, 195);
             LoadForm(new AccountDetailsShowForm());
         }
         private void ChangePassword()
         {
-            btnShowDetails.BackColor = SystemColors.ActiveBorder;
+            btnShowDetails.Enabled = true;
+            btnChangePass.Enabled = false;
+            btnShowDetails.BackColor = Color.FromArgb(178, 190, 195);
             btnChangePass.BackColor = SystemColors.Control;
             LoadForm(new EditPasswordForm());
         }

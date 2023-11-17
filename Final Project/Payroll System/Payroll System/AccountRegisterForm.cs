@@ -80,6 +80,7 @@ namespace Payroll_System
             string position = txtBPosition.Text;
             decimal salary = decimal.Parse(txtBSalary.Text);
             decimal allowance = decimal.Parse(txtBSalary.Text);
+
             using (MySqlConnection dbConnection = dbConn.getConnection())
             {
                 dbConnection.Open();
@@ -99,35 +100,20 @@ namespace Payroll_System
                     regCommand.Parameters.Add("@p10", MySqlDbType.VarChar).Value = "1";
                     regCommand.Parameters.Add("@p11", MySqlDbType.VarChar).Value = accountLevel;
 
-                    int rowsAffected = regCommand.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                        if (username != null)
-                        {
-                            MessageBox.Show("Username: " + generatedUsername + "\nPassword: " + password, "Successfully Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            OnRegistrationSuccess(EventArgs.Empty);
-
-                            dbConn.openConnection();
-                            MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " registered " + generatedUsername;
-                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
-                            mscEventLog.ExecuteNonQuery();
-                            dbConn.closeConnection();
-
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Failed to Register.", "Register", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to Register.", "Register", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    regCommand.ExecuteNonQuery();
                 }
+
+                using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConnection))
+                {
+                    string logMessage = $"{(username?.ToLower() ?? string.Empty)} has registered {generatedUsername} account";
+                    mscEventLog.Parameters.AddWithValue("@p0", logMessage);
+                    mscEventLog.Parameters.AddWithValue("@p1", userID);
+                    mscEventLog.Parameters.AddWithValue("@p2", 1);
+                    mscEventLog.ExecuteNonQuery();
+                }
+                MessageBox.Show("Username: " + generatedUsername + "\nPassword: " + password, "Successfully Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                OnRegistrationSuccess(EventArgs.Empty);
+                this.Hide();
             }
         }
         protected virtual void OnRegistrationSuccess(EventArgs e)

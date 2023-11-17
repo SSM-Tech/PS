@@ -171,7 +171,7 @@
             // 
             HidePasswordIcon.BackColor = SystemColors.Control;
             HidePasswordIcon.Image = Properties.Resources.hidePasswordIcon;
-            HidePasswordIcon.Location = new Point(350, 221);
+            HidePasswordIcon.Location = new Point(390, 221);
             HidePasswordIcon.Name = "HidePasswordIcon";
             HidePasswordIcon.Size = new Size(25, 25);
             HidePasswordIcon.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -195,7 +195,7 @@
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.FromArgb(99, 110, 114);
             ClientSize = new Size(442, 400);
             Controls.Add(ShowPasswordIcon);
             Controls.Add(HidePasswordIcon);

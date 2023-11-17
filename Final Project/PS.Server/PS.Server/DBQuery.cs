@@ -10,8 +10,7 @@ namespace PS.Server
     internal class DBQuery
     {
         private string payslipGenerator = @"CALL `CheckAndGeneratePayslip`()";
-        private string getAllUserID = @"CALL `getAllUserID`()";
-        private string generatePayslipDetails = @"CALL `GeneratePayslipDetails`(@p0)";
+        private string generatePayslipDetails = @"CALL `GeneratePayslipDetails`()";
         private string checkServerStatus = @"CALL `CheckServerStatus`()";
         private string changeServerStatus = @"CALL `ChangeServerStatus`(@p0)";
         private string eventLog = @"CALL `EventLog`(@p0, @p1, @p2)";
@@ -25,10 +24,6 @@ namespace PS.Server
         public string PayslipGenerator()
         {
             return payslipGenerator;
-        }
-        public string GetAllUserID()
-        {
-            return getAllUserID;
         }
         public string GeneratePayslipDetails()
         {

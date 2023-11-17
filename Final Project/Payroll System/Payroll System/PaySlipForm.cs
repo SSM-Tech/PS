@@ -95,7 +95,7 @@ namespace Payroll_System
             {
                 MessageBox.Show("Select a row first");
             }
-            
+
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

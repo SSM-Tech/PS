@@ -55,7 +55,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = SystemColors.ActiveBorder;
+            panel1.BackColor = Color.FromArgb(178, 190, 195);
             panel1.Controls.Add(btnShowDetails);
             panel1.Controls.Add(btnChangePass);
             panel1.Dock = DockStyle.Top;
@@ -80,7 +80,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = SystemColors.ActiveBorder;
+            panel2.BackColor = Color.FromArgb(178, 190, 195);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 49);
             panel2.Name = "panel2";
@@ -89,7 +89,7 @@
             // 
             // panel3
             // 
-            panel3.BackColor = SystemColors.ActiveBorder;
+            panel3.BackColor = Color.FromArgb(178, 190, 195);
             panel3.Dock = DockStyle.Bottom;
             panel3.Location = new Point(12, 648);
             panel3.Name = "panel3";
@@ -98,7 +98,7 @@
             // 
             // panel4
             // 
-            panel4.BackColor = SystemColors.ActiveBorder;
+            panel4.BackColor = Color.FromArgb(178, 190, 195);
             panel4.Dock = DockStyle.Right;
             panel4.Location = new Point(1244, 49);
             panel4.Name = "panel4";

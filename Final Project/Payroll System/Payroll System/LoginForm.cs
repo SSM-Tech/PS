@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,105 +16,144 @@ namespace Payroll_System
     public partial class LoginForm : Form
     {
         DataTable? userDataTable = new();
+        DataTable? dtServerCheck = new();
+        DataTable? table = new();
         DBConn dbConn = new();
         DBQuery dbQuery = new DBQuery();
+        string? username;
+        string? password;
+        string? staffID;
         public LoginForm()
         {
             InitializeComponent();
         }
-        private void Login()
+        private void ServerCheck()
         {
-            DataTable? dtServerCheck = new();
-
             MySqlDataAdapter msdServerCheck = new();
 
             MySqlCommand mscServerCheck = new(dbQuery.CheckServerStatus(), dbConn.getConnection());
 
             msdServerCheck.SelectCommand = mscServerCheck;
 
-            msdServerCheck.Fill(dtServerCheck);
-            int status = (int)dtServerCheck.Rows[0][columnName: "status"];
-            if (status != 0)
+            if (dtServerCheck != null)
             {
-                string username = UsernameTextBox.Text.ToString();
-                string password = PasswordTextBox.Text.ToString();
+                msdServerCheck.Fill(dtServerCheck);
+            }
+        }
+        private void CheckAccountIfExist()
+        {
+            username = UsernameTextBox.Text.ToString();
+            password = PasswordTextBox.Text.ToString();
 
-                DataTable? table = new();
+            MySqlDataAdapter adapter = new();
 
-                MySqlDataAdapter adapter = new();
+            MySqlCommand command = new(dbQuery.LoginQuery(), dbConn.getConnection());
 
-                MySqlCommand command = new(dbQuery.LoginQuery(), dbConn.getConnection());
+            command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username;
+            command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = password;
 
-                command.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username;
-                command.Parameters.Add("@p1", MySqlDbType.VarChar).Value = password;
+            adapter.SelectCommand = command;
 
-                adapter.SelectCommand = command;
-
+            if (table != null)
+            {
                 adapter.Fill(table);
+            }
+        }
+        private void GetUserDetails()
+        {
+            if (table != null)
+            {
+                staffID = table.Rows[0][columnName: "staffID"].ToString();
+                MySqlDataAdapter mscAdapter = new();
 
-                int rowCheck = 0;
+                MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
 
-                if (table.Rows.Count > rowCheck)
+                mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
+
+                mscAdapter.SelectCommand = mscUserDetail;
+
+                if (userDataTable != null)
                 {
-                    var isEnabled = table.Rows[rowCheck][columnName: "isEnabled"].ToString();
+                    mscAdapter.Fill(userDataTable);
+                    UserDetails.UserDetail = userDataTable;
+                }
+            }
+        }
+        private void GenerateEventLog()
+        {
+            if (username != null)
+            {
+                using (MySqlConnection connection = dbConn.getConnection())
+                {
+                    connection.Open();
 
-                    if (isEnabled == "1")
+                    using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), connection))
                     {
-                        var isLoggedIn = table.Rows[rowCheck][columnName: "isLoggedIn"].ToString();
-                        if (isLoggedIn != "1")
+                        mscEventLog.Parameters.AddWithValue("@p0", $"{username.ToLower()} has logged in");
+                        mscEventLog.Parameters.AddWithValue("@p1", staffID);
+                        mscEventLog.Parameters.AddWithValue("@p2", 1);
+
+                        mscEventLog.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        private void Login()
+        {
+            ServerCheck();
+
+            if (dtServerCheck != null && dtServerCheck.Rows.Count > 0)
+            {
+                int status = (int)dtServerCheck.Rows[0][columnName: "status"];
+
+                if (status != 0)
+                {
+                    CheckAccountIfExist();
+
+                    int rowCheck = 0;
+
+                    if (table != null && table.Rows.Count > rowCheck)
+                    {
+                        var isEnabled = table.Rows[rowCheck][columnName: "isEnabled"].ToString();
+
+                        if (isEnabled == "1")
                         {
-                            string? staffID = table.Rows[rowCheck][columnName: "staffID"].ToString();
-
-                            MySqlDataAdapter mscAdapter = new();
-
-                            MySqlCommand mscUserDetail = new(dbQuery.UserDetailsQuery(), dbConn.getConnection());
-
-                            mscUserDetail.Parameters.Add("@p0", MySqlDbType.Double).Value = staffID;
-
-                            mscAdapter.SelectCommand = mscUserDetail;
-
-                            if (userDataTable != null)
+                            var isLoggedIn = table.Rows[rowCheck][columnName: "isLoggedIn"].ToString();
+                            if (isLoggedIn != "1")
                             {
-                                mscAdapter.Fill(userDataTable);
+                                GetUserDetails();
+                                LoginStatus();
+                                GenerateEventLog();
+
+                                MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.Hide();
+                                new MenuForm().Show();
                             }
-
-                            UserDetails.UserDetail = userDataTable;
-
-                            LoginStatus();
-
-                            dbConn.openConnection();
-                            MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has logged in";
-                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = staffID;
-                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
-                            mscEventLog.ExecuteNonQuery();
-                            dbConn.closeConnection();
-
-                            MessageBox.Show("Succesfuly Logged In", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Hide();
-                            new MenuForm().Show();
+                            else
+                            {
+                                MessageBox.Show("Account is currently Logged In in other Device", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("Account is currently Logged In in other Device", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("Your Account is currently locked, please contact HR for assistance", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Your Account is currently locked, please contact HR for assistance", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Server is currently down, please wait...", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                table.Rows.Clear();
             }
-            else
+            if (table != null && dtServerCheck != null)
             {
-                MessageBox.Show("Server is currently down, please wait...", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                table.Rows.Clear();
+                dtServerCheck.Rows.Clear();
             }
-            dtServerCheck.Rows.Clear();
         }
 
         private void LoginStatus()

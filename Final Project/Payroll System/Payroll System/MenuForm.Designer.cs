@@ -32,6 +32,10 @@
             HeaderPanel = new Panel();
             UsernameLabel = new Label();
             SidePanel = new Panel();
+            btnDeductions = new Button();
+            panel2 = new Panel();
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
             HolidaysButton = new Button();
             LogoutButton = new Button();
             HomeFormButton = new Button();
@@ -43,11 +47,12 @@
             MainPanel = new Panel();
             HeaderPanel.SuspendLayout();
             SidePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // HeaderPanel
             // 
-            HeaderPanel.BackColor = SystemColors.ActiveCaption;
+            HeaderPanel.BackColor = Color.FromArgb(45, 52, 54);
             HeaderPanel.Controls.Add(UsernameLabel);
             HeaderPanel.Dock = DockStyle.Top;
             HeaderPanel.Location = new Point(0, 0);
@@ -58,6 +63,7 @@
             // UsernameLabel
             // 
             UsernameLabel.AutoSize = true;
+            UsernameLabel.ForeColor = Color.White;
             UsernameLabel.Location = new Point(3, 8);
             UsernameLabel.Name = "UsernameLabel";
             UsernameLabel.Size = new Size(221, 29);
@@ -66,7 +72,11 @@
             // 
             // SidePanel
             // 
-            SidePanel.BackColor = SystemColors.ActiveCaption;
+            SidePanel.BackColor = Color.FromArgb(99, 110, 114);
+            SidePanel.Controls.Add(btnDeductions);
+            SidePanel.Controls.Add(panel2);
+            SidePanel.Controls.Add(panel1);
+            SidePanel.Controls.Add(pictureBox1);
             SidePanel.Controls.Add(HolidaysButton);
             SidePanel.Controls.Add(LogoutButton);
             SidePanel.Controls.Add(HomeFormButton);
@@ -76,21 +86,66 @@
             SidePanel.Controls.Add(PayslipFormButton);
             SidePanel.Controls.Add(ManageAccoountFormButton);
             SidePanel.Dock = DockStyle.Left;
+            SidePanel.ForeColor = SystemColors.ActiveCaptionText;
             SidePanel.Location = new Point(0, 40);
             SidePanel.Name = "SidePanel";
             SidePanel.Size = new Size(244, 660);
             SidePanel.TabIndex = 14;
+            // 
+            // btnDeductions
+            // 
+            btnDeductions.BackColor = SystemColors.Control;
+            btnDeductions.FlatAppearance.BorderSize = 0;
+            btnDeductions.FlatStyle = FlatStyle.Flat;
+            btnDeductions.ForeColor = SystemColors.ActiveCaptionText;
+            btnDeductions.Image = Properties.Resources.deduction;
+            btnDeductions.ImageAlign = ContentAlignment.MiddleLeft;
+            btnDeductions.Location = new Point(0, 532);
+            btnDeductions.Name = "btnDeductions";
+            btnDeductions.Size = new Size(244, 46);
+            btnDeductions.TabIndex = 11;
+            btnDeductions.Text = "DEDUCTIONS";
+            btnDeductions.UseVisualStyleBackColor = false;
+            btnDeductions.Visible = false;
+            btnDeductions.Click += btnDeductions_Click;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(45, 52, 54);
+            panel2.Location = new Point(3, 200);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(235, 5);
+            panel2.TabIndex = 10;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(45, 52, 54);
+            panel1.Location = new Point(6, 591);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(235, 5);
+            panel1.TabIndex = 9;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.Payroll_System;
+            pictureBox1.Location = new Point(6, 6);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(232, 188);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 8;
+            pictureBox1.TabStop = false;
             // 
             // HolidaysButton
             // 
             HolidaysButton.BackColor = SystemColors.Control;
             HolidaysButton.FlatAppearance.BorderSize = 0;
             HolidaysButton.FlatStyle = FlatStyle.Flat;
+            HolidaysButton.ForeColor = SystemColors.ActiveCaptionText;
             HolidaysButton.Image = Properties.Resources.holiday;
             HolidaysButton.ImageAlign = ContentAlignment.MiddleLeft;
-            HolidaysButton.Location = new Point(6, 175);
+            HolidaysButton.Location = new Point(0, 440);
             HolidaysButton.Name = "HolidaysButton";
-            HolidaysButton.Size = new Size(238, 35);
+            HolidaysButton.Size = new Size(244, 46);
             HolidaysButton.TabIndex = 7;
             HolidaysButton.Text = "HOLIDAYS";
             HolidaysButton.UseVisualStyleBackColor = false;
@@ -98,14 +153,14 @@
             // 
             // LogoutButton
             // 
-            LogoutButton.BackColor = SystemColors.GrayText;
+            LogoutButton.BackColor = Color.Red;
             LogoutButton.FlatAppearance.BorderSize = 0;
             LogoutButton.FlatStyle = FlatStyle.Flat;
             LogoutButton.Image = Properties.Resources.logout;
             LogoutButton.ImageAlign = ContentAlignment.MiddleLeft;
-            LogoutButton.Location = new Point(3, 613);
+            LogoutButton.Location = new Point(0, 602);
             LogoutButton.Name = "LogoutButton";
-            LogoutButton.Size = new Size(238, 35);
+            LogoutButton.Size = new Size(244, 46);
             LogoutButton.TabIndex = 6;
             LogoutButton.Text = "LOGOUT";
             LogoutButton.UseVisualStyleBackColor = false;
@@ -113,15 +168,15 @@
             // 
             // HomeFormButton
             // 
-            HomeFormButton.BackColor = SystemColors.ActiveCaption;
+            HomeFormButton.BackColor = SystemColors.Control;
             HomeFormButton.FlatAppearance.BorderSize = 0;
             HomeFormButton.FlatStyle = FlatStyle.Flat;
-            HomeFormButton.ForeColor = SystemColors.ControlText;
+            HomeFormButton.ForeColor = SystemColors.ActiveCaptionText;
             HomeFormButton.Image = Properties.Resources.home;
             HomeFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            HomeFormButton.Location = new Point(6, 0);
+            HomeFormButton.Location = new Point(0, 211);
             HomeFormButton.Name = "HomeFormButton";
-            HomeFormButton.Size = new Size(238, 35);
+            HomeFormButton.Size = new Size(244, 46);
             HomeFormButton.TabIndex = 0;
             HomeFormButton.Text = "HOME";
             HomeFormButton.UseVisualStyleBackColor = false;
@@ -132,11 +187,12 @@
             AccountDetailsButton.BackColor = SystemColors.Control;
             AccountDetailsButton.FlatAppearance.BorderSize = 0;
             AccountDetailsButton.FlatStyle = FlatStyle.Flat;
+            AccountDetailsButton.ForeColor = SystemColors.ActiveCaptionText;
             AccountDetailsButton.Image = Properties.Resources.profile;
             AccountDetailsButton.ImageAlign = ContentAlignment.MiddleLeft;
-            AccountDetailsButton.Location = new Point(6, 35);
+            AccountDetailsButton.Location = new Point(0, 256);
             AccountDetailsButton.Name = "AccountDetailsButton";
-            AccountDetailsButton.Size = new Size(238, 35);
+            AccountDetailsButton.Size = new Size(244, 46);
             AccountDetailsButton.TabIndex = 1;
             AccountDetailsButton.Text = "ACCOUNT DETAILS";
             AccountDetailsButton.UseVisualStyleBackColor = false;
@@ -147,11 +203,12 @@
             TicketsFormButton.BackColor = SystemColors.Control;
             TicketsFormButton.FlatAppearance.BorderSize = 0;
             TicketsFormButton.FlatStyle = FlatStyle.Flat;
+            TicketsFormButton.ForeColor = SystemColors.ActiveCaptionText;
             TicketsFormButton.Image = Properties.Resources.tickets;
             TicketsFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            TicketsFormButton.Location = new Point(6, 140);
+            TicketsFormButton.Location = new Point(0, 394);
             TicketsFormButton.Name = "TicketsFormButton";
-            TicketsFormButton.Size = new Size(238, 35);
+            TicketsFormButton.Size = new Size(244, 46);
             TicketsFormButton.TabIndex = 5;
             TicketsFormButton.Text = "TICKETS";
             TicketsFormButton.UseVisualStyleBackColor = false;
@@ -162,11 +219,12 @@
             DTRFormButton.BackColor = SystemColors.Control;
             DTRFormButton.FlatAppearance.BorderSize = 0;
             DTRFormButton.FlatStyle = FlatStyle.Flat;
+            DTRFormButton.ForeColor = SystemColors.ActiveCaptionText;
             DTRFormButton.Image = Properties.Resources.dtr;
             DTRFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            DTRFormButton.Location = new Point(6, 70);
+            DTRFormButton.Location = new Point(0, 302);
             DTRFormButton.Name = "DTRFormButton";
-            DTRFormButton.Size = new Size(238, 35);
+            DTRFormButton.Size = new Size(244, 46);
             DTRFormButton.TabIndex = 2;
             DTRFormButton.Text = "DTR";
             DTRFormButton.UseVisualStyleBackColor = false;
@@ -177,11 +235,12 @@
             PayslipFormButton.BackColor = SystemColors.Control;
             PayslipFormButton.FlatAppearance.BorderSize = 0;
             PayslipFormButton.FlatStyle = FlatStyle.Flat;
+            PayslipFormButton.ForeColor = SystemColors.ActiveCaptionText;
             PayslipFormButton.Image = Properties.Resources.payslip;
             PayslipFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            PayslipFormButton.Location = new Point(6, 105);
+            PayslipFormButton.Location = new Point(0, 348);
             PayslipFormButton.Name = "PayslipFormButton";
-            PayslipFormButton.Size = new Size(238, 35);
+            PayslipFormButton.Size = new Size(244, 46);
             PayslipFormButton.TabIndex = 3;
             PayslipFormButton.Text = "PAY SLIP";
             PayslipFormButton.UseVisualStyleBackColor = false;
@@ -192,11 +251,12 @@
             ManageAccoountFormButton.BackColor = SystemColors.Control;
             ManageAccoountFormButton.FlatAppearance.BorderSize = 0;
             ManageAccoountFormButton.FlatStyle = FlatStyle.Flat;
+            ManageAccoountFormButton.ForeColor = SystemColors.ActiveCaptionText;
             ManageAccoountFormButton.Image = Properties.Resources.Manage_Accounts;
             ManageAccoountFormButton.ImageAlign = ContentAlignment.MiddleLeft;
-            ManageAccoountFormButton.Location = new Point(6, 210);
+            ManageAccoountFormButton.Location = new Point(0, 486);
             ManageAccoountFormButton.Name = "ManageAccoountFormButton";
-            ManageAccoountFormButton.Size = new Size(238, 35);
+            ManageAccoountFormButton.Size = new Size(244, 46);
             ManageAccoountFormButton.TabIndex = 4;
             ManageAccoountFormButton.Text = "MANAGE ACCOUNT";
             ManageAccoountFormButton.UseVisualStyleBackColor = false;
@@ -232,6 +292,7 @@
             HeaderPanel.ResumeLayout(false);
             HeaderPanel.PerformLayout();
             SidePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -249,5 +310,9 @@
         private Button ManageAccoountFormButton;
         private Panel MainPanel;
         private Button HolidaysButton;
+        private PictureBox pictureBox1;
+        private Panel panel2;
+        private Panel panel1;
+        private Button btnDeductions;
     }
 }

@@ -46,6 +46,8 @@ namespace Payroll_System
 
         public ManageAccountEditForm()
         {
+            DBConn dbConn = new();
+            DBQuery dbQuery = new DBQuery();
 
             InitializeComponent();
             if (retrievedTable != null)
@@ -141,7 +143,6 @@ namespace Payroll_System
             string gender;
             int accLvl = 1;
 
-
             switch (genderIndex)
             {
                 case 0:
@@ -166,16 +167,12 @@ namespace Payroll_System
                     accLvl = 2;
                     break;
             }
-            DBConn dbConn = new();
-
-            DBQuery dbQuery = new DBQuery();
             using (MySqlConnection dbConnection = dbConn.getConnection())
             {
                 dbConnection.Open();
 
                 using (MySqlCommand acommand = new MySqlCommand(dbQuery.EditUserAcc(), dbConnection))
                 {
-
 
                     acommand.Parameters.AddWithValue("@p0", selectedStaffID);
                     acommand.Parameters.AddWithValue("@p1", txtBFirstname.Text);
@@ -192,29 +189,25 @@ namespace Payroll_System
                     acommand.Parameters.AddWithValue("@p12", txtPhilHealth.Text);
                     acommand.Parameters.AddWithValue("@p13", txtPagIbig.Text);
 
-                    int rowsAffected = acommand.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-
-                        MessageBox.Show("Accoun Detail Successfully Changed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        editWasSuccessful = true;
-                        OnEditSuccess(EventArgs.Empty);
-                        dbConn.openConnection();
-                        MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                        mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = (username?.ToLower() ?? string.Empty) + " has updated " + (selectedUsername?.ToLower() ?? string.Empty) + " account";
-                        mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                        mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
-                        mscEventLog.ExecuteNonQuery();
-                        dbConn.closeConnection();
-                        this.Hide();
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to update the database.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    acommand.ExecuteNonQuery();
                 }
+
+                using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConnection))
+
+                {
+                    string logMessage = $"{(username?.ToLower() ?? string.Empty)} has updated {(selectedUsername?.ToLower() ?? string.Empty)} account";
+
+                    mscEventLog.Parameters.AddWithValue("@p0", logMessage);
+                    mscEventLog.Parameters.AddWithValue("@p1", userID);
+                    mscEventLog.Parameters.AddWithValue("@p2", 1);
+
+                    mscEventLog.ExecuteNonQuery();
+                }
+                MessageBox.Show("Account Detail Successfully Changed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                editWasSuccessful = true;
+                OnEditSuccess(EventArgs.Empty);
+
+                this.Hide();
             }
         }
         protected virtual void OnEditSuccess(EventArgs e)
@@ -232,38 +225,34 @@ namespace Payroll_System
             if (MessageBox.Show("Are you sure you want to Reset the Password?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 string password = GenerateRandomPassword(5, 5);
-                DBConn dbConn = new();
-
-                DBQuery dbQuery = new DBQuery();
 
                 using (MySqlConnection dbConnection = dbConn.getConnection())
                 {
                     dbConnection.Open();
 
-                    using (MySqlCommand acommand = new MySqlCommand(dbQuery.UpdateAccountPassword(), dbConnection))
+                    using (MySqlCommand mscUpdatePassword = new MySqlCommand(dbQuery.UpdateAccountPassword(), dbConnection))
                     {
-                        acommand.Parameters.Add("@p0", MySqlDbType.VarChar).Value = password;
-                        acommand.Parameters.Add("@p1", MySqlDbType.VarChar).Value = selectedStaffID;
+                        mscUpdatePassword.Parameters.AddWithValue("@p0", password);
+                        mscUpdatePassword.Parameters.AddWithValue("@p1", selectedStaffID);
 
-                        int rowsAffected = acommand.ExecuteNonQuery();
+                        mscUpdatePassword.ExecuteNonQuery();
 
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("The Account's new password is " + password, "Successfully changed Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            dbConn.openConnection();
-                            MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = (username?.ToLower() ?? string.Empty) + " has updated " + (selectedUsername?.ToLower() ?? string.Empty) + " account";
-                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
-                            mscEventLog.ExecuteNonQuery();
-                            dbConn.closeConnection();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Failed to update the database.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        MessageBox.Show("The Account's new password is " + password, "Successfully changed Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+
+                    using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConnection))
+                    {
+                        string logMessage = $"{(username?.ToLower() ?? string.Empty)} reseted {(selectedUsername?.ToLower() ?? string.Empty)} password";
+
+                        mscEventLog.Parameters.AddWithValue("@p0", logMessage);
+                        mscEventLog.Parameters.AddWithValue("@p1", userID);
+                        mscEventLog.Parameters.AddWithValue("@p2", 1);
+
+                        mscEventLog.ExecuteNonQuery();
+                    }
+
+                    this.Hide();
+
                 }
             }
         }

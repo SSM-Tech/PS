@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Payroll_System
 {
@@ -28,6 +29,8 @@ namespace Payroll_System
         private bool getAllUserIDIsSuccessful = false;
         private bool fillPayrollDetailIsSuccessful = false;
         private string sqlFormattedDate;
+        private string? userID;
+        private string? username;
         public HolidaysForm()
         {
             InitializeComponent();
@@ -38,7 +41,6 @@ namespace Payroll_System
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
             string acclevel = retrievedTable.Rows[0][columnName: "accountLevel"].ToString();
-            string userID = retrievedTable.Rows[0][columnName: "userID"].ToString();
             if (acclevel == "1")
             {
                 btnModify.Enabled = false;
@@ -47,6 +49,12 @@ namespace Payroll_System
                 rb2.Enabled = false;
                 rb3.Enabled = false;
             }
+            username = retrievedTable != null && retrievedTable.Rows.Count > 0
+               ? retrievedTable.Rows[0][columnName: "username"]?.ToString() ?? string.Empty
+               : string.Empty;
+            userID = retrievedTable != null && retrievedTable.Rows.Count > 0
+                ? retrievedTable.Rows[0][columnName: "userID"]?.ToString() ?? string.Empty
+                : string.Empty;
         }
 
         private void ShowDates()
@@ -68,8 +76,6 @@ namespace Payroll_System
         private void FillDGV()
         {
             dgvDates.DataSource = dtDate;
-
-            //dgvDates.Columns["dtrHolidayID"].Visible = false;
 
             var holidayColumn = dgvDates.Columns["holiday"];
             holidayColumn.HeaderText = "Number of Holidays";
@@ -142,6 +148,16 @@ namespace Payroll_System
                             if (fillPayrollDetailIsSuccessful == true)
                             {
                                 ShowDates();
+                                if (username != null)
+                                {
+                                    dbConn.openConnection();
+                                    MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
+                                    mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has changed password";
+                                    mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
+                                    mscEventLog.ExecuteNonQuery();
+                                    dbConn.closeConnection();
+                                }
                             }
                             else
                             {

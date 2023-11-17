@@ -150,7 +150,7 @@
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveBorder;
+            BackColor = Color.FromArgb(178, 190, 195);
             ClientSize = new Size(1256, 660);
             Controls.Add(btnDelete);
             Controls.Add(searchPlaceholder);

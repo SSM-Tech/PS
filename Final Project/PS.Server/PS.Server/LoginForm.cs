@@ -49,7 +49,7 @@ namespace PS.Server
             {
                 MessageBox.Show("Incorrect Username or Password", "ALERT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                table.Rows.Clear();
+            table.Rows.Clear();
         }
 
         private void LoginButton_Click(object sender, EventArgs e)

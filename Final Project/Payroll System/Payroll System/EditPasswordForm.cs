@@ -116,13 +116,19 @@ namespace Payroll_System
                 ChangePassword();
                 if(username != null)
                 {
-                    dbConn.openConnection();
-                    MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), dbConn.getConnection());
-                    mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = username.ToLower() + " has changed password";
-                    mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
-                    mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = null;
-                    mscEventLog.ExecuteNonQuery();
-                    dbConn.closeConnection();
+                    using (MySqlConnection connection = dbConn.getConnection())
+                    {
+                        connection.Open();
+
+                        using (MySqlCommand mscEventLog = new MySqlCommand(dbQuery.EventLog(), connection))
+                        {
+                            mscEventLog.Parameters.Add("@p0", MySqlDbType.VarChar).Value = $"{username.ToLower()} has changed password";
+                            mscEventLog.Parameters.Add("@p1", MySqlDbType.VarChar).Value = userID;
+                            mscEventLog.Parameters.Add("@p2", MySqlDbType.VarChar).Value = 1;
+
+                            mscEventLog.ExecuteNonQuery();
+                        }
+                    }
                 }
             }
         }
