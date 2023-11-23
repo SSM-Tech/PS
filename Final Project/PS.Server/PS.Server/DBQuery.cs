@@ -10,13 +10,10 @@ namespace PS.Server
     internal class DBQuery
     {
         private string payslipGenerator = @"CALL `CheckAndGeneratePayslip`()";
-        private string generatePayslipDetails = @"CALL `GeneratePayslipDetails`()";
         private string checkServerStatus = @"CALL `CheckServerStatus`()";
         private string changeServerStatus = @"CALL `ChangeServerStatus`(@p0)";
         private string eventLog = @"CALL `EventLog`(@p0, @p1, @p2)";
         private string callEventLogs = @"CALL `GetEventLogs`()";
-        private string generateDTRTotalHours = @"CALL `GenerateDTRTotalHours`()";
-        private string fillPayrollDetail = @"CALL `FillPayslipDetail`(@p0, @p1)";
         private string loginQuery = @"CALL `LoginServer`(@p0, @p1)";
         private string logoutAll = @"CALL `SetLoginToZero`()";
         private string getTotalNumberOfLogs = @"CALL `GetTotalNumberOfLogs`()";
@@ -24,10 +21,6 @@ namespace PS.Server
         public string PayslipGenerator()
         {
             return payslipGenerator;
-        }
-        public string GeneratePayslipDetails()
-        {
-            return generatePayslipDetails;
         }
         public string CheckServerStatus()
         {
@@ -44,14 +37,6 @@ namespace PS.Server
         public string CallEventLogs()
         {
             return callEventLogs;
-        }
-        public string GenerateDTRTotalHours()
-        {
-            return generateDTRTotalHours;
-        }
-        public string FillPayrollDetail()
-        {
-            return fillPayrollDetail;
         }
         public string LoginQuery()
         {

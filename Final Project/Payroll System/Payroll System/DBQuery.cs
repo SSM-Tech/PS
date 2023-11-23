@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Mozilla;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +26,7 @@ namespace Payroll_System
         private string clockInOut = @"CALL `ClockInOut`(@p0, @p1, @p2, @p3, @p4)";
         private string getPayslip = @"CALL `GetPayslip`(@p0)";
         private string getPayslipDTR = @"CALL `GetPayslipDTR`(@p0, @p1)";
-        private string getPayslipInfo = @"CALL `GetPayslipInfo`(@p0, @p1)";
+        private string getPayslipInfo = @"CALL `GetPayslipInfo`(@p0)";
         private string getDates = @"CALL `GetDates`()";
         private string updateDTRHoliday = @"CALL `UpdateDTRHoliday`(@p0, @p1)";
         private string getAllUserID = @"CALL `getAllUserID`()";
@@ -38,6 +40,10 @@ namespace Payroll_System
         private string updateDTRTickets = @"CALL `UpdateDTRTickets`(@p0, @p1, @p2, @p3)";
         private string checkLoginStatus = @"CALL `CheckUserLoginStatus`(@p0)";
         private string eventLog = @"CALL `EventLog`(@p0, @p1, @p2)";
+        private string showPayslipRange = @"CALL `ShowPayslipDateRange`()";
+        private string showPayslips = @"CALL `ShowPayslips`(@p0)";
+        private string getStaffInsurance = @"CALL `GetStaffInsurance`()";
+        private string updateStaffInsurance = @"CALL `UpdateInsurance`(@p0, @p1, @p2)";
         public string LoginQuery()
         {
             return loginQuery;
@@ -154,6 +160,21 @@ namespace Payroll_System
         {
             return eventLog;
         }
-        
+        public string ShowPayslipRange()
+        {
+            return showPayslipRange;
+        }
+        public string ShowPayslips()
+        {
+            return showPayslips;
+        }
+        public string GetStaffInsurance()
+        {
+            return getStaffInsurance;
+        }
+        public string UpdateStaffInsurance()
+        {
+            return updateStaffInsurance;
+        }
     }
 }

@@ -32,7 +32,6 @@
             HeaderPanel = new Panel();
             UsernameLabel = new Label();
             SidePanel = new Panel();
-            btnDeductions = new Button();
             panel2 = new Panel();
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
@@ -73,7 +72,6 @@
             // SidePanel
             // 
             SidePanel.BackColor = Color.FromArgb(99, 110, 114);
-            SidePanel.Controls.Add(btnDeductions);
             SidePanel.Controls.Add(panel2);
             SidePanel.Controls.Add(panel1);
             SidePanel.Controls.Add(pictureBox1);
@@ -91,23 +89,6 @@
             SidePanel.Name = "SidePanel";
             SidePanel.Size = new Size(244, 660);
             SidePanel.TabIndex = 14;
-            // 
-            // btnDeductions
-            // 
-            btnDeductions.BackColor = SystemColors.Control;
-            btnDeductions.FlatAppearance.BorderSize = 0;
-            btnDeductions.FlatStyle = FlatStyle.Flat;
-            btnDeductions.ForeColor = SystemColors.ActiveCaptionText;
-            btnDeductions.Image = Properties.Resources.deduction;
-            btnDeductions.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDeductions.Location = new Point(0, 532);
-            btnDeductions.Name = "btnDeductions";
-            btnDeductions.Size = new Size(244, 46);
-            btnDeductions.TabIndex = 11;
-            btnDeductions.Text = "DEDUCTIONS";
-            btnDeductions.UseVisualStyleBackColor = false;
-            btnDeductions.Visible = false;
-            btnDeductions.Click += btnDeductions_Click;
             // 
             // panel2
             // 
@@ -313,6 +294,5 @@
         private PictureBox pictureBox1;
         private Panel panel2;
         private Panel panel1;
-        private Button btnDeductions;
     }
 }

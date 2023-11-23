@@ -34,6 +34,10 @@
             dgvPayslip = new DataGridView();
             btnRefresh = new Button();
             btnView = new Button();
+            cbView = new ComboBox();
+            label1 = new Label();
+            cbViewPayslips = new ComboBox();
+            lbRange = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvPayslip).BeginInit();
             SuspendLayout();
             // 
@@ -61,14 +65,14 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvPayslip.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvPayslip.Location = new Point(12, 12);
+            dgvPayslip.Location = new Point(12, 49);
             dgvPayslip.Name = "dgvPayslip";
             dgvPayslip.ReadOnly = true;
             dgvPayslip.RowHeadersVisible = false;
             dgvPayslip.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvPayslip.RowTemplate.Height = 25;
             dgvPayslip.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPayslip.Size = new Size(1232, 593);
+            dgvPayslip.Size = new Size(1232, 556);
             dgvPayslip.TabIndex = 0;
             dgvPayslip.CellClick += dgvPayslip_CellClick;
             dgvPayslip.CellFormatting += dgvPayslip_CellFormatting;
@@ -95,12 +99,58 @@
             btnView.UseVisualStyleBackColor = true;
             btnView.Click += btnView_Click;
             // 
+            // cbView
+            // 
+            cbView.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbView.Enabled = false;
+            cbView.FormattingEnabled = true;
+            cbView.Items.AddRange(new object[] { "Own", "All" });
+            cbView.Location = new Point(88, 6);
+            cbView.Name = "cbView";
+            cbView.Size = new Size(261, 37);
+            cbView.TabIndex = 9;
+            cbView.SelectedIndexChanged += cbView_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(70, 29);
+            label1.TabIndex = 8;
+            label1.Text = "Show:";
+            // 
+            // cbViewPayslips
+            // 
+            cbViewPayslips.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbViewPayslips.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            cbViewPayslips.FormattingEnabled = true;
+            cbViewPayslips.Items.AddRange(new object[] { "Own", "All" });
+            cbViewPayslips.Location = new Point(441, 6);
+            cbViewPayslips.Name = "cbViewPayslips";
+            cbViewPayslips.Size = new Size(399, 37);
+            cbViewPayslips.TabIndex = 10;
+            cbViewPayslips.SelectedValueChanged += cbViewPayslips_SelectedValueChanged;
+            // 
+            // lbRange
+            // 
+            lbRange.AutoSize = true;
+            lbRange.Location = new Point(355, 9);
+            lbRange.Name = "lbRange";
+            lbRange.Size = new Size(80, 29);
+            lbRange.TabIndex = 11;
+            lbRange.Text = "Range:";
+            // 
             // PaySlipForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(178, 190, 195);
             ClientSize = new Size(1256, 660);
+            Controls.Add(lbRange);
+            Controls.Add(cbViewPayslips);
+            Controls.Add(cbView);
+            Controls.Add(label1);
             Controls.Add(btnView);
             Controls.Add(btnRefresh);
             Controls.Add(dgvPayslip);
@@ -112,6 +162,7 @@
             Text = "PaySlipForm";
             ((System.ComponentModel.ISupportInitialize)dgvPayslip).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -119,5 +170,9 @@
         private DataGridView dgvPayslip;
         private Button btnRefresh;
         private Button btnView;
+        private ComboBox cbView;
+        private Label label1;
+        private ComboBox cbViewPayslips;
+        private Label lbRange;
     }
 }

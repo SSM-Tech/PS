@@ -189,7 +189,7 @@ namespace Payroll_System
 
                                 mscEventLog.ExecuteNonQuery();
                             }
-                            
+
                         }
 
                         ShowAccounts();
@@ -200,6 +200,12 @@ namespace Payroll_System
                     }
                 }
             }
+        }
+
+        private void btnDeduction_Click(object sender, EventArgs e)
+        {
+            InsuraceForm insuraceFrom = new InsuraceForm();
+            insuraceFrom.ShowDialog();
         }
     }
 }

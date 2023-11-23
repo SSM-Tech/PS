@@ -86,6 +86,7 @@ namespace Payroll_System
             dtrDateColumn.HeaderText = "Date";
             dtrDateColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
+            dgvDates.RowPrePaint += dgvDates_RowPrePaint;
             showDatesIsSuccessful = true;
         }
 
@@ -257,6 +258,25 @@ namespace Payroll_System
                     case 3:
                         rb3.Checked = true;
                         break;
+                }
+            }
+        }
+
+        private void dgvDates_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvDates.Rows[e.RowIndex];
+                if (row.Cells["dtrDate"].Value != null && row.Cells["dtrDate"].Value is DateTime date)
+                {
+                    if (date.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightSalmon;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = dgvDates.DefaultCellStyle.BackColor;
+                    }
                 }
             }
         }

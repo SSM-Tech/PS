@@ -18,6 +18,7 @@ namespace Payroll_System
         DataTable? dtPayslipInfo = new();
         DBConn dbConn = new();
         DBQuery dbQuery = new();
+        int? selectedPayslipDetailID = UserDetails.SelectedPayslipDetailID;
         int? selectedPayslipID = UserDetails.SelectedPayslipID;
         private bool formLoaded = false;
         public ViewPayslipForm()
@@ -43,8 +44,7 @@ namespace Payroll_System
 
             MySqlCommand? mscGetInfo;
             mscGetInfo = new(dbQuery.GetPayslipInfo(), dbConn.getConnection());
-            mscGetInfo.Parameters.AddWithValue("@p0", userID);
-            mscGetInfo.Parameters.AddWithValue("@p1", selectedPayslipID);
+            mscGetInfo.Parameters.AddWithValue("@p0", selectedPayslipDetailID);
             mscAdapter2.SelectCommand = mscGetInfo;
             mscAdapter2.Fill(dtPayslipInfo);
 

@@ -38,6 +38,7 @@
             btnClear = new Button();
             searchPlaceholder = new Label();
             btnDelete = new Button();
+            btnDeduction = new Button();
             ((System.ComponentModel.ISupportInitialize)userDatasGrid).BeginInit();
             SuspendLayout();
             // 
@@ -146,12 +147,25 @@
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
             // 
+            // btnDeduction
+            // 
+            btnDeduction.Anchor = AnchorStyles.None;
+            btnDeduction.BackColor = Color.Yellow;
+            btnDeduction.Location = new Point(12, 611);
+            btnDeduction.Name = "btnDeduction";
+            btnDeduction.Size = new Size(220, 37);
+            btnDeduction.TabIndex = 9;
+            btnDeduction.Text = "Insurances";
+            btnDeduction.UseVisualStyleBackColor = false;
+            btnDeduction.Click += btnDeduction_Click;
+            // 
             // ManageAccountForm
             // 
             AutoScaleDimensions = new SizeF(12F, 29F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(178, 190, 195);
             ClientSize = new Size(1256, 660);
+            Controls.Add(btnDeduction);
             Controls.Add(btnDelete);
             Controls.Add(searchPlaceholder);
             Controls.Add(btnClear);
@@ -178,5 +192,6 @@
         private Button btnClear;
         private Label searchPlaceholder;
         private Button btnDelete;
+        private Button btnDeduction;
     }
 }

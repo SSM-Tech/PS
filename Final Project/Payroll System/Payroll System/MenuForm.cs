@@ -49,7 +49,6 @@ namespace Payroll_System
 
             if (accLevel != "1")
             {
-                btnDeductions.Visible = true;
                 ManageAccoountFormButton.Visible = true;
                 Application.DoEvents();
             }
@@ -197,6 +196,7 @@ namespace Payroll_System
         }
         public void LoadForm(object? Form)
         {
+            serverTimer.Stop();
             if (this.MainPanel.Controls.Count > 0)
                 this.MainPanel.Controls.RemoveAt(0);
             if (Form != null)
@@ -211,12 +211,14 @@ namespace Payroll_System
                     f.Show();
                 }
             }
+            serverTimer.Start();
         }
 
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to Logout?", "ALERT", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
+                serverTimer.Stop();
                 if (username != null && userID != null)
                 {
                     dbConn.openConnection();
@@ -275,7 +277,6 @@ namespace Payroll_System
             TicketsFormButton.BackColor = Color.FromArgb(99, 110, 114);
             HolidaysButton.BackColor = Color.FromArgb(99, 110, 114);
             LogoutButton.BackColor = Color.FromArgb(99, 110, 114);
-            btnDeductions.BackColor = Color.FromArgb(99, 110, 114);
             HomeFormButton.Enabled = true;
             AccountDetailsButton.Enabled = true;
             DTRFormButton.Enabled = true;
@@ -284,7 +285,6 @@ namespace Payroll_System
             TicketsFormButton.Enabled = true;
             HolidaysButton.Enabled = true;
             LogoutButton.Enabled = true;
-            btnDeductions.Enabled = true;
         }
 
         private void HomeFormButton_Click(object sender, EventArgs e)
@@ -345,13 +345,6 @@ namespace Payroll_System
             BtnDefaultColors();
             HolidaysButton.Enabled = false;
             HolidaysButton.BackColor = Color.FromArgb(178, 190, 195);
-        }
-
-        private void btnDeductions_Click(object sender, EventArgs e)
-        {
-            BtnDefaultColors();
-            btnDeductions.Enabled = false;
-            btnDeductions.BackColor = Color.FromArgb(178, 190, 195);
         }
     }
 }

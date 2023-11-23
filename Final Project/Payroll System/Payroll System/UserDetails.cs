@@ -15,6 +15,7 @@ namespace Payroll_System
         static int? selectedPayslipID;
         static int? selectedDTRID;
         static int? selectedDTRTicketID;
+        static int? selectedPayslipDetailId;
         public static DataTable? UserDetail { 
             get => userDetail; 
             set => userDetail = value; 
@@ -37,6 +38,11 @@ namespace Payroll_System
         {
             get => selectedDTRTicketID;
             set => selectedDTRTicketID = value;
+        }
+        public static int? SelectedPayslipDetailID
+        {
+            get => selectedPayslipDetailId;
+            set => selectedPayslipDetailId = value;
         }
     }
 }

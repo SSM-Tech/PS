@@ -89,6 +89,7 @@
             dgvDates.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDates.Size = new Size(608, 636);
             dgvDates.TabIndex = 7;
+            dgvDates.RowPrePaint += dgvDates_RowPrePaint;
             dgvDates.SelectionChanged += dgvDates_SelectionChanged;
             // 
             // btnRefresh

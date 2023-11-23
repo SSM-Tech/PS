@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServerForm));
             txtStatus = new Label();
             label1 = new Label();
-            btnRefresh = new Button();
             btnExit = new Button();
             btnMinimize = new Button();
             btnStop = new Button();
@@ -59,20 +58,6 @@
             label1.Size = new Size(171, 34);
             label1.TabIndex = 14;
             label1.Text = "Server Status:";
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.BackColor = Color.Gray;
-            btnRefresh.Enabled = false;
-            btnRefresh.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            btnRefresh.Location = new Point(312, 491);
-            btnRefresh.Margin = new Padding(4, 5, 4, 5);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(140, 40);
-            btnRefresh.TabIndex = 13;
-            btnRefresh.Text = "Refresh";
-            btnRefresh.UseVisualStyleBackColor = false;
-            btnRefresh.Click += btnRefresh_Click;
             // 
             // btnExit
             // 
@@ -164,7 +149,6 @@
             Controls.Add(btnLogoffAll);
             Controls.Add(txtStatus);
             Controls.Add(label1);
-            Controls.Add(btnRefresh);
             Controls.Add(btnExit);
             Controls.Add(btnMinimize);
             Controls.Add(btnStop);
@@ -185,7 +169,6 @@
 
         private Label txtStatus;
         private Label label1;
-        private Button btnRefresh;
         private Button btnExit;
         private Button btnMinimize;
         private Button btnStop;
